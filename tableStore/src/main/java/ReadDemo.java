@@ -31,9 +31,9 @@ import java.util.Iterator;
 public class ReadDemo {
 
     //create client define configuration
-    private String endPoint = "http://uni-test.cn-hangzhou.ots.aliyuncs.com";
-    private String accessKeyId = "LTAIgEnMMHdqE5Mf";
-    private String accessKeySecret = "x7T02hN98bW9OEtWt0g7Rosu4hMYx1";
+    private String endPoint = "http://xxxxxxx.ots.aliyuncs.com";
+    private String accessKeyId = "xxxxxxx";
+    private String accessKeySecret = "xxxxxxxxxxxx";
     private String instanceName = "uni-test";
     //custom define configuration about client
     private int connectTimeoutInMills = 0;

@@ -1,4 +1,3 @@
-package com.unimas.aliyun.tablestore.demo;
 
 import com.alicloud.openservices.tablestore.AsyncClient;
 import com.alicloud.openservices.tablestore.ClientConfiguration;
@@ -43,9 +42,9 @@ import java.util.concurrent.ExecutionException;
 public class WriteDemo {
 
     //create client define configuration
-    private String endPoint = "http://uni-test.cn-hangzhou.ots.aliyuncs.com";
-    private String accessKeyId = "LTAIgEnMMHdqE5Mf";
-    private String accessKeySecret = "x7T02hN98bW9OEtWt0g7Rosu4hMYx1";
+    private String endPoint = "http://xxxxxxx.ots.aliyuncs.com";
+    private String accessKeyId = "xxxxxxx";
+    private String accessKeySecret = "xxxxxxxxxxxx";
     private String instanceName = "uni-test";
     private boolean sync = false;
     //custom define configuration about client
