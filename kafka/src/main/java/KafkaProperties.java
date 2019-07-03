@@ -19,21 +19,13 @@ import org.apache.kafka.common.config.SslConfigs;
 import java.util.Properties;
 
 public class KafkaProperties {
-    public static final String TOPIC = "topic1";
-    public static final String KAFKA_SERVER_URL = "localhost";
-    public static final int KAFKA_SERVER_PORT = 9092;
-    public static final int KAFKA_PRODUCER_BUFFER_SIZE = 64 * 1024;
-    public static final int CONNECTION_TIMEOUT = 100000;
-    public static final String TOPIC2 = "topic2";
-    public static final String TOPIC3 = "topic3";
-    public static final String CLIENT_ID = "SimpleConsumerDemoClient";
 
     private KafkaProperties() {}
 
     /**
      * 获取普通kafka集群消费者使用的配置
      */
-    static Properties getPLAINproperties() {
+    static Properties plain() {
         Properties props = new Properties();
         props.put("security.protocol", "PLAINTEXT");//通信协议
         return props;
@@ -42,7 +34,7 @@ public class KafkaProperties {
     /**
      * 获取配置了SSL的kafka集群消费者使用的配置
      */
-    public static Properties getSSLproperties() {
+    public static Properties ssl() {
         Properties props = new Properties();
         props.put("security.protocol", "SSL");//通信协议
         //证书信任列表文件
@@ -62,7 +54,7 @@ public class KafkaProperties {
     /**
      * 获取配置了SASL的kafka集群消费者使用的配置
      */
-    public static Properties getSASLproperties() {
+    public static Properties sasl() {
         Properties props = new Properties();
         //设置系统属性,用于加载的kdc服务器的相关信息的配置
         System.setProperty("java.security.krb5.conf", "resources/krb5.conf");
@@ -79,7 +71,7 @@ public class KafkaProperties {
     /**
      * 获取配置了SASL+SSL的kafka集群消费者使用的配置
      */
-    public static Properties getSASL_SSLproperties() {
+    public static Properties sasl_ssl() {
         Properties props = new Properties();
         //设置系统属性,用于加载的kdc服务器的相关信息的配置
         System.setProperty("java.security.krb5.conf", "resources/krb5.conf");
