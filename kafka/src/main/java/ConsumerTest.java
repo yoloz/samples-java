@@ -44,8 +44,8 @@ class ConsumerTest {
 
 
     void read() {
+        consumer.subscribe(Collections.singletonList(this.topic));
         while (true) {
-            consumer.subscribe(Collections.singletonList(this.topic));
             ConsumerRecords<Integer, String> records = consumer.poll(1000);
             for (ConsumerRecord<Integer, String> record : records) {
                 System.out.println("===========read message: (" + record.toString() + ")=============");
