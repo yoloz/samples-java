@@ -2,7 +2,6 @@
 package zk;
 
 import common.JsonUtils;
-import Context;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.CreateMode;
@@ -34,32 +33,12 @@ public class ZkUtils {
     }
 
 
-    public static void delete(ZkClient zkClient, String path) {
+    public static void deletePath(String path) {
         try {
-            zkClient.getCurator().delete().deletingChildrenIfNeeded().forPath(path);
+            Context.getI .getInstance().getCurator().delete().deletingChildrenIfNeeded().forPath(path);
         } catch (Exception e) {
             logger.error(e);
         }
-    }
-
-    public static void createOrUpdate(ZkClient zkClient, String path, String data, CreateMode mode) throws Exception {
-        createOrUpdateBytes(zkClient, path, data.getBytes(Context.charset), mode);
-    }
-
-    public static void update(ZkClient zkClient, String path, Map<Object, Object> data) throws Exception {
-        writeBytesExist(zkClient, path, JsonUtils.toJson(data).getBytes(Context.charset));
-    }
-
-    public static void update(ZkClient zkClient, String path, String data) throws Exception {
-        writeBytesExist(zkClient, path, data.getBytes(Context.charset));
-    }
-
-    public static void create(ZkClient zkClient, String path, Map<Object, Object> data, CreateMode mode) throws Exception {
-        createBytes(zkClient, path, JsonUtils.toJson(data).getBytes(Context.charset), mode);
-    }
-
-    public static void create(ZkClient zkClient, String path, String data, CreateMode mode) throws Exception {
-        createBytes(zkClient, path, data.getBytes(Context.charset), mode);
     }
 
     public static <T> T readJSON(ZkClient zkClient, String path, Class<T> clazz) throws Exception {

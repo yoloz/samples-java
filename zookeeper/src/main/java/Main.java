@@ -47,16 +47,6 @@ public class Main implements Runnable {
      */
     @Override
     public void run() {
-         /*
-         *UI同步的是已部署的服务
-         */
-        final String breakPointDir = "data";
-        final String pmJobsDir = "conf" + File.separator + "jobs";
-        final String uiJobsDir = "tomcat" + File.separator + "conf" + File.separator + "etl";
-        String folder_data_dir = System.getProperty("config_dir", "/etc/unimas/etl/");
-        if (!folder_data_dir.endsWith(folder_separator)) {
-            folder_data_dir += folder_separator;
-        }
         try {
             logger.info("loading file to initialize environment......");
             Properties properties = new Properties();
