@@ -1,1 +1,1 @@
-类似kafka的topic leader,使用curator简单实现zookeeper协调管理资源
+zookeeper demo
