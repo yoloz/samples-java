@@ -1,7 +1,7 @@
 import kamon.sigar.SigarProvisioner;
 import org.apache.curator.framework.state.ConnectionState;
 import org.apache.zookeeper.CreateMode;
-import org.hyperic.sigar.Sigar;
+import org.hyperic.sigar.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,6 +102,27 @@ public class NodeImpl {
     public void close() {
         if (sysScheduler != null) sysScheduler.shutdownNow();
         if (sigar != null) sigar.close();
+    }
+
+    void getLocalIP() throws SigarException {
+        for (String iface : sigar.getNetInterfaceList()) {
+            NetInterfaceConfig cfg = sigar.getNetInterfaceConfig(iface);
+            String address = cfg.getAddress();
+            if (NetFlags.LOOPBACK_ADDRESS.equals(address) ||
+                    NetFlags.LOOPBACK_ADDRESS_V6.equals(address) ||
+                    NetFlags.LOOPBACK_HOSTNAME.equals(address) ||
+                    NetFlags.ANY_ADDR.equals(address) ||
+                    NetFlags.ANY_ADDR_V6.equals(address) ||
+                    NetFlags.NULL_HWADDR.equals(cfg.getHwaddr()) ||
+                    (cfg.getFlags() & NetFlags.IFF_LOOPBACK) != 0
+            ) continue;
+            System.out.println(cfg.getName() + "IP地址:" + cfg.getAddress());
+            System.out.println(cfg.getName() + "网关广播地址:" + cfg.getBroadcast());
+            System.out.println(cfg.getName() + "网卡MAC地址:" + cfg.getHwaddr());
+            System.out.println(cfg.getName() + "子网掩码:" + cfg.getNetmask());
+            System.out.println(cfg.getName() + "网卡描述信息:" + cfg.getDescription());
+            System.out.println(cfg.getName() + "网卡类型" + cfg.getType());
+        }
     }
 
 }

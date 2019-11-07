@@ -1,4 +1,5 @@
 import org.apache.log4j.PropertyConfigurator;
+import org.hyperic.sigar.SigarException;
 import org.junit.*;
 
 import java.nio.file.Paths;
@@ -17,7 +18,7 @@ public class NodeImplTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         if (nodeImpl != null) nodeImpl.close();
         ZKClient.getInstance().close();
     }
@@ -42,6 +43,11 @@ public class NodeImplTest {
             Thread.sleep(2000);
         }
 
+    }
+
+    @Test
+    public void localIPTest() throws SigarException {
+        nodeImpl.getLocalIP();
     }
 
 
