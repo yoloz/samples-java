@@ -5,6 +5,7 @@ import org.apache.zookeeper.CreateMode;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Properties;
 
 public class ZKClient implements Closeable {
@@ -72,6 +73,11 @@ public class ZKClient implements Closeable {
         if (curator == null) throw new Exception("please connect first...");
 //        if (curator.checkExists().forPath(path) != null) {
         return new String(curator.getData().forPath(path), StandardCharsets.UTF_8);
+    }
+
+    List<String> ls(String path) throws Exception {
+        if (curator == null) throw new Exception("please connect first...");
+        return curator.getChildren().forPath(path);
     }
 
 }
