@@ -59,12 +59,11 @@ public final class SSLClient {
             f.addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture arg0) throws Exception {
-                    if (f.isSuccess()) {
-                        System.out.println("连接服务器成功");
-                        synchronized (lock) {
-                            lock.notify();
-                        }
-                    } else {
+                    synchronized (lock) {
+                        lock.notify();
+                    }
+                    if (f.isSuccess()) System.out.println("连接服务器成功");
+                    else {
                         System.out.println("连接服务器失败");
                         f.cause().printStackTrace();
                         group.shutdownGracefully(); //关闭线程组
