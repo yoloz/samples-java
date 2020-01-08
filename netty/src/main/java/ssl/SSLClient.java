@@ -56,27 +56,27 @@ public final class SSLClient {
                     });
             // Start the client.
             ChannelFuture f = b.connect(HOST, PORT).sync();
+            channel = f.channel();
             f.addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture arg0) throws Exception {
-                    synchronized (lock) {
-                        lock.notify();
-                    }
                     if (f.isSuccess()) System.out.println("连接服务器成功");
                     else {
                         System.out.println("连接服务器失败");
                         f.cause().printStackTrace();
-                        group.shutdownGracefully(); //关闭线程组
+                        channel.close();
+                    }
+                    synchronized (lock) {
+                        lock.notify();
                     }
                 }
             });
-            f.channel().closeFuture().addListener(future -> group.shutdownGracefully());
+            channel.closeFuture().addListener(future -> group.shutdownGracefully());
             System.out.println(System.currentTimeMillis());
             synchronized (lock) {
                 lock.wait();
             }
             System.out.println(System.currentTimeMillis());
-            channel = f.channel();
         } catch (Exception e) {
             e.printStackTrace();
             group.shutdownGracefully();
