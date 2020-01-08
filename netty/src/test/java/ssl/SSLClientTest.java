@@ -1,6 +1,7 @@
 package ssl;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import org.junit.After;
@@ -27,22 +28,24 @@ public class SSLClientTest {
     @Test
     public void getChannel() throws InterruptedException {
         Channel channel = SSLClient.getChannel();
+        ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
         System.out.println("发送test1");
+        buf.writerIndex(4);
         byte[] bytes = "test1".getBytes(StandardCharsets.UTF_8);
-        ByteBuf buf = Unpooled.buffer(512);
-        buf.writeInt(bytes.length + 5);
         buf.writeByte(1);
         buf.writeInt(bytes.length);
         buf.writeBytes(bytes);
+        buf.setInt(0,bytes.length + 5);
         channel.writeAndFlush(buf);
 
         System.out.println("发送test0");
+        buf = PooledByteBufAllocator.DEFAULT.buffer();
+        buf.writerIndex(4);
         bytes = "test0".getBytes(StandardCharsets.UTF_8);
-        buf = Unpooled.buffer(512);
-        buf.writeInt(bytes.length + 5);
         buf.writeByte(0);
         buf.writeInt(bytes.length);
         buf.writeBytes(bytes);
+        buf.setInt(0,bytes.length + 5);
         channel.writeAndFlush(buf);
 
         System.out.println("发送finish");
