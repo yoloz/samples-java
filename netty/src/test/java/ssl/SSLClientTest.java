@@ -26,11 +26,6 @@ public class SSLClientTest {
 
     @Test
     public void getChannel() throws InterruptedException {
-        boolean isConnect = SSLClient.isConnect();
-        while (!isConnect) {
-            Thread.sleep(500);
-            isConnect = SSLClient.isConnect();
-        }
         Channel channel = SSLClient.getChannel();
         System.out.println("发送test1");
         byte[] bytes = "test1".getBytes(StandardCharsets.UTF_8);

@@ -17,12 +17,8 @@ public final class SSLClient {
     private final String HOST = System.getProperty("host", "127.0.0.1");
     private final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
     private Channel channel;
-    private boolean isConnect = false;
 
-
-    public boolean isConnect(){
-        return isConnect;
-    }
+    private final Object lock = new Object();
 
     public Channel getChannel() {
         return channel;
@@ -65,7 +61,9 @@ public final class SSLClient {
                 public void operationComplete(ChannelFuture arg0) throws Exception {
                     if (f.isSuccess()) {
                         System.out.println("连接服务器成功");
-                        isConnect = true;
+                        synchronized (lock) {
+                            lock.notify();
+                        }
                     } else {
                         System.out.println("连接服务器失败");
                         f.cause().printStackTrace();
@@ -74,11 +72,14 @@ public final class SSLClient {
                 }
             });
             f.channel().closeFuture().addListener(future -> group.shutdownGracefully());
+            System.out.println(System.currentTimeMillis());
+            synchronized (lock) {
+                lock.wait();
+            }
+            System.out.println(System.currentTimeMillis());
             channel = f.channel();
         } catch (Exception e) {
             e.printStackTrace();
-//        } finally {
-//            // Shut down the event loop to terminate all threads.
             group.shutdownGracefully();
         }
 
