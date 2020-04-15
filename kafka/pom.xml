@@ -4,13 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>Samples</groupId>
-    <artifactId>zookeeper</artifactId>
+    <artifactId>kafka</artifactId>
     <version>1.0-SNAPSHOT</version>
-<!--    <packaging>jar</packaging>-->
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
     <build>
         <plugins>
             <plugin>
@@ -47,21 +42,22 @@
             </plugin>
         </plugins>
     </build>
+
     <dependencies>
         <dependency>
-            <groupId>io.kamon</groupId>
-            <artifactId>sigar-loader</artifactId>
-            <version>1.6.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-            <version>2.13.0</version>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.29</version>
+            <version>1.7.26</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
