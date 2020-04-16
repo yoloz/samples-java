@@ -1,4 +1,4 @@
-/*
+package impl;/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -19,36 +19,35 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.IntegerSerializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
-class ConsumerTest {
+public class ConsumerTest {
 
     private final KafkaConsumer<Integer, String> consumer;
     private final String topic;
 
-    ConsumerTest(String host, String topic) {
-        Properties props = KafkaProperties.plain();
+    public ConsumerTest(Properties props, String host, String topic) {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, host);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "ConsumerTest");
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
-        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
-        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000");
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.IntegerDeserializer");
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "impl.ConsumerTest");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerSerializer.class.getName());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         consumer = new KafkaConsumer<>(props);
         this.topic = topic;
     }
 
 
-    void read() {
+    public void read() {
         consumer.subscribe(Collections.singletonList(this.topic));
         while (true) {
-            ConsumerRecords<Integer, String> records = consumer.poll(1000);
+            ConsumerRecords<Integer, String> records = consumer.poll(Duration.ofSeconds(1));
             for (ConsumerRecord<Integer, String> record : records) {
-                System.out.println("===========read message: (" + record.toString() + ")=============");
+                System.out.println("==received message : from partition " + record.partition() + ", (" + record.key() + ", " + record.value() + ") at offset " + record.offset());
             }
         }
     }

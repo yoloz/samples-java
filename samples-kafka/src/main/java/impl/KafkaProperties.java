@@ -1,4 +1,4 @@
-/*
+package impl;/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -16,16 +16,18 @@
  */
 
 import org.apache.kafka.common.config.SslConfigs;
+
 import java.util.Properties;
 
 public class KafkaProperties {
 
-    private KafkaProperties() {}
+    private KafkaProperties() {
+    }
 
     /**
      * 获取普通kafka集群消费者使用的配置
      */
-    static Properties plain() {
+    public static Properties plain() {
         Properties props = new Properties();
         props.put("security.protocol", "PLAINTEXT");//通信协议
         return props;
