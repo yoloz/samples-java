@@ -22,6 +22,7 @@
         <module>samples-syslog</module>
         <module>samples-tableStore</module>
         <module>samples-zookeeper</module>
+        <module>samples-ssl</module>
     </modules>
 
     <dependencies>
