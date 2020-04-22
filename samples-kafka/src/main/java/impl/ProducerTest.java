@@ -1,4 +1,6 @@
-package impl;/*
+package impl;
+
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -20,6 +22,7 @@ import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 public class ProducerTest {
     private int key;
@@ -36,9 +39,21 @@ public class ProducerTest {
 
     public void write(String msg) {
         key += 1;
-        producer.send(new ProducerRecord<>(topic, key, msg), new DemoCallBack(key, msg));
+        try {
+            long startTime = System.currentTimeMillis();
+            RecordMetadata metadata = producer.send(new ProducerRecord<>(topic, key, msg)).get();
+            System.out.println("message(" + key + ", " + msg + ") sent to partition(" + metadata.partition() +
+                    "), " + "offset(" + metadata.offset() + ") in " +
+                    (System.currentTimeMillis() - startTime) + " ms");
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+//        producer.send(new ProducerRecord<>(topic, key, msg), new DemoCallBack(key, msg));
     }
 
+    /**
+     * 外部调用关闭要在发送成功之后,否则数据可能没发送成功
+     */
     static class DemoCallBack implements Callback {
 
         private final long startTime;

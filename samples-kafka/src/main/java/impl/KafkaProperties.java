@@ -17,9 +17,13 @@ package impl;/*
 
 import org.apache.kafka.common.config.SslConfigs;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class KafkaProperties {
+
+    private static final Path path = Paths.get(System.getProperty("user.dir"), "samples-kafka/src/main/resources");
 
     private KafkaProperties() {
     }
@@ -36,20 +40,23 @@ public class KafkaProperties {
     /**
      * 获取配置了SSL的kafka集群消费者使用的配置
      */
-    public static Properties ssl() {
+    public static Properties ssl(boolean clientAuth) {
         Properties props = new Properties();
         props.put("security.protocol", "SSL");//通信协议
-        //证书信任列表文件
-        props.setProperty(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "resources/kafka.client.truststore.jks");
-        //信任文件密码
-        props.setProperty(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "unimas");
-        //客户端密钥文件,这个文件是在配置双向认证的时候需要的,服务器需要认可客户端,
-        //需要客户端创建密钥对,然后用公共的ca（kafka集群认可的）签名,使用这个与服务端通信
-        props.setProperty(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, "resources/kafka.client.keystore.jks");
-        //密钥文件的密码
-        props.setProperty(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, "unimas");
-        //密钥的密码
-        props.setProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, "unimas");
+//        props.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG,"");
+        props.setProperty(SslConfigs.SSL_KEYSTORE_TYPE_CONFIG, "PKCS12");
+        props.setProperty(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, path.resolve("ssl/user1-truststore.p12").toString());
+        props.setProperty(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "123456");
+        //*************** If client authentication is required *****************
+        if (clientAuth) {
+            props.setProperty(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, path.resolve("ssl/user1.p12").toString());
+            props.setProperty(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, "123456");
+            props.setProperty(SslConfigs.SSL_KEY_PASSWORD_CONFIG, "123456");
+        }
+        //***************************************************************
+        props.setProperty(SslConfigs.SSL_ENABLED_PROTOCOLS_CONFIG, SslConfigs.DEFAULT_SSL_ENABLED_PROTOCOLS);
+        props.setProperty(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, SslConfigs.DEFAULT_SSL_TRUSTSTORE_TYPE);
+        props.setProperty(SslConfigs.SSL_KEYSTORE_TYPE_CONFIG, SslConfigs.DEFAULT_SSL_KEYSTORE_TYPE);
         return props;
     }
 
@@ -59,7 +66,7 @@ public class KafkaProperties {
     public static Properties sasl() {
         Properties props = new Properties();
         //设置系统属性,用于加载的kdc服务器的相关信息的配置
-        System.setProperty("java.security.krb5.conf", "resources/krb5.conf");
+        System.setProperty("java.security.krb5.conf", path.resolve("sasl/krb5.conf").toString());
         //设置系统属性,用于sasl用户认证的客户端配置文件,包含了keytab和Principal的信息
         System.setProperty("java.security.auth.login.config", "resources/kafka_client_jaas.conf");
         //设置sasl服务的名称,这个是服务器配置的,客户端要与其一致

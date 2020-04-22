@@ -23,18 +23,21 @@ import org.apache.log4j.PropertyConfigurator;
 import java.util.Arrays;
 
 /**
- * #!/bin/bash
- * #Step 1
- * keytool -keystore server.keystore.jks -alias localhost -validity 365 -keyalg RSA -genkey
- * #Step 2
- * openssl req -new -x509 -keyout ca-key -out ca-cert -days 365
- * keytool -keystore server.truststore.jks -alias CARoot -import -file ca-cert
- * keytool -keystore client.truststore.jks -alias CARoot -import -file ca-cert
- * #Step 3
- * keytool -keystore server.keystore.jks -alias localhost -certreq -file cert-file
- * openssl x509 -req -CA ca-cert -CAkey ca-key -in cert-file -out cert-signed -days 365 -CAcreateserial -passin pass:test1234
- * keytool -keystore server.keystore.jks -alias CARoot -import -file ca-cert
- * keytool -keystore server.keystore.jks -alias localhost -import -file cert-signed
+ * javax.net.ssl.SSLHandshakeException: No subject alternative names present:
+ * <p>
+ * http://kafka.apache.org/documentation/#security_confighostname
+ * Server host name verification disabled: broker and client setting ssl.endpoint.identification.algorithm to an empty string
+ * <p>
+ * http://kafka.apache.org/documentation/#security_configcerthstname
+ * If host name verification is enabled, clients will verify the server's fully qualified domain name (FQDN) against one of the following two fields:
+ * 1,Common Name (CN)
+ * 2,Subject Alternative Name (SAN)
+ * 仅仅CN(一般broker的hostname)则broker listener不可配置具体的ip监听同时client的连接地址要写hostname:port如此客户端要配置/etc/hosts
+ * 使用SAN则就方便很多，broker listener监听ip:port，客户端直接ip:port访问
+ * <p>
+ * <p>
+ * java.net.UnknownHostException: zhds-nidf: Temporary failure in name resolution
+ * broker listener中配置具体ip监听或者客户端hosts添加broker的hostname
  */
 public class SslTest {
 
@@ -43,7 +46,6 @@ public class SslTest {
             System.out.println("param[" + Arrays.toString(args) + "] error");
             System.exit(1);
         }
-        PropertyConfigurator.configure(SslTest.class.getResourceAsStream("/log4j.properties"));
         String host = args[0];
         String topic = args[1];
         int index = 2;
@@ -61,19 +63,20 @@ public class SslTest {
             if (i != args.length - 1) msg.append(" ");
         }
         if (flag == null || "producer".equals(flag)) {
-            ProducerTest producerTest = new ProducerTest(KafkaProperties.plain(), host, topic);
+            ProducerTest producerTest = new ProducerTest(KafkaProperties.ssl(true), host, topic);
             producerTest.write(msg.toString());
         }
         if (flag == null || "consumer".equals(flag)) {
-            ConsumerTest consumerTest = new ConsumerTest(KafkaProperties.plain(), host, topic);
+            ConsumerTest consumerTest = new ConsumerTest(KafkaProperties.ssl(true), host, topic);
             consumerTest.read();
         }
     }
 
     public static void main(String[] args) {
+        PropertyConfigurator.configure(SslTest.class.getResourceAsStream("/log4j.properties"));
         SslTest clientTest = new SslTest();
-        clientTest.test("ip:9092", "topic", "msg");                  //先写入后读取
-        clientTest.test("ip:9092", "topic", "producer", "msg");      //写入消息
-        clientTest.test("ip:9092", "topic", "consumer");             //读取消息
+//        clientTest.test("192.168.1.183:9092", "test", "ssl test without client auth"); //先写入后读取
+//        clientTest.test("192.168.1.183:9092", "test", "producer", "ssl test without client auth"); //写入消息
+        clientTest.test("192.168.1.183:9092", "test", "consumer"); //读取消息
     }
 }
