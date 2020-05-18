@@ -1,3 +1,4 @@
+package v_3;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -6,21 +7,14 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.NamespaceDescriptor;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.Get;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -38,14 +32,17 @@ public class TableInfoDemo {
 
     public static void main(String[] args) throws IOException {
 
+        java.nio.file.Path path = Paths.get(System.getProperty("user.dir"), "samples-hbase/src/main/resources");
+        PropertyConfigurator.configure(TableInfoDemo.class.getResourceAsStream("/log4j.properties"));
+
         List<String> tables = Lists.newArrayList();//数据库表信息
         Map<String, Map<String, List<String>>> allInfo = Maps.newHashMap();//所有信息
 
         Configuration config = HBaseConfiguration.create();
-        //由于测试环境是hadoop nn模式,故而添加hdfs-site.xml
-        config.addResource(new Path("hdfs-site.xml"));
-        config.addResource(new Path("hbase-site.xml"));
-        config.addResource(new Path("core-site.xml"));
+        //由于测试环境是hadoop nn模式,故而添加hdfs-site.xmll
+        config.addResource(new Path(path.resolve("hdfs-site.xml").toString()));
+        config.addResource(new Path(path.resolve("hbase-site.xml").toString()));
+        config.addResource(new Path(path.resolve("core-site.xml").toString()));
 
         try (Connection connect = ConnectionFactory.createConnection(config)) {
 
@@ -56,9 +53,9 @@ public class TableInfoDemo {
 
                 if (descriptor.getName().equals(NamespaceDescriptor.SYSTEM_NAMESPACE_NAME_STR))
                     continue; //系统内建表,包括namespace和meta表
-                HTableDescriptor[] tableDescriptors = admin.listTableDescriptorsByNamespace(descriptor.getName());
+               List<TableDescriptor> tableDescriptors = admin.listTableDescriptorsByNamespace(descriptor.getName().getBytes());
 
-                for (HTableDescriptor tableDescriptor : tableDescriptors) {
+                for (TableDescriptor tableDescriptor : tableDescriptors) {
                     TableName tableName = tableDescriptor.getTableName();
                     String tableNameStr = tableName.getNamespaceAsString() + TableName.NAMESPACE_DELIM +
                             tableName.getQualifierAsString();
@@ -80,17 +77,17 @@ public class TableInfoDemo {
      * 实际运用时在点击获取表结构的时候才执行
      *
      * @param connect          connection
-     * @param hTableDescriptor tableDescriptor
+     * @param tableDescriptor tableDescriptor
      * @return {family:[col1,col2...]}
      * @throws IOException e
      */
-    private static Map<String, List<String>> getColumns(Connection connect, HTableDescriptor hTableDescriptor) throws IOException {
+    private static Map<String, List<String>> getColumns(Connection connect, TableDescriptor tableDescriptor)
+            throws IOException {
         Scan scan = new Scan();
-        //>=2.0可以scan.setOneRowLimit()取出一行数据
-        scan.setSmall(true);
+        scan.setOneRowLimit();
         scan.setMaxResultsPerColumnFamily(1);
 
-        try (Table tableConnector = connect.getTable(hTableDescriptor.getTableName())) {
+        try (Table tableConnector = connect.getTable(tableDescriptor.getTableName())) {
 
             ResultScanner resultScanner = tableConnector.getScanner(scan);
             Result result = resultScanner.next();
@@ -102,8 +99,8 @@ public class TableInfoDemo {
             } else {
                 Map<String, List<String>> resultM = Maps.newHashMap();
                 //HColumnDescriptor @Deprecated remove it in 3.0
-                HColumnDescriptor[] hColumnDescriptors = hTableDescriptor.getColumnFamilies();
-                for (HColumnDescriptor columnDescriptor : hColumnDescriptors) {
+                ColumnFamilyDescriptor[] columnFamilyDescriptors = tableDescriptor.getColumnFamilies();
+                for (ColumnFamilyDescriptor columnDescriptor : columnFamilyDescriptors) {
                     resultM.put(columnDescriptor.getNameAsString(), Lists.newArrayListWithCapacity(0));
                 }
                 return resultM;
