@@ -23,6 +23,7 @@
         <module>samples-tableStore</module>
         <module>samples-zookeeper</module>
         <module>samples-ssl</module>
+        <module>samples-sqlParser</module>
     </modules>
 
     <dependencies>

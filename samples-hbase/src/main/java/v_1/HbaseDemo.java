@@ -35,7 +35,6 @@ import org.apache.hadoop.hbase.security.User;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.log4j.PropertyConfigurator;
-import v_3.TableInfoDemo;
 
 /**
  *
