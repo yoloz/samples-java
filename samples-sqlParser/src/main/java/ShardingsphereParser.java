@@ -357,61 +357,65 @@ public class ShardingsphereParser {
     private int matchTable(List<TableInfo> tableInfoList, ColumnInfo columnInfo) {
         if (tableInfoList.size() == 1) {
             return 0;
+        }
+
+        if (columnInfo.getOwner().isPresent()) {
+            for (int i = 0; i < tableInfoList.size(); i++) {
+                TableInfo tableInfo = tableInfoList.get(i);
+                String owner = columnInfo.getOwner().get();
+                if (tableInfo.getName().equalsIgnoreCase(owner) || tableInfo.getAlias().equalsIgnoreCase(owner) ||
+                        tableInfo.toSQLString().equalsIgnoreCase(owner)) {
+                    return i;
+                }
+            }
         } else {
-            if (columnInfo.getOwner().isPresent()) {
-                for (int i = 0; i < tableInfoList.size(); i++) {
-                    TableInfo tableInfo = tableInfoList.get(i);
-                    String owner = columnInfo.getOwner().get();
-                    if (tableInfo.getName().equalsIgnoreCase(owner) || tableInfo.getAlias().equalsIgnoreCase(owner)) {
-                        return i;
-                    }
-                }
-            } else {
-                for (int i = 0; i < tableInfoList.size(); i++) {
-                    TableInfo tableInfo = tableInfoList.get(i);
-                    if (tableInfo.getColumns().isPresent()) {
-                        for (ColumnInfo colInfo : tableInfo.getColumns().get()) {
-                            if (colInfo.getName().equalsIgnoreCase(columnInfo.getName()) ||
-                                    colInfo.getAlias().equalsIgnoreCase(columnInfo.getName())) {
-                                return i;
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < tableInfoList.size(); i++) {
-                    TableInfo tableInfo = tableInfoList.get(i);
-//                    if (connection == null) return -1;
-                    if (connection == null) return 0; //todo just fo test
-                    String sql = "select * from " + tableInfo.toSQLString() + " where 1=0";
-                    try (Statement stmt = connection.createStatement();
-                         ResultSet rs = stmt.executeQuery(sql)) {
-                        ResultSetMetaData rsmd = rs.getMetaData();
-                        int count = rsmd.getColumnCount();
-                        for (int j = 1; j <= count; j++) {
-                            String col = rsmd.getColumnName(j);
-//                            if (JdbcConstants.HIVE.equals(connect.getDbType())) { //table.col
-//                                col = col.substring(col.indexOf(".") + 1);
-//                            }
-                            ColumnInfo colInfo = new ColumnInfo();
-                            colInfo.setOwner(tableInfo.toSQLString());
-                            colInfo.setName(col);
-                            tableInfo.fillColumn(colInfo);
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (tableInfo.getColumns().isPresent()) {
-                        for (ColumnInfo colInfo : tableInfo.getColumns().get()) {
-                            if (colInfo.getName().equalsIgnoreCase(columnInfo.getName()) ||
-                                    colInfo.getAlias().equalsIgnoreCase(columnInfo.getName())) {
-                                return i;
-                            }
+            if ("*".equals(columnInfo.getName()) && tableInfoList.size() > 1) {
+                throw new RuntimeException("column '*' can not match multi table");
+            }
+            for (int i = 0; i < tableInfoList.size(); i++) {
+                TableInfo tableInfo = tableInfoList.get(i);
+                if (tableInfo.getColumns().isPresent()) {
+                    for (ColumnInfo colInfo : tableInfo.getColumns().get()) {
+                        if (colInfo.getName().equalsIgnoreCase(columnInfo.getName()) ||
+                                colInfo.getAlias().equalsIgnoreCase(columnInfo.getName())) {
+                            return i;
                         }
                     }
                 }
             }
-            return -1;
+            for (int i = 0; i < tableInfoList.size(); i++) {
+                TableInfo tableInfo = tableInfoList.get(i);
+//                    if (connection == null) return -1;
+                if (connection == null) return 0; //todo just fo test
+                String sql = "select * from " + tableInfo.toSQLString() + " where 1=0";
+                try (Statement stmt = connection.createStatement();
+                     ResultSet rs = stmt.executeQuery(sql)) {
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    int count = rsmd.getColumnCount();
+                    for (int j = 1; j <= count; j++) {
+                        String col = rsmd.getColumnName(j);
+//                            if (JdbcConstants.HIVE.equals(connect.getDbType())) { //table.col
+//                                col = col.substring(col.indexOf(".") + 1);
+//                            }
+                        ColumnInfo colInfo = new ColumnInfo();
+                        colInfo.setOwner(tableInfo.toSQLString());
+                        colInfo.setName(col);
+                        tableInfo.fillColumn(colInfo);
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                if (tableInfo.getColumns().isPresent()) {
+                    for (ColumnInfo colInfo : tableInfo.getColumns().get()) {
+                        if (colInfo.getName().equalsIgnoreCase(columnInfo.getName()) ||
+                                colInfo.getAlias().equalsIgnoreCase(columnInfo.getName())) {
+                            return i;
+                        }
+                    }
+                }
+            }
         }
+        return -1;
     }
 
     private List<TableInfo> select(SQLParserEngine engine) {
