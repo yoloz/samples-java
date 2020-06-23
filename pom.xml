@@ -24,6 +24,7 @@
         <module>samples-zookeeper</module>
         <module>samples-ssl</module>
         <module>samples-sqlParser</module>
+        <module>samples-thrift</module>
     </modules>
 
     <dependencies>
