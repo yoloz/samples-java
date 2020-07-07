@@ -25,6 +25,7 @@
         <module>samples-ssl</module>
         <module>samples-sqlParser</module>
         <module>samples-thrift</module>
+        <module>samples-jdbc</module>
     </modules>
 
     <dependencies>

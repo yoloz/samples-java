@@ -1,0 +1,166 @@
+
+import com.mysql.cj.jdbc.result.ResultSetImpl;
+import com.mysql.cj.protocol.ResultsetRows;
+
+import java.sql.*;
+
+
+public class Mysql8Test {
+
+
+    /**
+     * 一次性全表数据拉取出来
+     * 大字段数据byte[]
+     */
+    public void simpleQuery() {
+        String url = "jdbc:mysql://192.168.1.116:3306/test";
+        String sql = "select * from gongsi";
+        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+             Statement stmt = conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(sql);
+            if (resultSet instanceof ResultSetImpl) {
+                ResultSetImpl resultSetImpl = (ResultSetImpl) resultSet;
+                ResultsetRows resultsetRows = resultSetImpl.getRows();
+                System.out.println(resultsetRows.getClass());
+                System.out.println(resultsetRows.size());
+                System.out.println(resultSetImpl.last());
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * streaming resultSet未携带数据需要每次next取数据
+     */
+    public void streamingQuery() {
+        String url = "jdbc:mysql://192.168.1.116:3306/test";
+        String sql = "select * from gongsi";
+        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+             Statement stmt = conn.createStatement()) {
+            stmt.setFetchSize(Integer.MIN_VALUE);
+            ResultSet resultSet = stmt.executeQuery(sql);
+            if (resultSet instanceof ResultSetImpl) {
+                ResultSetImpl resultSetImpl = (ResultSetImpl) resultSet;
+                ResultsetRows resultsetRows = resultSetImpl.getRows();
+                System.out.println(resultsetRows.getClass());
+                System.out.println(resultsetRows.size());
+                System.out.println(resultSetImpl.last());
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * cursor resultSet未携带数据需要每次next取数据
+     * 添加useCursorFetch=true且statement.setFetchSize(resultSet.setFetchSize无效) 否则仍是static rows
+     * fetchSize数据在服务端,驱动仍是一次一条数据
+     */
+    public void cursorQuery() {
+        String url = "jdbc:mysql://192.168.1.116:3306/test?useCursorFetch=true";
+        String sql = "select * from gongsi";
+        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+             Statement stmt = conn.createStatement()) {
+            stmt.setFetchSize(2);
+            ResultSet resultSet = stmt.executeQuery(sql);
+            if (resultSet instanceof ResultSetImpl) {
+                ResultSetImpl resultSetImpl = (ResultSetImpl) resultSet;
+                ResultsetRows resultsetRows = resultSetImpl.getRows();
+                System.out.println(resultsetRows.getClass());
+                System.out.println(resultsetRows.size());
+                System.out.println(resultSetImpl.last());
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mysql_procedure() {
+        String driver = "com.mysql.cj.jdbc.Driver";
+        String url = "jdbc:mysql://127.0.0.1:3306/test";
+        String create = "create procedure add_pro(a int,b int,out sum int) begin set sum = a + b; end";
+        String call = "{call add_pro(?,?,?)}";
+        String drop = "drop procedure if exists add_pro";
+        try {
+            Class.forName(driver);
+            try (Connection conn = DriverManager.getConnection(url, "user", "pwd")) {
+                CallableStatement cstmt = null;
+
+                cstmt = conn.prepareCall(create);
+                System.out.println(cstmt.execute());
+                System.out.println(cstmt.getResultSet());
+                System.out.println(cstmt.getUpdateCount());
+                System.out.println(cstmt.getMoreResults());
+                cstmt.close();
+
+                cstmt = conn.prepareCall(call);
+                cstmt.setInt(1, 4);
+                cstmt.setInt(2, 5);
+                cstmt.registerOutParameter(3, Types.INTEGER);
+                /*ResultSet rs = cstmt.executeQuery();
+                rs.next(); java.sql.SQLException: ResultSet is from UPDATE. No Data.*/
+                System.out.println(cstmt.execute());
+                System.out.println(cstmt.getResultSet());
+                System.out.println(cstmt.getUpdateCount());
+                System.out.println(cstmt.getMoreResults());
+                System.out.println(cstmt.getInt(3));
+                cstmt.close();
+
+                cstmt = conn.prepareCall(drop);
+                System.out.println(cstmt.execute());
+                System.out.println(cstmt.getResultSet());
+                System.out.println(cstmt.getUpdateCount());
+                System.out.println(cstmt.getMoreResults());
+                cstmt.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mysql_procedure_rs() {
+        String driver = "com.mysql.cj.jdbc.Driver";
+        String url = "jdbc:mysql://127.0.0.1:3306/fea_flow";
+        String create = "CREATE PROCEDURE pro_findById(IN eid INT) " +
+                "BEGIN SELECT job_name,service_id FROM lgjob WHERE job_id=eid; END";
+        String call = "CALL pro_findById(?)";
+        String drop = "drop procedure if exists pro_findById";
+        try {
+            Class.forName(driver);
+            try (Connection conn = DriverManager.getConnection(url, "user", "pwd")) {
+                CallableStatement cstmt = null;
+
+                cstmt = conn.prepareCall(create);
+                System.out.println(cstmt.execute());
+                System.out.println(cstmt.getResultSet());
+                System.out.println(cstmt.getUpdateCount());
+                System.out.println(cstmt.getMoreResults());
+                cstmt.close();
+
+                cstmt = conn.prepareCall(call);
+                cstmt.setInt(1, 11900);
+                // execute,executeUpdate,executeQuery均可以
+                ResultSet rs = cstmt.executeQuery();
+                while (rs.next()) {
+                    String name = rs.getString("job_name");
+                    int service_id = rs.getInt("service_id");
+                    System.out.println(name + "," + service_id);
+                }
+                cstmt.close();
+
+                cstmt = conn.prepareCall(drop);
+                System.out.println(cstmt.execute());
+                System.out.println(cstmt.getResultSet());
+                System.out.println(cstmt.getUpdateCount());
+                System.out.println(cstmt.getMoreResults());
+                cstmt.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
