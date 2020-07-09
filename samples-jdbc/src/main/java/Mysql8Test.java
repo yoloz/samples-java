@@ -4,7 +4,15 @@ import com.mysql.cj.protocol.ResultsetRows;
 
 import java.sql.*;
 
-
+/**
+ * mysql5:
+ * url = jdbc:mysql://localhost:3306/user?useUnicode=true&characterEncoding=utf8
+ * driver = com.mysql.jdbc.Driver
+ * <p>
+ * mysql8:
+ * url = jdbc:mysql://localhost:3306/user?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
+ * drive = com.mysql.cj.jdbc.Driver
+ */
 public class Mysql8Test {
 
 
