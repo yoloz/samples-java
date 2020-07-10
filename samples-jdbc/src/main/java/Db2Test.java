@@ -2,7 +2,9 @@
 import java.sql.*;
 import java.util.Arrays;
 
-
+/**
+ * driver:com.ibm.db2.jcc.DB2Driver
+ */
 public class Db2Test {
 
     public static void main(String[] args) {

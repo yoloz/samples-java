@@ -1,6 +1,9 @@
 import java.sql.*;
 import java.util.Random;
 
+/**
+ * Class.forName("oracle.jdbc.driver.OracleDriver")
+ */
 public class OracleTest {
 
     public void insertBatchSql() {

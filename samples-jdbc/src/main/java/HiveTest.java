@@ -37,6 +37,8 @@ import java.util.Properties;
 
 //https://github.com/timveil/hive-jdbc-uber-jar
 
+//driverName ="org.apache.hive.jdbc.HiveDriver"
+
 public class HiveTest {
 
     public static void main(String[] args) throws ClassNotFoundException {

@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * https://jdbc.postgresql.org/documentation/head/query.html#query-with-cursor
+ * <p>
+ * Class.forName("org.postgresql.Driver")
  */
 public class PgsqlTest {
 
