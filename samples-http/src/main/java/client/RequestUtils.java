@@ -12,6 +12,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * http://hc.apache.org/httpcomponents-client-ga/quickstart.html
+ * <p>
+ * // The fluent API relieves the user from having to deal with manual deallocation of system
+ * // resources at the cost of having to buffer response content in memory in some cases.
+ * <p>
+ * Request.Get("http://targethost/homepage").execute().returnContent();
+ * <p>
+ * Request.Post("http://targethost/login").bodyForm(Form.form().add("username",  "vip").add("password",  "secret").build()).execute().returnContent();
+ */
 public class RequestUtils {
 
     public String post(String json, String url) {
