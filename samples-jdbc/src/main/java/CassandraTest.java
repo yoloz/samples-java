@@ -81,7 +81,7 @@ public class CassandraTest {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         CassandraTest cassandraTest = new CassandraTest();
-        String url = "jdbc:c*://192.168.1.187:9042";
+        String url = "jdbc:c*://192.168.1.186:9042";
         Properties properties = new Properties();
 //        用户密码为空无需设置，设置会报错
 //        properties.put("user","");

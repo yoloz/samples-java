@@ -26,6 +26,7 @@
         <module>samples-sqlParser</module>
         <module>samples-thrift</module>
         <module>samples-jdbc</module>
+        <module>samples-http</module>
     </modules>
 
     <dependencies>

@@ -57,12 +57,14 @@
             <groupId>com.cloudera</groupId>
             <artifactId>ImpalaJDBC42</artifactId>
             <scope>system</scope>
+            <version>9</version>
             <systemPath>${project.basedir}/lib/ImpalaJDBC42.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.dbschema</groupId>
             <artifactId>cassandraJdbc</artifactId>
             <scope>system</scope>
+            <version>0.6.2</version>
             <systemPath>${project.basedir}/lib/cassandra-jdbc-driver-0.6.2-shaded.jar</systemPath>
         </dependency>
     </dependencies>
