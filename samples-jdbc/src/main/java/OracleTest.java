@@ -6,6 +6,61 @@ import java.util.Random;
  */
 public class OracleTest {
 
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, InterruptedException {
+        Class.forName("oracle.jdbc.driver.OracleDriver");
+        OracleTest oracleTest = new OracleTest();
+//        oracleTest.getUpdateCount();
+        oracleTest.getResultSet();
+
+    }
+
+    //getResultSet可以多次取且每次取得都是最新的，一次返回多resultSet可以使用getMoreResults移动
+    public void getResultSet() {
+        String url = "jdbc:oracle:thin:@192.168.1.131:1521/XEPDB1";
+        try (Connection conn = DriverManager.getConnection(url, "test", "test");
+             Statement stmt = conn.createStatement()) {
+            System.out.println(stmt.execute("select * from zyltest"));
+            System.out.println(stmt.getResultSet());
+            System.out.println(stmt.getResultSet());
+            while (stmt.getResultSet().next()) {
+                System.out.println(stmt.getResultSet().getObject(1));
+            }
+            System.out.println(stmt.execute("select * from zyltest"));
+            System.out.println(stmt.getResultSet());
+            System.out.println(stmt.getResultSet());
+            while (stmt.getResultSet().next()) {
+                System.out.println(stmt.getResultSet().getObject(1));
+            }
+            System.out.println(stmt.getMoreResults());
+            System.out.println(stmt.getResultSet());
+            while (stmt.getResultSet().next()) { //java.sql.SQLException: ORA-01001: invalid cursor
+                System.out.println(stmt.getResultSet().getObject(1));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    //getUpdateCount只可取一次,getLargeUpdateCount也可以取出来且也只有一次
+    public void getUpdateCount() {
+        String url = "jdbc:oracle:thin:@192.168.1.131:1521/XEPDB1";
+        try (Connection conn = DriverManager.getConnection(url, "test", "test");
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO zyltest(id,birth,age,ip,post) VALUES (?,?,?,?,?)")) {
+            Random random = new Random();
+            stmt.setInt(1, 1);
+            stmt.setDate(2, new Date(System.currentTimeMillis()));
+            stmt.setInt(3, random.nextInt(80));
+            stmt.setString(4, "172.17.23." + random.nextInt(254));
+            stmt.setInt(5, 310004);
+            stmt.execute();
+            System.out.println(stmt.getLargeUpdateCount());
+            System.out.println(stmt.getUpdateCount());
+            System.out.println(stmt.getUpdateCount());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void insertBatchSql() {
         String url = "jdbc:oracle:thin:@192.168.1.131:1521/XEPDB1";
         try (Connection conn = DriverManager.getConnection(url, "test", "test");

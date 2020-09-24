@@ -3,6 +3,7 @@ import com.mysql.cj.jdbc.result.ResultSetImpl;
 import com.mysql.cj.protocol.ResultsetRows;
 
 import java.sql.*;
+import java.util.Random;
 
 /**
  * mysql5:
@@ -15,6 +16,55 @@ import java.sql.*;
  */
 public class Mysql8Test {
 
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, InterruptedException {
+        Class.forName("oracle.jdbc.driver.OracleDriver");
+        Mysql8Test mysql8Test = new Mysql8Test();
+//        mysql8Test.getUpdateCount();
+        mysql8Test.getResultSet();
+    }
+
+    //getResultSet可以多次取且每次取得都是最新的，一次返回多resultSet可以使用getMoreResults移动
+    public void getResultSet() {
+        String url = "jdbc:mysql://192.168.1.116:3306/test";
+        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+             Statement stmt = conn.createStatement()) {
+            System.out.println(stmt.execute("select * from abc"));
+            System.out.println(stmt.getResultSet());
+            System.out.println(stmt.getResultSet());
+            while (stmt.getResultSet().next()) {
+                System.out.println(stmt.getResultSet().getObject(1));
+            }
+            System.out.println(stmt.execute("select * from abc"));
+            System.out.println(stmt.getResultSet());
+            System.out.println(stmt.getResultSet());
+            while (stmt.getResultSet().next()) {
+                System.out.println(stmt.getResultSet().getObject(1));
+            }
+            System.out.println(stmt.getMoreResults());
+            System.out.println(stmt.getResultSet());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    //getUpdateCount可以多次取，getLargeUpdateCount也可以取出来,直到getMoreResults移动
+    public void getUpdateCount() {
+        String url = "jdbc:mysql://192.168.1.116:3306/test";
+        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO abc(a,b) VALUES (?,?)")) {
+            Random random = new Random();
+            stmt.setString(1, "testa");
+            stmt.setString(2, "testb");
+            stmt.execute();
+            System.out.println(stmt.getUpdateCount());
+            System.out.println(stmt.getUpdateCount());
+            System.out.println(stmt.getLargeUpdateCount());
+            System.out.println(stmt.getMoreResults());
+            System.out.println(stmt.getUpdateCount());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 一次性全表数据拉取出来
