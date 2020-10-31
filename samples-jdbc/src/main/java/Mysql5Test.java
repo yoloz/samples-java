@@ -14,7 +14,7 @@
 //    public void simpleQuery() {
 //        String url = "jdbc:mysql://192.168.1.116:3306/test";
 //        String sql = "select * from gongsi";
-//        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+//        try (Connection conn = DriverManager.getConnection(url, "test", "");
 //             Statement stmt = conn.createStatement()) {
 //            ResultSet resultSet = stmt.executeQuery(sql);
 //            if (resultSet instanceof ResultSetImpl) {
@@ -34,7 +34,7 @@
 //    public void streamingQuery() {
 //        String url = "jdbc:mysql://192.168.1.116:3306/test";
 //        String sql = "select * from gongsi";
-//        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+//        try (Connection conn = DriverManager.getConnection(url, "test", "");
 //             Statement stmt = conn.createStatement()) {
 //            stmt.setFetchSize(Integer.MIN_VALUE);
 //            ResultSet resultSet = stmt.executeQuery(sql);
@@ -57,7 +57,7 @@
 //    public void cursorQuery() {
 //        String url = "jdbc:mysql://192.168.1.116:3306/test?useCursorFetch=true";
 //        String sql = "select * from gongsi";
-//        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+//        try (Connection conn = DriverManager.getConnection(url, "test", "");
 //             Statement stmt = conn.createStatement()) {
 //            stmt.setFetchSize(2);
 //            ResultSet resultSet = stmt.executeQuery(sql);

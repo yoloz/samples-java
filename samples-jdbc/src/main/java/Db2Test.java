@@ -1,4 +1,7 @@
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Arrays;
 
@@ -7,8 +10,72 @@ import java.util.Arrays;
  */
 public class Db2Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
+        Class.forName("com.ibm.db2.jcc.DB2Driver");
+        Db2Test db2Test = new Db2Test();
+        db2Test.readStream();
+    }
 
+    public void writeStream() {
+        String url = "jdbc:db2://192.168.1.133:50000/mydata";
+        String sql = "insert into blob_clob(id,b_lob,c_lob) values(?,?,?)";
+        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "");
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, 1);
+            stmt.setBlob(2,
+                    Files.newInputStream(Paths.get(System.getProperty("user.home"), "test.doc")));
+            stmt.setClob(3,
+                    Files.newBufferedReader(Paths.get(System.getProperty("user.home"), "test.txt")));
+            System.out.println(stmt.executeUpdate());
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void readStream() {
+        String url = "jdbc:db2://192.168.1.133:50000/mydata";
+        String sql = "select b_lob,c_lob from blob_clob where id=1";
+        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "");
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                writeBlob(rs.getBinaryStream(1));
+                writeClob(rs.getCharacterStream(2));
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeBlob(InputStream inputStream) throws IOException {
+        if (inputStream == null) return;
+        long length = 0L;
+        try (OutputStream outputStream = Files.newOutputStream(Paths.get(System.getProperty("user.home"),
+                "test_down.doc"))) {
+            int len;
+            byte[] bytes = new byte[1024];
+            while ((len = inputStream.read(bytes)) != -1) {
+                length += len;
+                outputStream.write(bytes, 0, len);
+            }
+        }
+        System.out.println(length);
+    }
+
+    private void writeClob(Reader reader) throws IOException {
+        if (reader == null) return;
+        long length = 0L;
+        try (Writer writer = Files.newBufferedWriter(Paths.get(System.getProperty("user.home"),
+                "test_down.txt"))) {
+            int len;
+            char[] chars = new char[1024];
+            while ((len = reader.read(chars)) != -1) {
+                length += len;
+                writer.write(chars, 0, len);
+            }
+        }
+        System.out.println(length);
     }
 
     /**
@@ -22,7 +89,7 @@ public class Db2Test {
     public void insertBatch() {
         String url = "jdbc:db2://192.168.1.133:50000/mydata";
         String sql = "INSERT INTO person(sfzh,birth,age,ip,post) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "fhcs2019");
+        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "");
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             for (int i = 0; i < 10; i++) {
                 for (int j = 1; j <= 10; j++) {
@@ -50,7 +117,7 @@ public class Db2Test {
     public void simpleQuery() {
         String url = "jdbc:db2://192.168.1.133:50000/mydata";
         String sql = "select ip from person";
-        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "fhcs2019");
+        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "");
              Statement stmt = conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(sql);
             while (resultSet.next()) {
@@ -68,7 +135,7 @@ public class Db2Test {
     public void cursorQuery() {
         String url = "jdbc:db2://192.168.1.133:50000/mydata";
         String sql = "select * from person";
-        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "fhcs2019");
+        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "");
              Statement stmt = conn.createStatement()) {
             stmt.setFetchSize(10);
             ResultSet resultSet = stmt.executeQuery(sql);

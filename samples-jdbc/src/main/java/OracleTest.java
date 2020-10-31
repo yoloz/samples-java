@@ -10,10 +10,26 @@ public class OracleTest {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         OracleTest oracleTest = new OracleTest();
 //        oracleTest.getUpdateCount();
-        oracleTest.getResultSet();
+        oracleTest.createTable();
 
     }
-
+    public void createTable() {
+        String sql = "CREATE TABLE TEST.PERSON (\n" +
+                "SFZH VARCHAR2(100) NOT NULL,\n" +
+                "BIRTH DATE NOT NULL,\n" +
+                "AGE INTEGER NOT NULL,\n" +
+                "IP VARCHAR2(100) NOT NULL,\n" +
+                "POST INTEGER NOT NULL,\n" +
+                "PRIMARY KEY (SFZH)\n" +
+                ")";
+        String url = "jdbc:oracle:thin:@192.168.1.131:1521/XEPDB1";
+        try (Connection conn = DriverManager.getConnection(url, "test", "test");
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            System.out.println(stmt.executeUpdate());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     //getResultSet可以多次取且每次取得都是最新的，一次返回多resultSet可以使用getMoreResults移动
     public void getResultSet() {
         String url = "jdbc:oracle:thin:@192.168.1.131:1521/XEPDB1";

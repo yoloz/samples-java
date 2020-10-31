@@ -25,7 +25,7 @@ public class SqlServerTest {
     public void simpleQuery() {
         String url = "jdbc:sqlserver://192.168.1.132:1433;database=test;";
         String sql = "select * from gongsi2";
-        try (Connection conn = DriverManager.getConnection(url, "SA", "Fhcs2019");
+        try (Connection conn = DriverManager.getConnection(url, "SA", "");
              Statement stmt = conn.createStatement()) {
             SQLServerResultSet resultSet = (SQLServerResultSet) stmt.executeQuery(sql);
             Method isForwardOnly = resultSet.getClass().getDeclaredMethod("isForwardOnly");
@@ -61,7 +61,7 @@ public class SqlServerTest {
     public void fullQuery() {
         String url = "jdbc:sqlserver://192.168.1.132:1433;database=test;responseBuffering=full";
         String sql = "select * from gongsi2";
-        try (Connection conn = DriverManager.getConnection(url, "SA", "Fhcs2019");
+        try (Connection conn = DriverManager.getConnection(url, "SA", "");
              Statement stmt = conn.createStatement()) {
             SQLServerResultSet resultSet = (SQLServerResultSet) stmt.executeQuery(sql);
             Method isForwardOnly = resultSet.getClass().getDeclaredMethod("isForwardOnly");
@@ -95,7 +95,7 @@ public class SqlServerTest {
     public void cursorQuery() {
         String url = "jdbc:sqlserver://192.168.1.132:1433;database=test;selectMethod=cursor";
         String sql = "select * from gongsi2";
-        try (Connection conn = DriverManager.getConnection(url, "SA", "Fhcs2019")) {
+        try (Connection conn = DriverManager.getConnection(url, "SA", "")) {
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             stmt.setFetchSize(10);

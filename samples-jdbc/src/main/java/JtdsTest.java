@@ -18,7 +18,7 @@ public class JtdsTest {
     public void simpleQuery() {
         String url = "jdbc:jtds:sqlserver://192.168.1.132:1433;databasename=test;";
         String sql = "select * from gongsi2";
-        try (Connection conn = DriverManager.getConnection(url, "SA", "Fhcs2019");
+        try (Connection conn = DriverManager.getConnection(url, "SA", "");
              Statement stmt = conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(sql);
             Field useCursors = conn.getClass().getDeclaredField("useCursors");
@@ -36,7 +36,7 @@ public class JtdsTest {
     public void cursorQuery() {
         String url = "jdbc:jtds:sqlserver://192.168.1.132:1433;databasename=test;useCursors=true;";
         String sql = "select * from gongsi2";
-        try (Connection conn = DriverManager.getConnection(url, "SA", "Fhcs2019");
+        try (Connection conn = DriverManager.getConnection(url, "SA", "");
              Statement stmt = conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(sql);
             Field useCursors = conn.getClass().getDeclaredField("useCursors");

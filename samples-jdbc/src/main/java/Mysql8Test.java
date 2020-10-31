@@ -19,14 +19,36 @@ public class Mysql8Test {
     public static void main(String[] args) throws ClassNotFoundException, SQLException, InterruptedException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         Mysql8Test mysql8Test = new Mysql8Test();
+        mysql8Test.getTables();
 //        mysql8Test.getUpdateCount();
-        mysql8Test.getResultSet();
+//        mysql8Test.getResultSet();
     }
 
+    public void getTables() {
+        String url = "jdbc:mysql://192.168.1.116:3306/test";
+        try (Connection conn = DriverManager.getConnection(url, "test", "")) {
+            DatabaseMetaData databaseMetaData = conn.getMetaData();
+            ResultSet resultSet = databaseMetaData.getTables("test", null, "%", null);
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int colCount = resultSetMetaData.getColumnCount();
+            int total =0;
+            while (resultSet.next()) {
+                StringBuilder line = new StringBuilder();
+                for (int i = 1; i <= colCount; i++) {
+                    line.append(resultSet.getObject(i)).append(',');
+                }
+                System.out.println(line.substring(0, line.length() - 1));
+                total++;
+            }
+            System.out.println("=========="+total+"============");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
     //getResultSet可以多次取且每次取得都是最新的，一次返回多resultSet可以使用getMoreResults移动
     public void getResultSet() {
         String url = "jdbc:mysql://192.168.1.116:3306/test";
-        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+        try (Connection conn = DriverManager.getConnection(url, "test", "");
              Statement stmt = conn.createStatement()) {
             System.out.println(stmt.execute("select * from abc"));
             System.out.println(stmt.getResultSet());
@@ -50,7 +72,7 @@ public class Mysql8Test {
     //getUpdateCount可以多次取，getLargeUpdateCount也可以取出来,直到getMoreResults移动
     public void getUpdateCount() {
         String url = "jdbc:mysql://192.168.1.116:3306/test";
-        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+        try (Connection conn = DriverManager.getConnection(url, "test", "");
              PreparedStatement stmt = conn.prepareStatement("INSERT INTO abc(a,b) VALUES (?,?)")) {
             Random random = new Random();
             stmt.setString(1, "testa");
@@ -73,7 +95,7 @@ public class Mysql8Test {
     public void simpleQuery() {
         String url = "jdbc:mysql://192.168.1.116:3306/test";
         String sql = "select * from gongsi";
-        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+        try (Connection conn = DriverManager.getConnection(url, "test", "");
              Statement stmt = conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(sql);
             if (resultSet instanceof ResultSetImpl) {
@@ -95,7 +117,7 @@ public class Mysql8Test {
     public void streamingQuery() {
         String url = "jdbc:mysql://192.168.1.116:3306/test";
         String sql = "select * from gongsi";
-        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+        try (Connection conn = DriverManager.getConnection(url, "test", "");
              Statement stmt = conn.createStatement()) {
             stmt.setFetchSize(Integer.MIN_VALUE);
             ResultSet resultSet = stmt.executeQuery(sql);
@@ -120,7 +142,7 @@ public class Mysql8Test {
     public void cursorQuery() {
         String url = "jdbc:mysql://192.168.1.116:3306/test?useCursorFetch=true";
         String sql = "select * from gongsi";
-        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+        try (Connection conn = DriverManager.getConnection(url, "test", "");
              Statement stmt = conn.createStatement()) {
             stmt.setFetchSize(2);
             ResultSet resultSet = stmt.executeQuery(sql);
