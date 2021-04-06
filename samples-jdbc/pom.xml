@@ -50,16 +50,20 @@
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-jdbc</artifactId>
-            <version>[2.3.4,)</version>
-            <classifier>standalone</classifier>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.cloudera</groupId>
-            <artifactId>ImpalaJDBC42</artifactId>
-            <scope>system</scope>
-            <version>9</version>
-            <systemPath>${project.basedir}/lib/ImpalaJDBC42.jar</systemPath>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.6.0</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.cloudera</groupId>-->
+<!--            <artifactId>ImpalaJDBC42</artifactId>-->
+<!--            <scope>system</scope>-->
+<!--            <version>9</version>-->
+<!--            <systemPath>${project.basedir}/lib/ImpalaJDBC42.jar</systemPath>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.dbschema</groupId>
             <artifactId>cassandraJdbc</artifactId>

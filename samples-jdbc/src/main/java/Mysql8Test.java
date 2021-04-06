@@ -17,21 +17,34 @@ import java.util.Random;
 public class Mysql8Test {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException, InterruptedException {
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        Mysql8Test mysql8Test = new Mysql8Test();
-        mysql8Test.getTables();
+//        Class.forName("com.mysql.cj.jdbc.Driver");
+//        Mysql8Test mysql8Test = new Mysql8Test();
+//        mysql8Test.getColumns();
 //        mysql8Test.getUpdateCount();
 //        mysql8Test.getResultSet();
+//        mysql8Test.simpleQuery1();
+//        mysql8Test.transactionQuery();
+
+        String url = "jdbc:mysql://192.168.1.116:3306";
+        try (Connection conn = DriverManager.getConnection(url, "test", "")) {
+            Util.getCatalogs(conn);
+            Util.getTables(conn, "test", null, "%", null);
+            Util.getColumns(conn,"test",null,"baoxian","%");
+        }
     }
 
-    public void getTables() {
-        String url = "jdbc:mysql://192.168.1.116:3306/test";
-        try (Connection conn = DriverManager.getConnection(url, "test", "")) {
-            DatabaseMetaData databaseMetaData = conn.getMetaData();
-            ResultSet resultSet = databaseMetaData.getTables("test", null, "%", null);
+    public void transactionQuery() {
+        String sql = "SELECT * FROM  baoxian b limit 10";
+        String url = "jdbc:mysql://127.0.0.1:10001/123456789";
+        try (Connection conn = DriverManager.getConnection(url, "test", "test")) {
+            conn.setAutoCommit(false);
+            Statement stmt = conn.createStatement();
+            stmt.setFetchSize(10);
+            ResultSet resultSet = stmt.executeQuery(sql);
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int colCount = resultSetMetaData.getColumnCount();
-            int total =0;
+            int total = 0;
+            long start = System.currentTimeMillis();
             while (resultSet.next()) {
                 StringBuilder line = new StringBuilder();
                 for (int i = 1; i <= colCount; i++) {
@@ -40,11 +53,43 @@ public class Mysql8Test {
                 System.out.println(line.substring(0, line.length() - 1));
                 total++;
             }
-            System.out.println("=========="+total+"============");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println(total + ",cost time:" + (System.currentTimeMillis() - start));
+            resultSet.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+
+    public void simpleQuery1() {
+        String sql = "SELECT * FROM  baoxian b limit 10";
+//        properties.put("responseBuffering","full");  //msssql
+//        properties.put("selectMethod", "cursor");    //mssql
+//        properties.put("useCursors", "true");        //jtds
+        String url = "jdbc:mysql://127.0.0.1:10001/123456789";
+        try (Connection conn = DriverManager.getConnection(url, "test", "test");
+             Statement stmt = conn.createStatement()) {
+//            stmt.setFetchSize(10);
+            ResultSet resultSet = stmt.executeQuery(sql);
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int colCount = resultSetMetaData.getColumnCount();
+            int total = 0;
+            long start = System.currentTimeMillis();
+            while (resultSet.next()) {
+                StringBuilder line = new StringBuilder();
+                for (int i = 1; i <= colCount; i++) {
+                    line.append(resultSet.getObject(i)).append(',');
+                }
+                System.out.println(line.substring(0, line.length() - 1));
+                total++;
+            }
+            System.out.println(total + ",cost time:" + (System.currentTimeMillis() - start));
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     //getResultSet可以多次取且每次取得都是最新的，一次返回多resultSet可以使用getMoreResults移动
     public void getResultSet() {
         String url = "jdbc:mysql://192.168.1.116:3306/test";

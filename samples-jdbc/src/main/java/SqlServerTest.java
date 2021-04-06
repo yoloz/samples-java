@@ -19,6 +19,16 @@ import java.sql.Statement;
  */
 public class SqlServerTest {
 
+    public static void main(String[] args) throws SQLException {
+        String url = "jdbc:sqlserver://192.168.1.132:1433;database=test;";
+        try (Connection conn = DriverManager.getConnection(url, "SA", "")) {
+            Util.getCatalogs(conn);
+            Util.getSchemas(conn,"test","%");
+            Util.getTables(conn, "test", "dbo", "%", null);
+            Util.getColumns(conn,"test", "dbo", "baoxian","%");
+        }
+    }
+
     /**
      * the minimum possible data is buffered when necessary.
      */

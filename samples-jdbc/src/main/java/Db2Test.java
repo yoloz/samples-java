@@ -10,10 +10,18 @@ import java.util.Arrays;
  */
 public class Db2Test {
 
-    public static void main(String[] args) throws ClassNotFoundException {
-        Class.forName("com.ibm.db2.jcc.DB2Driver");
-        Db2Test db2Test = new Db2Test();
-        db2Test.readStream();
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+//        Class.forName("com.ibm.db2.jcc.DB2Driver");
+//        Db2Test db2Test = new Db2Test();
+//        db2Test.readStream();
+
+        String url = "jdbc:db2://192.168.1.133:50000/mydata";
+        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "")) {
+            Util.getCatalogs(conn);
+            Util.getSchemas(conn);
+            Util.getTables(conn, null, "DB2INST1", "%", null);
+            Util.getColumns(conn, null, "DB2INST1", "PERSON", "%");
+        }
     }
 
     public void writeStream() {

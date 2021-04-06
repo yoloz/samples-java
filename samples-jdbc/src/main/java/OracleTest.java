@@ -7,12 +7,47 @@ import java.util.Random;
 public class OracleTest {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException, InterruptedException {
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        OracleTest oracleTest = new OracleTest();
+//        Class.forName("oracle.jdbc.driver.OracleDriver");
+//        OracleTest oracleTest = new OracleTest();
 //        oracleTest.getUpdateCount();
-        oracleTest.createTable();
+//        oracleTest.createTable();
+//        oracleTest.test();
 
+        String url = "jdbc:oracle:thin:@192.168.1.131:1521/XEPDB1";
+        try (Connection conn = DriverManager.getConnection(url, "test", "test")) {
+            Util.getCatalogs(conn);
+            Util.getSchemas(conn);
+            Util.getTables(conn, null, "TEST", "%", null);
+            Util.getColumns(conn,null,"TEST","STU_SCORE_LOG","%");
+        }
     }
+
+    public void test() {
+        String url = "jdbc:oracle:thin:@192.168.1.131:1521/XEPDB1";
+        String sql = "select * from pub_w3c_01";
+        sql = "alter table test_abc disable constraint SYS_C0011094";
+        try (Connection conn = DriverManager.getConnection(url, "test", "test");
+             Statement stmt = conn.createStatement()) {
+            System.out.println(stmt.execute(sql));
+//            ResultSet resultSet = stmt.executeQuery(sql);
+//            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+//            int colCount = resultSetMetaData.getColumnCount();
+//            int total =0;
+//            while (resultSet.next()) {
+//                StringBuilder line = new StringBuilder();
+//                for (int i = 1; i <= colCount; i++) {
+//                    line.append(resultSet.getObject(i)).append(',');
+//                }
+//                System.out.println(line.substring(0, line.length() - 1));
+//                total++;
+//            }
+//            System.out.println("=========="+total+"============");
+//            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void createTable() {
         String sql = "CREATE TABLE TEST.PERSON (\n" +
                 "SFZH VARCHAR2(100) NOT NULL,\n" +

@@ -12,29 +12,16 @@ import java.util.List;
 public class PgsqlTest {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
-        PgsqlTest pgsqlTest = new PgsqlTest();
-        pgsqlTest.getCatalogs();
-    }
+//        Class.forName("org.postgresql.Driver");
+//        PgsqlTest pgsqlTest = new PgsqlTest();
+//        pgsqlTest.getCatalogs();
 
-    public void getCatalogs() throws SQLException {
         String url = "jdbc:postgresql://192.168.1.132:5432/postgres";
         try (Connection conn = DriverManager.getConnection(url, "postgres", "postgres")) {
-            DatabaseMetaData databaseMetaData = conn.getMetaData();
-            ResultSet resultSet = databaseMetaData.getCatalogs();
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-            int colCount = resultSetMetaData.getColumnCount();
-            int total = 0;
-            while (resultSet.next()) {
-                StringBuilder line = new StringBuilder();
-                for (int i = 1; i <= colCount; i++) {
-                    line.append(resultSet.getObject(i)).append(',');
-                }
-                System.out.println(line.substring(0, line.length() - 1));
-                total++;
-            }
-            resultSet.close();
-            System.out.println("==========" + total + "============");
+            Util.getCatalogs(conn);
+            Util.getSchemas(conn,"postgres","%");
+            Util.getTables(conn, "postgres", "public", "%", null);
+            Util.getColumns(conn,"postgres", "public", "baoxian","%");
         }
     }
 
