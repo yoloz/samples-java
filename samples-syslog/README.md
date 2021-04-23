@@ -1,2 +1,0 @@
-java版syslog
-syslog4j及cloudbees

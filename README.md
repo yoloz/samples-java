@@ -1,2 +1,3 @@
-# Samples
-es,hbase,kafka,hdfs,hive,etc.
+# sample
+
+examples of common components like es,hbase,kafka,hdfs,hive...

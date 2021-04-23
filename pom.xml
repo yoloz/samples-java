@@ -6,27 +6,32 @@
 
     <packaging>pom</packaging>
 
-    <groupId>Samples</groupId>
-    <artifactId>samples-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <properties>
+        <sample.version>1.0</sample.version>
+    </properties>
+
+    <groupId>com.yoloz.sample</groupId>
+    <artifactId>samples</artifactId>
+    <version>${sample.version}</version>
     <name>samples</name>
 
     <modules>
-        <module>samples-es</module>
-        <module>samples-hbase</module>
-        <module>samples-hdfs</module>
-        <module>samples-hive</module>
-        <module>samples-kafka</module>
-        <module>samples-netty</module>
-        <module>samples-sparkSql</module>
-        <module>samples-syslog</module>
-        <module>samples-tableStore</module>
-        <module>samples-zookeeper</module>
-        <module>samples-ssl</module>
-        <module>samples-sqlParser</module>
-        <module>samples-thrift</module>
-        <module>samples-jdbc</module>
-        <module>samples-http</module>
+        <module>sample-es</module>
+        <module>sample-hbase</module>
+        <module>sample-hdfs</module>
+        <module>sample-hive</module>
+        <module>sample-kafka</module>
+        <module>sample-netty</module>
+        <module>sample-sparkSql</module>
+        <module>sample-syslog</module>
+        <module>sample-tableStore</module>
+        <module>sample-zookeeper</module>
+        <module>sample-ssl</module>
+        <module>sample-sqlParser</module>
+        <module>sample-thrift</module>
+        <module>sample-jdbc</module>
+        <module>sample-http</module>
+        <module>sample-xml</module>
     </modules>
 
     <dependencies>
@@ -37,11 +42,18 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>3.3.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
+                <!-- java编译插件，告诉maven在编译Java文件时使用什么版本的jre -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
@@ -53,24 +65,13 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
-            </plugin>
-            <plugin>
+                <!-- 资源文件拷贝的插件 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
+                    <!-- 在构建路径中 指定源文件编译的字符编码 -->
                     <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
