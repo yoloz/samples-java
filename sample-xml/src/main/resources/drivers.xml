@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<drivers>
+    <provider id="wmi"/>
+    <provider id="athena"/>
+    <provider id="db2"/>
+    <provider id="db2_zos"/>
+    <provider id="db2_i"/>
+    <provider id="elasticsearch"/>
+    <provider id="exasol"/>
+    <provider id="jaybird"/>
+    <provider id="generic"/>
+    <provider id="bigquery"/>
+    <provider id="google_spanner"/>
+    <provider id="greenplum"/>
+    <provider id="h2gis"/>
+    <provider id="hana"/>
+    <provider id="hive"/>
+    <provider id="kognitio"/>
+    <provider id="sqlserver"/>
+    <provider id="mssql"/>
+    <provider id="mysql"/>
+    <provider id="ocient"/>
+    <provider id="open-distro-elasticsearch"/>
+    <provider id="oracle"/>
+    <provider id="postgresql"/>
+    <provider id="snowflake"/>
+    <provider id="vertica"/>
+    <provider id="zhds">
+        <driver id="zhds" categories="sql" name="ZHDS" class="com.zhds.jdbc.Driver"
+                url="jdbc:zhds://{host}:{port}/{database}" port="10000" description="Driver for ZHDS" custom="false">
+            <library custom="true" path="${home}\AppData\Roaming\DBeaverData\drivers\zhds" type="jar"/>
+            <parameter name="supports-indexes" value="true"/>
+            <parameter name="all-objects-pattern" value="%"/>
+            <parameter name="quote-reserved-words" value="true"/>
+            <parameter name="omit-schema" value="false"/>
+            <parameter name="schema-filters-enabled" value="false"/>
+            <parameter name="script-delimiter-redefiner" value=";"/>
+            <parameter name="supports-struct-cache" value="true"/>
+            <parameter name="supports-truncate" value="true"/>
+            <parameter name="omit-type-cache" value="false"/>
+            <parameter name="split-procedures-and-functions" value="false"/>
+            <parameter name="supports-stored-code" value="true"/>
+            <parameter name="supports-references" value="true"/>
+            <parameter name="omit-single-catalog" value="false"/>
+            <parameter name="ddl-drop-column-brackets" value="false"/>
+            <parameter name="omit-single-schema" value="false"/>
+            <parameter name="supports-scroll" value="false"/>
+            <parameter name="omit-catalog" value="false"/>
+            <parameter name="supports-views" value="true"/>
+            <parameter name="script-delimiter" value=";"/>
+            <parameter name="legacy-sql-dialect" value="false"/>
+            <parameter name="script-delimiter-after-query" value="false"/>
+            <parameter name="use-search-string-escape" value="false"/>
+            <parameter name="supports-multiple-results" value="false"/>
+            <parameter name="script-delimiter-after-block" value="false"/>
+            <parameter name="ddl-drop-column-short" value="false"/>
+            <parameter name="supports-limits" value="true"/>
+            <parameter name="supports-select-count" value="true"/>
+        </driver>
+    </provider>
+</drivers>
