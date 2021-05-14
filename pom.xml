@@ -32,6 +32,7 @@
         <module>sample-jdbc</module>
         <module>sample-http</module>
         <module>sample-xml</module>
+        <module>sample-instrument</module>
     </modules>
 
     <dependencies>
