@@ -33,6 +33,7 @@
         <module>sample-http</module>
         <module>sample-xml</module>
         <module>sample-instrument</module>
+        <module>sample-cxf</module>
     </modules>
 
     <dependencies>
