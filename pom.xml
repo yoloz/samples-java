@@ -11,9 +11,9 @@
     </properties>
 
     <groupId>com.yoloz.sample</groupId>
-    <artifactId>samples</artifactId>
+    <artifactId>samples-java</artifactId>
     <version>${sample.version}</version>
-    <name>samples</name>
+    <name>samples-java</name>
 
     <modules>
         <module>sample-es</module>
@@ -34,6 +34,7 @@
         <module>sample-xml</module>
         <module>sample-instrument</module>
         <module>sample-cxf</module>
+        <module>sample-sigar</module>
     </modules>
 
     <dependencies>
