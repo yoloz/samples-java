@@ -35,6 +35,7 @@
         <module>sample-instrument</module>
         <module>sample-cxf</module>
         <module>sample-sigar</module>
+        <module>sample-jsch</module>
     </modules>
 
     <dependencies>

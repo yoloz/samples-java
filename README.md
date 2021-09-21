@@ -1,3 +1,3 @@
-# sample
+# samples-java
 
 examples of common components like es,hbase,kafka,hdfs,hive...

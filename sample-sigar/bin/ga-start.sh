@@ -28,9 +28,9 @@ test -d ${base_dir}/data || mkdir -p ${base_dir}/data
 GA_BASE_DIR="-Dga.base.dir=$base_dir"
 #LIBRARY_PATH="-Djava.library.path=${base_dir}/lib/sigar"
 if [ "x$1" = "x-daemon" ]; then
-  nohup ${JAVA} ${GA_BASE_DIR} ${GA_LOG4J_OPTS} -cp ${CLASSPATH}  com.unimas.gatherdata.Main  > "${base_dir}/logs/gather.out" 2>&1 < /dev/null &
+  nohup ${JAVA} ${GA_BASE_DIR} ${GA_LOG4J_OPTS} -cp ${CLASSPATH}  com.yoloz.sample.sigar.Main  > "${base_dir}/logs/gather.out" 2>&1 < /dev/null &
 else
-  exec ${JAVA} ${GA_BASE_DIR} ${GA_LOG4J_OPTS} -cp ${CLASSPATH} com.unimas.gatherdata.Main
+  exec ${JAVA} ${GA_BASE_DIR} ${GA_LOG4J_OPTS} -cp ${CLASSPATH} com.yoloz.sample.sigar.Main
 fi
 
 
