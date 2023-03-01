@@ -5,51 +5,43 @@
     <modelVersion>4.0.0</modelVersion>
 
     <packaging>pom</packaging>
+    <modules>
+        <module>sample-jdbc-mysql5</module>
+    </modules>
 
     <properties>
-        <sample.version>1.0</sample.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <jdk.version>8</jdk.version>
     </properties>
 
     <groupId>com.yoloz.sample</groupId>
     <artifactId>samples-java</artifactId>
-    <version>${sample.version}</version>
-    <name>samples-java</name>
-
-    <modules>
-        <module>sample-es</module>
-        <module>sample-hbase</module>
-        <module>sample-hdfs</module>
-        <module>sample-hive</module>
-        <module>sample-kafka</module>
-        <module>sample-netty</module>
-        <module>sample-sparkSql</module>
-        <module>sample-syslog</module>
-        <module>sample-tableStore</module>
-        <module>sample-zookeeper</module>
-        <module>sample-ssl</module>
-        <module>sample-sqlParser</module>
-        <module>sample-thrift</module>
-        <module>sample-jdbc</module>
-        <module>sample-http</module>
-        <module>sample-xml</module>
-        <module>sample-instrument</module>
-        <module>sample-cxf</module>
-        <module>sample-sigar</module>
-        <module>sample-jsch</module>
-    </modules>
+    <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>2.20.0</version>
+        </dependency>
         <!-- 全局单元测试 -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
-            <version>3.3.3</version>
+            <version>4.2.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -63,8 +55,8 @@
                 <version>3.8.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
                     <skip>true</skip>
                 </configuration>
             </plugin>
@@ -76,6 +68,18 @@
                 <configuration>
                     <!-- 在构建路径中 指定源文件编译的字符编码 -->
                     <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

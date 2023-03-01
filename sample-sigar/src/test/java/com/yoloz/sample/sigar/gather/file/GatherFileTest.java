@@ -1,7 +1,7 @@
 package com.yoloz.sample.sigar.gather.file;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -12,7 +12,7 @@ public class GatherFileTest {
 
     String paths_;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         paths_ = "/opt/test,/home/test/z*.txt,home/test1/*.java";
     }

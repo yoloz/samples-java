@@ -5,6 +5,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * common method.
@@ -13,7 +14,7 @@ import java.sql.SQLException;
  */
 public class Util {
 
-    private static void print(ResultSet resultSet) throws SQLException {
+    static void print(ResultSet resultSet) throws SQLException {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
         int colCount = resultSetMetaData.getColumnCount();
         int total = 0;
@@ -52,9 +53,9 @@ public class Util {
         print(resultSet);
     }
 
-    static void getSchemas(Connection connection,String catalog,String schemaPattern) throws SQLException {
+    static void getSchemas(Connection connection, String catalog, String schemaPattern) throws SQLException {
         DatabaseMetaData databaseMetaData = connection.getMetaData();
-        ResultSet resultSet = databaseMetaData.getSchemas(catalog,schemaPattern);
+        ResultSet resultSet = databaseMetaData.getSchemas(catalog, schemaPattern);
         print(resultSet);
     }
 
@@ -69,6 +70,27 @@ public class Util {
             throws SQLException {
         DatabaseMetaData databaseMetaData = connection.getMetaData();
         ResultSet resultSet = databaseMetaData.getColumns(catalog, schemaPattern, tablePattern, columnPattern);
+        print(resultSet);
+    }
+
+    static void getColumn(Connection connection, String selectSql) throws SQLException {
+        try (Statement stmt = connection.createStatement();
+             ResultSet resultSet = stmt.executeQuery(selectSql)
+        ) {
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int colCount = resultSetMetaData.getColumnCount();
+            for (int i = 1; i <= colCount; i++) {
+                System.out.printf("catalog:%s,schema:%s,table:%s,column:%s\n", resultSetMetaData.getCatalogName(i),
+                        resultSetMetaData.getSchemaName(i), resultSetMetaData.getTableName(i),
+                        resultSetMetaData.getColumnName(i));
+            }
+        }
+    }
+
+    static void getIndexInfo(Connection connection, String catalog, String schema, String table,
+                             boolean unique, boolean approximate) throws SQLException {
+        DatabaseMetaData databaseMetaData = connection.getMetaData();
+        ResultSet resultSet = databaseMetaData.getIndexInfo(catalog, schema, table, unique,approximate);
         print(resultSet);
     }
 }

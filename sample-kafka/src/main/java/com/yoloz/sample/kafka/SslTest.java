@@ -18,7 +18,6 @@ package com.yoloz.sample.kafka;/*
 import com.yoloz.sample.kafka.impl.ConsumerTest;
 import com.yoloz.sample.kafka.impl.KafkaProperties;
 import com.yoloz.sample.kafka.impl.ProducerTest;
-import org.apache.log4j.PropertyConfigurator;
 
 import java.util.Arrays;
 
@@ -73,7 +72,7 @@ public class SslTest {
     }
 
     public static void main(String[] args) {
-        PropertyConfigurator.configure(SslTest.class.getResourceAsStream("/log4j.properties"));
+//        PropertyConfigurator.configure(SslTest.class.getResourceAsStream("/log4j.properties"));
         SslTest clientTest = new SslTest();
 //        clientTest.test("192.168.1.183:9092", "test", "ssl test without client auth"); //先写入后读取
 //        clientTest.test("192.168.1.183:9092", "test", "producer", "ssl test without client auth"); //写入消息

@@ -15,12 +15,14 @@ package com.yoloz.sample.kafka;/*
  * limitations under the License.
  */
 
+import com.google.gson.Gson;
 import com.yoloz.sample.kafka.impl.ConsumerTest;
 import com.yoloz.sample.kafka.impl.KafkaProperties;
 import com.yoloz.sample.kafka.impl.ProducerTest;
-import org.apache.log4j.PropertyConfigurator;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlainTest {
 
@@ -29,7 +31,7 @@ public class PlainTest {
             System.out.println("param[" + Arrays.toString(args) + "] error");
             System.exit(1);
         }
-        PropertyConfigurator.configure(PlainTest.class.getResourceAsStream("/log4j.properties"));
+//        PropertyConfigurator.configure(PlainTest.class.getResourceAsStream("/log4j.properties"));
         String host = args[0];
         String topic = args[1];
         int index = 2;
@@ -57,9 +59,17 @@ public class PlainTest {
     }
 
     public static void main(String[] args) {
+//        StringBuilder msg = new StringBuilder();
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < 1024 * 1024; i++) {
+            map.put("test" + i, "value" + i);
+        }
+        Gson gson = new Gson();
+        String str = gson.toJson(map);
+        System.out.println(str.getBytes().length);
         PlainTest clientTest = new PlainTest();
-        clientTest.test("ip:9092", "topic", "msg");                  //先写入后读取
-        clientTest.test("ip:9092", "topic", "producer", "msg");      //写入消息
-        clientTest.test("ip:9092", "topic", "consumer");             //读取消息
+        clientTest.test("192.168.1.251:9092", "test", str);                  //先写入后读取
+//        clientTest.test("ip:9092", "topic", "producer", "msg");      //写入消息
+//        clientTest.test("ip:9092", "topic", "consumer");             //读取消息
     }
 }

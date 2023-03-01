@@ -20,10 +20,11 @@ public class PgsqlTest {
 
         String url = "jdbc:postgresql://192.168.1.132:5432/postgres";
         try (Connection conn = DriverManager.getConnection(url, "postgres", "postgres")) {
-            Util.getCatalogs(conn);
-            Util.getSchemas(conn,"postgres","%");
-            Util.getTables(conn, "postgres", "public", "%", null);
-            Util.getColumns(conn,"postgres", "public", "baoxian","%");
+//            Util.getCatalogs(conn);
+//            Util.getSchemas(conn,"postgres","%");
+//            Util.getTables(conn, "postgres", "public", "%", null);
+//            Util.getColumns(conn,"postgres", "public", "baoxian","%");
+            Util.getColumn(conn,"select * from person");
         }
     }
 

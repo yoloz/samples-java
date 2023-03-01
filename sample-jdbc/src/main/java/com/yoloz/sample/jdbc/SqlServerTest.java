@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -23,11 +24,26 @@ public class SqlServerTest {
 
     public static void main(String[] args) throws SQLException {
         String url = "jdbc:sqlserver://192.168.1.132:1433;database=test;";
-        try (Connection conn = DriverManager.getConnection(url, "SA", "")) {
-            Util.getCatalogs(conn);
-            Util.getSchemas(conn,"test","%");
-            Util.getTables(conn, "test", "dbo", "%", null);
-            Util.getColumns(conn,"test", "dbo", "baoxian","%");
+        try (Connection conn = DriverManager.getConnection(url, "SA", "Fhcs2019")) {
+//            Util.getCatalogs(conn);
+//            Util.getSchemas(conn,"test","%");
+//            Util.getTables(conn, "test", "dbo", "%", null);
+//            Util.getColumns(conn,"test", "dbo", "baoxian","%");
+//            Util.getColumn(conn,"select * from person");
+            test02(conn);
+        }
+    }
+
+    public  static void test02(Connection conn) throws SQLException {
+        try (Statement stmt = conn.createStatement(1003,1007)) {
+            stmt.setMaxRows(200);
+            boolean b = stmt.execute("select * from dbo.baoxian");
+            System.out.printf("stmt execute:%s\n", b);
+            ResultSet resultSet = stmt.getResultSet();
+            Util.print(resultSet);
+            String resultSetName = resultSet.getCursorName();
+            System.out.printf("result set name:%s\n", resultSetName);
+            resultSet.close();
         }
     }
 

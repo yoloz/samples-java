@@ -2,7 +2,9 @@ package com.yoloz.sample.zk;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.hyperic.sigar.SigarException;
-import org.junit.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
 
@@ -11,7 +13,7 @@ public class NodeImplTest {
 
     private NodeImpl nodeImpl;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         PropertyConfigurator.configure(Paths.get(System.getProperty("user.dir"),
                 "src/main/resources", "log4j.properties").toString());
@@ -19,7 +21,7 @@ public class NodeImplTest {
         nodeImpl = new NodeImpl("/test", "127.0.0.1", 8007);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         if (nodeImpl != null) nodeImpl.close();
         ZKClient.getInstance().close();

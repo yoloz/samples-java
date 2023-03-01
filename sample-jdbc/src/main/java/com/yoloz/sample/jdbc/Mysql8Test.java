@@ -7,10 +7,6 @@ import java.sql.*;
 import java.util.Random;
 
 /**
- * mysql5:
- * url = jdbc:mysql://localhost:3306/user?useUnicode=true&characterEncoding=utf8
- * driver = com.mysql.jdbc.Driver
- * <p>
  * mysql8:
  * url = jdbc:mysql://localhost:3306/user?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
  * drive = com.mysql.cj.jdbc.Driver
@@ -24,49 +20,142 @@ public class Mysql8Test {
 //        mysql8Test.getUpdateCount();
 //        mysql8Test.getResultSet();
 //        mysql8Test.simpleQuery1();
-//        mysql8Test.transactionQuery();
+//        mysql8Test.insertInto();
 
-        String url = "jdbc:mysql://192.168.1.116:3306";
-        try (Connection conn = DriverManager.getConnection(url, "test", "")) {
+        String url = "jdbc:mysql://192.168.1.116:3306/test";
+        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123")) {
             Util.getCatalogs(conn);
-            Util.getTables(conn, "test", null, "%", null);
-            Util.getColumns(conn,"test",null,"baoxian","%");
+//            Util.getTables(conn, "test", null, "%", null);
+//            Util.getColumns(conn,"test",null,"baoxian","%");
+//            Util.getColumn(conn,"select * from baoxian limit 1");
         }
     }
 
-    public void transactionQuery() {
-        String sql = "SELECT * FROM  baoxian b limit 10";
-        String url = "jdbc:mysql://127.0.0.1:10001/123456789";
-        try (Connection conn = DriverManager.getConnection(url, "test", "test")) {
-            conn.setAutoCommit(false);
-            Statement stmt = conn.createStatement();
-            stmt.setFetchSize(10);
-            ResultSet resultSet = stmt.executeQuery(sql);
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+    //字符混淆
+    public void insertInto() {
+        int cons = 0x7fffffff;
+        String sql = "INSERT INTO test.confusionCharTest(identify, value)VALUES(?, ?);";
+        sql = "select * from confusionCharTest t where t.value like ?";
+        sql = "INSERT INTO test.IntegerTest(origin, confusion)VALUES(?, ?);";
+        sql = "SELECT * FROM IntegerTest it where it.confusion<0 && it.confusion > ? order by it.origin";
+        sql = "SELECT identify,name from TestMix";
+//        sql = "INSERT INTO TestMix(identify,name)values(?,?);";
+        String url = "jdbc:mysql://192.168.1.116:3306/test";
+        try (Connection conn = DriverManager.getConnection(url, "test", "dcap123");
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//            pstmt.setString(1, "测试中文");
+//            pstmt.setString(2, "测试中文");
+//            pstmt.addBatch();
+//            pstmt.setString(1, "测试中文");
+//            pstmt.setString(2, new String(reverseChar("测试中文".toCharArray())));
+//            pstmt.addBatch();
+//            pstmt.setString(1, "Test中文");
+//            pstmt.setString(2, "Test中文");
+//            pstmt.addBatch();
+//            pstmt.setString(1, "Test中文");
+//            pstmt.setString(2, new String(reverseChar("Test中文".toCharArray())));
+//            pstmt.addBatch();
+//            pstmt.executeBatch();
+
+//            String where = new String(reverseChar("Test".toCharArray())) + '%';
+//            pstmt.setString(1, where);
+//            ResultSet rs = pstmt.executeQuery();
+//            Util.print(rs);
+
+//            Random random = new Random();
+//            for (int i = 0; i < 30; i++) {
+//                int j = random.nextInt();
+//                pstmt.setInt(1, j);
+//                pstmt.setInt(2, j ^ cons);
+//                pstmt.addBatch();
+//            }
+//            pstmt.executeBatch();
+
+//            pstmt.setInt(1, -1431737016 ^ cons);
+//            ResultSet rs = pstmt.executeQuery();
+//            Util.print(rs);
+
+            ResultSet rs = pstmt.executeQuery();
+            ResultSetMetaData resultSetMetaData = rs.getMetaData();
             int colCount = resultSetMetaData.getColumnCount();
             int total = 0;
-            long start = System.currentTimeMillis();
-            while (resultSet.next()) {
+            StringBuilder header = new StringBuilder();
+            while (rs.next()) {
                 StringBuilder line = new StringBuilder();
                 for (int i = 1; i <= colCount; i++) {
-                    line.append(resultSet.getObject(i)).append(',');
+                    if (total == 0) {
+                        header.append(resultSetMetaData.getColumnLabel(i)).append(" ");
+                    }
+                    if (i == 1) {
+                        line.append(rs.getInt(i) ^ cons).append(',');
+                    } else if (i == 2) {
+                        line.append(reverseChar(new String(rs.getBytes(i)).toCharArray())).append(" ");
+                    } else {
+                        line.append(rs.getObject(i)).append(',');
+                    }
+                }
+                if (total == 0) {
+                    System.out.println(header.toString());
                 }
                 System.out.println(line.substring(0, line.length() - 1));
                 total++;
             }
-            System.out.println(total + ",cost time:" + (System.currentTimeMillis() - start));
-            resultSet.close();
-            stmt.close();
+            System.out.println("==========" + total + "============");
+
+//            pstmt.setInt(1, 1 ^ cons);
+//            pstmt.setString(2, new String(reverseChar("文章第一节".toCharArray())));
+//            pstmt.addBatch();
+//            pstmt.setInt(1, 2 ^ cons);
+//            pstmt.setString(2, new String(reverseChar("文章第二节".toCharArray())));
+//            pstmt.addBatch();
+//            pstmt.setInt(1, 3 ^ cons);
+//            pstmt.setString(2, new String(reverseChar("文章第三节".toCharArray())));
+//            pstmt.addBatch();
+//            pstmt.setInt(1, 4 ^ cons);
+//            pstmt.setString(2, new String(reverseChar("文章第四节".toCharArray())));
+//            pstmt.addBatch();
+//            pstmt.setInt(1, 5 ^ cons);
+//            pstmt.setString(2, new String(reverseChar("气候越来越复杂多变".toCharArray())));
+//            pstmt.addBatch();
+//            pstmt.executeBatch();
+
+//            pstmt.setInt(1, 1 ^ cons);
+//            pstmt.setString(2, new String(new char[]{0xdd15})); //56085
+//            pstmt.addBatch();
+//            pstmt.setInt(1, 2 ^ cons);
+//            pstmt.setString(2, new String(new char[]{0xdd16}));//56086
+//            pstmt.addBatch();
+//            pstmt.setInt(1, 3 ^ cons);
+//            pstmt.setString(2, new String(new char[]{0xaa17}));
+//            pstmt.addBatch();
+//            pstmt.setInt(1, 4 ^ cons);
+//            pstmt.setString(2, new String(new char[]{0xbb18}));
+//            pstmt.addBatch();
+//            pstmt.setInt(1, 5 ^ cons);
+//            pstmt.setString(2, new String(new char[]{0xee19}));
+//            pstmt.addBatch();
+//            pstmt.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void simpleQuery1() {
+    private char[] reverseChar(char[] chars) {
+        for (int i = 0; i < chars.length; i++) {
+            String hexB = Integer.toHexString(chars[i]);
+            if (hexB.length() <= 2) {
+                hexB = "00" + hexB;
+            }
+            char[] temp = hexB.toCharArray();
+            String hexStr = new String(new char[]{temp[2], temp[3], temp[0], temp[1]});
+            System.out.println(hexB + "=========" + hexStr);
+            chars[i] = (char) Integer.parseInt(hexStr, 16);
+        }
+        return chars;
+    }
+
+    public void queryCondition() {
         String sql = "SELECT * FROM  baoxian b limit 10";
-//        properties.put("responseBuffering","full");  //msssql
-//        properties.put("selectMethod", "cursor");    //mssql
-//        properties.put("useCursors", "true");        //jtds
         String url = "jdbc:mysql://127.0.0.1:10001/123456789";
         try (Connection conn = DriverManager.getConnection(url, "test", "test");
              Statement stmt = conn.createStatement()) {
@@ -138,7 +227,7 @@ public class Mysql8Test {
      * 一次性全表数据拉取出来
      * 大字段数据byte[]
      */
-    public void simpleQuery() {
+    public void queryAll() {
         String url = "jdbc:mysql://192.168.1.116:3306/test";
         String sql = "select * from gongsi";
         try (Connection conn = DriverManager.getConnection(url, "test", "");

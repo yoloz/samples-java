@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Arrays;
+import java.util.Properties;
 
 /**
  * driver:com.ibm.db2.jcc.DB2Driver
@@ -17,11 +18,16 @@ public class Db2Test {
 //        db2Test.readStream();
 
         String url = "jdbc:db2://192.168.1.133:50000/mydata";
-        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "")) {
-            Util.getCatalogs(conn);
-            Util.getSchemas(conn);
-            Util.getTables(conn, null, "DB2INST1", "%", null);
-            Util.getColumns(conn, null, "DB2INST1", "PERSON", "%");
+        Properties properties = new Properties();
+        properties.put("user","db2inst1");
+        properties.put("password","fhcs2019");
+//        try (Connection conn = DriverManager.getConnection(url, "db2inst1", "fhcs2019")) {
+        try (Connection conn = DriverManager.getConnection(url, properties)) {
+//            Util.getCatalogs(conn);
+//            Util.getSchemas(conn);
+//            Util.getTables(conn, null, "DB2INST1", "%", null);
+//            Util.getColumns(conn, null, "DB2INST1", "PERSON", "%");
+            Util.getColumn(conn,"select * from person");
         }
     }
 

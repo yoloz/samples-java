@@ -1,6 +1,7 @@
 package com.yoloz.sample.jdbc;
 
 import java.sql.*;
+import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -15,12 +16,18 @@ public class OracleTest {
 //        oracleTest.createTable();
 //        oracleTest.test();
 
-        String url = "jdbc:oracle:thin:@192.168.1.131:1521/XEPDB1";
-        try (Connection conn = DriverManager.getConnection(url, "test", "test")) {
-            Util.getCatalogs(conn);
-            Util.getSchemas(conn);
-            Util.getTables(conn, null, "TEST", "%", null);
-            Util.getColumns(conn,null,"TEST","STU_SCORE_LOG","%");
+        String url = "jdbc:oracle:thin:@192.168.1.131:1521/XEPDB1?ResultSetMetaDataOptions=1";
+        Properties properties = new Properties();
+        properties.setProperty("user","test");
+        properties.setProperty("password","test");
+        properties.setProperty("ResultSetMetaDataOptions","1");
+        try (Connection conn = DriverManager.getConnection(url, properties)) {
+//            Util.getCatalogs(conn);
+//            Util.getSchemas(conn);
+//            Util.getTables(conn, null, "TEST", "%", null);
+//            Util.getColumns(conn,null,"TEST","STU_SCORE_LOG","%");
+//            Util.getColumn(conn,"select * from person");
+            Util.getIndexInfo(conn,null,"TEST","%",false,true);
         }
     }
 

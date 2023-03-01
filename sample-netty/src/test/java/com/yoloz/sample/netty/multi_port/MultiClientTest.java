@@ -1,19 +1,20 @@
 package com.yoloz.sample.netty.multi_port;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MultiClientTest {
 
     MultiClient multiClient;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         multiClient = new MultiClient(8006, 8007);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         multiClient.stop();
     }

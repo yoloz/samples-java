@@ -33,6 +33,7 @@ public class ProducerTest {
         props.put("bootstrap.servers", host);
         props.put("key.serializer", IntegerSerializer.class.getName());
         props.put("value.serializer", StringSerializer.class.getName());
+        props.put("max.request.size", "52528800");
         producer = new KafkaProducer<>(props);
         this.topic = topic;
     }

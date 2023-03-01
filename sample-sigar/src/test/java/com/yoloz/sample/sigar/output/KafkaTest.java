@@ -1,12 +1,14 @@
 package com.yoloz.sample.sigar.output;
 
-import org.junit.Before;
+
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 public class KafkaTest {
 
     Output kafka;
-    @Before
+
+    @BeforeEach
     public void setUp() throws Exception {
         kafka = Output.getOutput("kafka","10.68.23.11:9092","gatherTest");
     }

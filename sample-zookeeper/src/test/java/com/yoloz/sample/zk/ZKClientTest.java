@@ -1,20 +1,22 @@
 package com.yoloz.sample.zk;
 
 import org.apache.log4j.PropertyConfigurator;
-import org.junit.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
 
 public class ZKClientTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         PropertyConfigurator.configure(Paths.get(System.getProperty("user.dir"),
                 "src/main/resources", "log4j.properties").toString());
         ZKClient.getInstance().connect("127.0.0.1:2181");
     }
 
-    @After
+    @AfterEach
     public void tearDown(){
         ZKClient.getInstance().close();
     }

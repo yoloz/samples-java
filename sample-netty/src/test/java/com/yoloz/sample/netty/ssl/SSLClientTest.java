@@ -3,23 +3,23 @@ package com.yoloz.sample.netty.ssl;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 
 public class SSLClientTest {
     SSLClient SSLClient;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         System.setProperty("ssl", "not empty");
         SSLClient = new SSLClient();
         SSLClient.start();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         SSLClient.close();
     }

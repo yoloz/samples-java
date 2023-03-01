@@ -1,20 +1,21 @@
 package com.yoloz.sample.netty.ssl;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SSLServerTest {
 
     SSLServer SSLServer;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         System.setProperty("ssl","not empty");
         SSLServer = new SSLServer();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 
