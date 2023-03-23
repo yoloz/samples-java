@@ -4,15 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>samples-java</artifactId>
-        <groupId>com.yoloz.sample</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
     <artifactId>sample-hive</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <!-- Blocked mirror for repositories: [conjars (http://conjars.org/repo, default, releases+snapshots), apache.snapshots (http://repository.apache.org/snapshots, default, snapshots)]-->
+    <groupId>indi.yolo.sample</groupId>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <jdk.version>8</jdk.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.hive</groupId>
@@ -43,13 +45,6 @@
             <artifactId>libthrift</artifactId>
             <version>0.18.0</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.cloudera</groupId>-->
-        <!--            <artifactId>ImpalaJDBC42</artifactId>-->
-        <!--            <scope>system</scope>-->
-        <!--            <version>9</version>-->
-        <!--            <systemPath>${project.basedir}/lib/ImpalaJDBC42.jar</systemPath>-->
-        <!--        </dependency>-->
     </dependencies>
 
 </project>

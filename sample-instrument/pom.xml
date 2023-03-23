@@ -2,18 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-    <parent>
-        <artifactId>samples-java</artifactId>
-        <groupId>com.yoloz.sample</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sample-instrument</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
+    <groupId>indi.yolo.sample</groupId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <jdk.version>8</jdk.version>
+    </properties>
 
 
     <dependencies>
@@ -41,7 +42,7 @@
 
                         <manifestEntries>
                             <!--启动时-->
-                            <Premain-Class>com.yoloz.sample.instrument.PerfMonAgent</Premain-Class>
+                            <Premain-Class>indi.yolo.sample.instrument.PerfMonAgent</Premain-Class>
                             <Boot-Class-Path>javassist-3.27.0-GA.jar</Boot-Class-Path>
                             <!--                            运行时-->
                             <!--                            <Main-Class>com.yoloz.sample.instrument.SuffMain</Main-Class>-->
