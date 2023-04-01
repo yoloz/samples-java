@@ -1,4 +1,4 @@
-package indi.yolo.sample.hive;
+package indi.yolo.sample.hive.auth.custom;
 
 import javax.security.sasl.AuthenticationException;
 

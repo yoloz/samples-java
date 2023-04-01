@@ -1,4 +1,4 @@
-package indi.yolo.sample.hive;
+package indi.yolo.sample.hive.jdbc;
 
 import java.io.IOException;
 import java.nio.file.Files;

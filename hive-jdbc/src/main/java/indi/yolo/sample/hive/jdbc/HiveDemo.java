@@ -1,4 +1,4 @@
-package indi.yolo.sample.hive;
+package indi.yolo.sample.hive.jdbc;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.security.UserGroupInformation;
@@ -93,7 +93,7 @@ public class HiveDemo {
         String url = "jdbc:hive2://192.168.1.160:21050/test;principal=impala/cdh160@ZHDS.CO";
         try {
             Properties properties = new Properties();
-            org.apache.hadoop.conf.Configuration conf = new org.apache.hadoop.conf.Configuration();
+            Configuration conf = new Configuration();
             conf.set("hadoop.security.authentication", "Kerberos");
             UserGroupInformation.setConfiguration(conf);
             UserGroupInformation.loginUserFromKeytab("test", "/data/yoloz/test.keytab");

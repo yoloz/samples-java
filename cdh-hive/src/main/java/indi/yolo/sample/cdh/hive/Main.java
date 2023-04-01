@@ -16,8 +16,8 @@ public class Main {
     public static void main(String[] args) {
         Main main = new Main();
 //        main.kerberos();
-        main.noSasl();
-//        main.userAndPwd();
+//        main.noSasl();
+        main.userAndPwd();
     }
 
     static void print(ResultSet resultSet) throws SQLException {
@@ -58,9 +58,7 @@ public class Main {
                  Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery("desc t1")) {
 //                System.out.println(conn.getCatalog() + "," + conn.getSchema());
-                while (rs.next()) {
-                    print(rs);
-                }
+                print(rs);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,15 +82,13 @@ public class Main {
     }
 
     public void userAndPwd() {
-        String url = "jdbc:hive2://192.168.124.236:10000/default;AuthMech=3;UID=test;PWD=test;";
+        String url = "jdbc:hive2://192.168.124.236:10000/default;AuthMech=3;UID=zhds;PWD=test;";
         try {
             Properties properties = new Properties();
             try (Connection conn = DriverManager.getConnection(url, properties);
                  Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery("show databases")) {
-                while (rs.next()) {
-                    System.out.println(rs.getString(1));
-                }
+                 ResultSet rs = stmt.executeQuery("select id,aesencrypt(name,'123') as name,hobby,address from test001;")) {
+                print(rs);
             }
         } catch (Exception e) {
             e.printStackTrace();

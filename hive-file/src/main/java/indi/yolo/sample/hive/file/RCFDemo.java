@@ -1,4 +1,4 @@
-package indi.yolo.sample.hive;
+package indi.yolo.sample.hive.file;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class RCFDemo {
 
     private static final String TAB = "\t";
-    private static String strings[] = {"1,true,123.123,2012-10-24 08:55:00",
+    private static final String[] strings = {"1,true,123.123,2012-10-24 08:55:00",
             "2,false,1243.5,2012-10-25 13:40:00",
             "3,false,24453.325,2008-08-22 09:33:21.123",
             "4,false,243423.325,2007-05-12 22:32:21.33454",
@@ -48,7 +48,7 @@ public class RCFDemo {
     }
 
     private static CompressionCodec compress(String className,Configuration configuration) throws ClassNotFoundException {
-        Class codecClass = Class.forName(className);
+        Class<?> codecClass = Class.forName(className);
         return (CompressionCodec) ReflectionUtils.newInstance(codecClass,configuration);
     }
     private static void createRcFile(Path src, boolean kerberos) throws IOException, ClassNotFoundException {
@@ -62,7 +62,7 @@ public class RCFDemo {
         BytesRefArrayWritable cols = new BytesRefArrayWritable(4);// 列数,可以动态获取
         BytesRefWritable col = null;
         for (String s : strings) {
-            String splits[] = s.split(",");
+            String[] splits = s.split(",");
             int count = 0;
             for (String split : splits) {
                 col = new BytesRefWritable(Bytes.toBytes(split), 0,
