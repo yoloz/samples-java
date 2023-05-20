@@ -18,7 +18,8 @@ public class JNASample {
 
         boolean booleanMethod(boolean bool);
 
-        //        String stringMethod(String text);
+        String stringMethod(String text);
+
         int intArrayMethod(int[] intArray);
     }
 
@@ -26,12 +27,12 @@ public class JNASample {
         CLibrary cLibrary = CLibrary.INSTANCE;
         int square = cLibrary.intMethod(5);
         boolean bool = cLibrary.booleanMethod(true);
-//        String text = cLibrary.stringMethod("java");
+        String text = cLibrary.stringMethod("java");
         int sum = cLibrary.intArrayMethod(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 13});
 
         System.out.println("intMethod: " + square);
         System.out.println("booleanMethod:" + bool);
-//        System.out.println("stringMethod:" + text);
+        System.out.println("stringMethod:" + text);
         System.out.println("intArrayMethod:" + sum);
     }
 
