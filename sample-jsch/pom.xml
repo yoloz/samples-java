@@ -30,7 +30,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.21</version>
+            <version>1.26.0</version>
         </dependency>
         <!--Apache Commons Net library contains a collection of network utilities
                 and protocol implementations. Supported protocols include:
