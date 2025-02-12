@@ -1,5 +1,7 @@
+// gcc -shared -fPIC -o libnativemethod.so nativemethod.c
+
 #include <string.h>
-#include<assert.h>
+#include <assert.h>
 
 int intMethod(int i)
 {

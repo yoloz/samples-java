@@ -4,39 +4,38 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 
 /**
+ * golang代码编译成链接文件，通过JNA加载调用即可
+ *
  * @author yoloz
  */
 public class JNAGoSample {
 
-    public interface CLibrary extends Library {
+    public interface GoLibrary extends Library {
 
-        CLibrary INSTANCE = Native.load("C:\\java\\libtest.dll", CLibrary.class);
+        GoLibrary INSTANCE = Native.load("C:\\java\\libtest.dll", GoLibrary.class);
 
-        String CHostInfo();
+        int intMethod(int n);
 
-        String CMemInfo();
+        boolean booleanMethod(boolean bool);
 
-        String CCpuInfo();
+        String stringMethod(String text);
 
-        String CCpuStat();
-
-        String CNCList();
-
-        String CProcessList();
-
-        String CProcessInfo(int pid);
+        int intArrayMethod(int[] intArray);
     }
 
     public static void main(String[] args) {
         System.setProperty("jna.encoding", "UTF-8");
-        CLibrary cLibrary = CLibrary.INSTANCE;
-        System.out.println("hostInfo: " + cLibrary.CHostInfo());
-        System.out.println("memInfo: " + cLibrary.CMemInfo());
-        System.out.println("cpuInfo: " + cLibrary.CCpuInfo());
-        System.out.println("cpuStat: " + cLibrary.CCpuStat());
-        System.out.println("NCList: " + cLibrary.CNCList());
-        System.out.println("processList: " + cLibrary.CProcessList());
-        System.out.println("processInfo: " + cLibrary.CProcessInfo(3244));
+        GoLibrary goLibrary = GoLibrary.INSTANCE;
+
+        int square = goLibrary.intMethod(5);
+        boolean bool = goLibrary.booleanMethod(true);
+        String text = goLibrary.stringMethod("java");
+        int sum = goLibrary.intArrayMethod(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 13});
+
+        System.out.println("intMethod: " + square);
+        System.out.println("booleanMethod:" + bool);
+        System.out.println("stringMethod:" + text);
+        System.out.println("intArrayMethod:" + sum);
     }
 
 }

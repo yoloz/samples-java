@@ -1,4 +1,8 @@
+//gcc -shared -fPIC -I /JDK_PATH/include/ -I /JDK_PATH/include/linux/  -o libnativemethod.so nativemethod.c
+
 #include "indi_yolo_sample_jni_NativeMethodTest.h"
+// 使用双引号""是告诉编译器在用户指定的目录（通常是当前目录或指定的源码目录）中查找文件
+// add include path: /JDK_PATH/include/**
 #include <string.h>
 
 void my_strupr(char str[])
