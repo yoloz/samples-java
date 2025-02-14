@@ -12,30 +12,27 @@ public class JNAGoSample {
 
     public interface GoLibrary extends Library {
 
-        GoLibrary INSTANCE = Native.load("C:\\java\\libtest.dll", GoLibrary.class);
+        GoLibrary INSTANCE = Native.load("nativego", GoLibrary.class);
 
-        int intMethod(int n);
+        int IntMethod(int n);
 
-        boolean booleanMethod(boolean bool);
+        boolean BooleanMethod(boolean bool);
 
-        String stringMethod(String text);
+        String StringMethod(String text);
 
-        int intArrayMethod(int[] intArray);
     }
 
     public static void main(String[] args) {
         System.setProperty("jna.encoding", "UTF-8");
         GoLibrary goLibrary = GoLibrary.INSTANCE;
 
-        int square = goLibrary.intMethod(5);
-        boolean bool = goLibrary.booleanMethod(true);
-        String text = goLibrary.stringMethod("java");
-        int sum = goLibrary.intArrayMethod(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 13});
+        int square = goLibrary.IntMethod(5);
+        boolean bool = goLibrary.BooleanMethod(true);
+        String text = goLibrary.StringMethod("java");
 
         System.out.println("intMethod: " + square);
         System.out.println("booleanMethod:" + bool);
         System.out.println("stringMethod:" + text);
-        System.out.println("intArrayMethod:" + sum);
     }
 
 }

@@ -12,7 +12,7 @@ public class JNASample {
 
         //CLibrary INSTANCE = Native.load((Platform.isWindows() ? "msvcrt" : "c"), CLibrary.class);
         //加载nativemethod，并使用其中的函数
-        CLibrary INSTANCE = Native.load("nativemethod", CLibrary.class);
+        CLibrary INSTANCE = Native.load("nativec", CLibrary.class);
 
         int intMethod(int n);
 

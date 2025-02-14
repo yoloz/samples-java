@@ -1,4 +1,4 @@
-// gcc -shared -fPIC -o libnativemethod.so nativemethod.c
+// gcc -shared -fPIC -o libnativec.so nativec.c
 
 #include <string.h>
 #include <assert.h>
