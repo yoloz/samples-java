@@ -2,8 +2,12 @@
 package main
 
 // #include <string.h>
+// #include <stdlib.h>
 import "C"
-import "strings"
+import (
+	"strings"
+	"unsafe"
+)
 
 //export IntMethod
 func IntMethod(i int) int {
@@ -22,7 +26,10 @@ func BooleanMethod(b int) int {
 //export StringMethod
 func StringMethod(str *C.char) *C.char {
 	chars := C.GoString(str)
-	return C.CString(strings.ToUpper(chars))
+	defer C.free(unsafe.Pointer(str))
+	cstr := C.CString(strings.ToUpper(chars))
+	// defer C.free(unsafe.Pointer(cstr))
+	return cstr
 }
 
 func main() {}
