@@ -1,27 +1,28 @@
 package indi.yolo.sample.jni;
 
 /**
+ * 直接调用C实现；调用C桥接golang实现
+ *
  * @author yoloz
  */
 public class JNISample {
 
     static {
-        System.loadLibrary("nativemethod");
+//        System.loadLibrary("nativec");
+        System.loadLibrary("nativecgo");
     }
 
     public static void main(String[] args) {
 
-        NativeMethodTest nmt = new NativeMethodTest();
+        NativeCFuc nmt = new NativeCFuc();
 
         int square = nmt.intMethod(5);
         boolean bool = nmt.booleanMethod(true);
         String text = nmt.stringMethod("java");
-        int sum = nmt.intArrayMethod(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 13});
 
         System.out.println("intMethod: " + square);
         System.out.println("booleanMethod:" + bool);
         System.out.println("stringMethod:" + text);
-        System.out.println("intArrayMethod:" + sum);
     }
 }
 

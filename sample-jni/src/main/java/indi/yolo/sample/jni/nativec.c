@@ -1,6 +1,6 @@
-//gcc -shared -fPIC -I /JDK_PATH/include/ -I /JDK_PATH/include/linux/  -o libnativemethod.so nativemethod.c
+//gcc -shared -fPIC -I /JDK_PATH/include/ -I /JDK_PATH/include/linux/  -o libnativec.so nativec.c
 
-#include "indi_yolo_sample_jni_NativeMethodTest.h"
+#include "indi_yolo_sample_jni_NativeCFuc.h"
 // 使用双引号""是告诉编译器在用户指定的目录（通常是当前目录或指定的源码目录）中查找文件
 // add include path: /JDK_PATH/include/**
 #include <string.h>
@@ -18,17 +18,17 @@ void my_strupr(char str[])
     }
 }
 
-JNIEXPORT jint JNICALL Java_indi_yolo_sample_jni_NativeMethodTest_intMethod(JNIEnv *env, jobject obj, jint i)
+JNIEXPORT jint JNICALL Java_indi_yolo_sample_jni_NativeCFuc_intMethod(JNIEnv *env, jobject obj, jint i)
 {
     return i * i;
 }
 
-JNIEXPORT jboolean JNICALL Java_indi_yolo_sample_jni_NativeMethodTest_booleanMethod(JNIEnv *env, jobject obj, jboolean b)
+JNIEXPORT jboolean JNICALL Java_indi_yolo_sample_jni_NativeCFuc_booleanMethod(JNIEnv *env, jobject obj, jboolean b)
 {
     return !b;
 }
 
-JNIEXPORT jstring JNICALL Java_indi_yolo_sample_jni_NativeMethodTest_stringMethod(JNIEnv *env, jobject obj, jstring string)
+JNIEXPORT jstring JNICALL Java_indi_yolo_sample_jni_NativeCFuc_stringMethod(JNIEnv *env, jobject obj, jstring string)
 {
     const char *str = (*env)->GetStringUTFChars(env, string, 0);
     char cap[128];
@@ -40,7 +40,7 @@ JNIEXPORT jstring JNICALL Java_indi_yolo_sample_jni_NativeMethodTest_stringMetho
     return (*env)->NewStringUTF(env, cap);
 }
 
-JNIEXPORT jint JNICALL Java_indi_yolo_sample_jni_NativeMethodTest_intArrayMethod(JNIEnv *env, jobject obj, jintArray array)
+JNIEXPORT jint JNICALL Java_indi_yolo_sample_jni_NativeCFuc_intArrayMethod(JNIEnv *env, jobject obj, jintArray array)
 {
     int i, sum = 0;
     jsize len = (*env)->GetArrayLength(env, array);

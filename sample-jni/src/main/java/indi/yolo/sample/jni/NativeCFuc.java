@@ -8,7 +8,7 @@ package indi.yolo.sample.jni;
  *
  * @author yoloz
  */
-public class NativeMethodTest {
+public class NativeCFuc {
 
     public native int intMethod(int n);
 
