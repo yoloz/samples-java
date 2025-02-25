@@ -28,7 +28,7 @@
             <artifactId>tools</artifactId>
             <scope>system</scope>
             <version>1.8</version>
-            <systemPath>/opt/jdk8.0_311/lib/tools.jar</systemPath>
+            <systemPath>/opt/jdk8/lib/tools.jar</systemPath>
         </dependency>
     </dependencies>
     <build>
