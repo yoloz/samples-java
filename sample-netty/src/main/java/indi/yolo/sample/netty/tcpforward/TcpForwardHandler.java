@@ -1,13 +1,11 @@
 package indi.yolo.sample.netty.tcpforward;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.bytes.ByteArrayDecoder;
-import io.netty.handler.codec.bytes.ByteArrayEncoder;
-import io.netty.util.ReferenceCountUtil;
 
 import java.net.InetSocketAddress;
 
@@ -34,13 +32,12 @@ public class TcpForwardHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (remoteChannel != null && remoteChannel.isActive()) {
-            if (msg instanceof byte[]) {
+            if (msg instanceof ByteBuf) {
                 // 输出数据
-                byte[] bytes = (byte[]) msg;
-//                byte[] bytes = new byte[in.length];
-//                System.arraycopy(in,0,bytes,0,in.length);
+                ByteBuf buf = (ByteBuf) msg;
                 StringBuilder asciiData = new StringBuilder();
-                for (byte b : bytes) {
+                for (int i = 0; i < buf.readableBytes(); i++) {
+                    byte b = buf.readByte();
                     asciiData.append((char) (b >= 32 && b < 127 ? b : '.'));
                 }
                 OutputBytes.output(((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress(),
@@ -49,10 +46,11 @@ public class TcpForwardHandler extends ChannelInboundHandlerAdapter {
                         ((InetSocketAddress) ctx.channel().localAddress()).getPort(),
                         asciiData
                 );
+                buf.resetReaderIndex();
                 //转发数据
                 remoteChannel.writeAndFlush(msg);
                 // 释放
-                ReferenceCountUtil.safeRelease(msg);
+//                ReferenceCountUtil.safeRelease(msg);
             } else {
                 // 处理其他类型的消息
                 System.out.println("接受到非ByteBuf数据，直接转发......");
@@ -89,8 +87,8 @@ public class TcpForwardHandler extends ChannelInboundHandlerAdapter {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline p = ch.pipeline();
-                            p.addLast(new ByteArrayDecoder());
-                            p.addLast(new ByteArrayEncoder());
+//                            p.addLast(new ByteArrayDecoder());
+//                            p.addLast(new ByteArrayEncoder());
                             p.addLast(new TargetRespHandler(ctx));
                         }
                     });

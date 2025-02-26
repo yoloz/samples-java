@@ -5,8 +5,6 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.bytes.ByteArrayDecoder;
-import io.netty.handler.codec.bytes.ByteArrayEncoder;
 
 /**
  * @author yolo
@@ -34,8 +32,6 @@ public class TcpForwardServer {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline p = ch.pipeline();
-                            p.addLast(new ByteArrayDecoder());
-                            p.addLast(new ByteArrayEncoder());
                             p.addLast(new TcpForwardHandler(remoteHost, remotePort));
                         }
                     });
