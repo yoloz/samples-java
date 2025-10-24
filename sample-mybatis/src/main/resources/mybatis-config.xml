@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--configuration核心配置文件-->
+<configuration>
+    <!-- 1. Properties -->
+    <!--    <properties resource="db.properties"/>-->
+
+    <!-- 2. Settings -->
+    <!--    <settings>-->
+    <!--        <setting name="mapUnderscoreToCamelCase" value="true"/>-->
+    <!--    </settings>-->
+
+    <!-- 3. Type Aliases -->
+    <!--    <typeAliases>-->
+    <!--        <typeAlias alias="User" type="com.example.User"/>-->
+    <!--    </typeAliases>-->
+
+    <!-- 4. Type Handlers -->
+    <typeHandlers>
+        <!-- 注册单个 TypeHandler -->
+        <typeHandler handler="indi.yoloz.sample.mybatis.BooleanTypeHandler"/>
+
+        <!-- 注册包下的所有 TypeHandler -->
+        <!--        <package name="com.example.handler"/>-->
+    </typeHandlers>
+
+    <!-- 5. Object Factory -->
+    <!--    <objectFactory type="com.example.MyCustomObjectFactory"/>-->
+
+    <!-- 6. Object Wrapper Factory -->
+    <!--    <objectWrapperFactory type="com.example.MyCustomObjectWrapperFactory"/>-->
+
+    <!-- 7. Reflector Factory -->
+    <!--    <reflectorFactory type="com.example.MyCustomReflectorFactory"/>-->
+
+    <!-- 8. Plugins -->
+    <!--    <plugins>-->
+    <!--        <plugin interceptor="com.example.MyCustomPlugin"/>-->
+    <!--    </plugins>-->
+
+    <!-- 9. Environments -->
+    <environments default="db">
+        <environment id="db">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://192.168.124.51:3306/test?useUnicode=true&amp;serverTimezone=GMT%2B8&amp;useSSL=false&amp;characterEncoding=utf8&amp;allowMultiQueries=true&amp;allowPublicKeyRetrieval=true"/>
+                <property name="username" value="test"/>
+                <property name="password" value="test"/>
+            </dataSource>
+        </environment>
+
+        <environment id="sdk">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.yzsec.dsg.sdk.jdbc.YzSecDriver"/>
+                <property name="url"
+                          value="jdbc:yzsec://192.168.124.249:10000/51test?useUnicode=true&amp;serverTimezone=GMT%2B8&amp;useSSL=false&amp;characterEncoding=utf8&amp;allowMultiQueries=true&amp;allowPublicKeyRetrieval=true"/>
+                <property name="username" value="test"/>
+                <property name="password" value="changeme"/>
+            </dataSource>
+        </environment>
+        <environment id="sdkDM">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.yzsec.dsg.sdk.jdbc.YzSecDriver"/>
+                <property name="url"
+                          value="jdbc:yzsec://192.168.124.249:10000/135dm"/>
+                <property name="username" value="test"/>
+                <property name="password" value="changeme"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 10. Database ID Provider -->
+    <!--    <databaseIdProvider type="DB_VENDOR">-->
+    <!--        <property name="SQL Server" value="sqlserver"/>-->
+    <!--        <property name="MySQL" value="mysql"/>-->
+    <!--    </databaseIdProvider>-->
+
+    <!-- 11. Mappers -->
+    <!--每一个Mapper.XML都需要在Mybatis核心配置文件中注册！-->
+    <mappers>
+        <mapper resource="indi/yoloz/sample/mybatis/mapper/BoolTestMapper.xml"/>
+        <mapper resource="indi/yoloz/sample/mybatis/mapper/ByteTestMapper.xml"/>
+        <mapper resource="indi/yoloz/sample/mybatis/mapper/CrmStrategyChildMapper.xml"/>
+        <mapper resource="indi/yoloz/sample/mybatis/mapper/IntegerTestMapper.xml"/>
+        <mapper resource="indi/yoloz/sample/mybatis/mapper/CrmStrategyChildReachNodeMapper.xml"/>
+        <mapper resource="indi/yoloz/sample/mybatis/mapper/RoleTestMapper.xml"/>
+        <mapper resource="indi/yoloz/sample/mybatis/mapper/Date2TimestampMapper.xml"/>
+        <mapper resource="indi/yoloz/sample/mybatis/mapper/PrpibnrmodelMapper.xml"/>
+    </mappers>
+
+</configuration>
+

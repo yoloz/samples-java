@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="indi.yoloz.sample.mybatis.service.Date2TimestampDao">
+
+    <resultMap id="date2timestamp" type="indi.yoloz.sample.mybatis.entity.Date2Timestamp">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result property="date" column="date1" jdbcType="TIMESTAMP"/>
+        <result property="timestamp" column="timestamp1"/>
+        <result property="datetime" column="datetime1"/>
+        <result property="time" column="time1"/>
+    </resultMap>
+
+    <!--select查询语句-->
+    <select id="query" resultMap="date2timestamp">
+        select * from test.datetimetest
+    </select>
+
+</mapper>

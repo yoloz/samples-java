@@ -1,0 +1,926 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuanwa.app.crm.strategy.mapper.CrmStrategyDao">
+
+    <!-- 主策略Map -->
+    <resultMap id="BaseResultMap" type="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyDTO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="strategy_code" property="strategyCode"/>
+        <result column="description" property="description"/>
+        <result column="org_code" property="orgCode"/>
+        <result column="insurance_product" property="insuranceProduct"/>
+        <result column="reach_num" property="reachNum"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="launch_status" property="launchStatus"/>
+    </resultMap>
+
+    <!-- 子策略Map -->
+    <resultMap id="ChildBaseResultMap" type="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyChildDTO">
+        <id column="c_id" property="id"/>
+        <result column="c_strategy_id" property="strategyId"/>
+        <result column="c_name" property="name"/>
+        <result column="c_strategy_code" property="strategyCode"/>
+        <result column="c_reach_ways" property="reachWays"/>
+        <result column="c_template_id" property="templateId"/>
+        <result column="c_objective" property="objective"/>
+        <result column="c_source_list" property="sourceList"/>
+        <result column="c_source_type" property="sourceType"/>
+        <result column="c_delay" property="delay"/>
+        <result column="c_limit_duration" property="limitDuration"/>
+        <result column="c_event_group_list" property="eventGroupList"/>
+        <result column="c_filter_condition" property="filterCondition"/>
+        <result column="c_child_group_list" property="childGroupList"/>
+        <result column="c_reach_num" property="reachNum"/>
+        <result column="c_start_time" property="startTime"/>
+        <result column="c_end_time" property="endTime"/>
+        <result column="c_implement_cron" property="implementCron"/>
+        <result column="c_status" property="status"/>
+        <result column="c_event_type" property="eventType"/>
+        <result column="c_customer_itinerary" property="customerItinerary"/>
+        <result column="c_strategy_cluster" property="strategyCluster"/>
+        <result column="c_bean_name" property="beanName"/>
+        <result column="c_creator" property="creator"/>
+        <result column="c_modifier" property="modifier"/>
+    </resultMap>
+
+    <resultMap id="reachNodeBaseMap" type="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyChildReachNodeDTO">
+        <id column="n_id" property="id"/>
+        <result column="n_strategy_id" property="strategyId"/>
+        <result column="n_reach_num" property="reachNum"/>
+        <result column="n_strategy_child_id" property="strategyChildId"/>
+        <result column="n_reach_ways" property="reachWays"/>
+        <result column="n_template_id" property="templateId"/>
+        <result column="n_objective" property="objective"/>
+        <result column="n_delay" property="delay"/>
+        <result column="n_time_type" property="timeType"/>
+        <result column="n_trigger_way" property="triggerWay"/>
+        <result column="n_implement_cron" property="implementCron"/>
+        <result column="c_strategy_code" property="childStrategyCode"/>
+        <result column="n_reach_code" property="reachCode"/>
+        <result column="n_reach_start_time" property="reachStartTime"/>
+        <result column="n_reach_end_time" property="reachEndTime"/>
+        <result column="n_limit_duration" property="limitDuration"/>
+    </resultMap>
+
+    <resultMap id="CrmTemplateDTOMap" type="com.nuanwa.app.crm.share.template.bean.entity.dto.CrmTemplateDTO">
+        <result column="t3_id" property="id"/>
+        <result column="t3_name" property="name"/>
+        <result column="t3_type" property="type"/>
+        <result column="t3_channel" property="channel"/>
+        <result column="t3_enable_status" property="enableStatus"/>
+    </resultMap>
+    <resultMap id="CrmTemplateSmsDTOMap" type="com.nuanwa.app.crm.share.template.bean.entity.dto.CrmTemplateSmsDTO">
+        <result column="sms_id" property="id"/>
+        <result column="sms_template_id" property="templateId"/>
+        <result column="sms_third_template_id" property="thirdTemplateId"/>
+        <result column="sms_content" property="content"/>
+        <result column="sms_short_link" property="shortLink"/>
+    </resultMap>
+    <resultMap id="CrmTemplateSmartCallDTOMap"
+               type="com.nuanwa.app.crm.share.template.bean.entity.dto.CrmTemplateSmartCallDTO">
+        <result column="smart_call_id" property="id"/>
+        <result column="smart_call_template_id" property="templateId"/>
+        <result column="smart_call_third_template_id" property="thirdTemplateId"/>
+        <result column="smart_call_line_limit" property="lineLimit"/>
+        <result column="smart_call_out_call_priority" property="outCallPriority"/>
+        <result column="offer" property="offer"/>
+        <result column="descript" property="descript"/>
+        <result column="successTemplateId" property="successTemplateId"/>
+        <result column="failTemplateId" property="failTemplateId"/>
+        <result column="max_ringing_seconds" property="maxRingingSeconds"/>
+        <result column="minutes_between_retries" property="minutesBetweenRetries"/>
+        <result column="max_retry_count" property="maxRetryCount"/>
+        <result column="can_auto_retry" property="canAutoRetry"/>
+        <result column="errors_can_retry" property="errorsCanRetry"/>
+    </resultMap>
+    <resultMap id="CrmTemplateManualCallDTOMap"
+               type="com.nuanwa.app.crm.share.template.bean.entity.dto.CrmTemplateManualCallDTO">
+        <result column="manual_call_id" property="id"/>
+        <result column="manual_call_template_id" property="templateId"/>
+        <result column="manual_call_config_id" property="configId"/>
+        <result column="manual_call_config_name" property="configName"/>
+    </resultMap>
+    <resultMap id="CrmTemplateGzhDTOMap" type="com.nuanwa.app.crm.share.template.bean.entity.dto.CrmTemplateGzhDTO">
+        <result column="gzh_id" property="id"/>
+        <result column="gzh_template_id" property="templateId"/>
+        <result column="gzh_wechat_corp_id" property="wechatCorpId"/>
+        <result column="gzh_message_type" property="messageType"/>
+        <result column="gzh_third_template_id" property="thirdTemplateId"/>
+        <result column="gzh_head" property="head"/>
+        <result column="gzh_tail" property="tail"/>
+        <result column="gzh_force_authorization_applet" property="forceAuthorizationApplet"/>
+        <result column="gzh_url" property="url"/>
+        <result column="gzh_miniprogram_id" property="miniprogramId"/>
+        <result column="gzh_miniprogram_path" property="miniprogramPath"/>
+        <result column="gzh_content" property="content"/>
+    </resultMap>
+    <resultMap id="CrmTemplateMiniProgramDTOMap"
+               type="com.nuanwa.app.crm.share.template.bean.entity.dto.CrmTemplateMiniProgramDTO">
+        <result column="mini_program_id" property="id"/>
+        <result column="mini_program_template_id" property="templateId"/>
+        <result column="mini_program_message_type" property="messageType"/>
+        <result column="mini_program_mini_program_crop_id" property="miniProgramCropId"/>
+        <result column="mini_program_template_name" property="templateName"/>
+        <result column="mini_program_mini_program_template_id" property="miniProgramTemplateId"/>
+    </resultMap>
+
+    <resultMap id="CrmTemplateKefuDTOMap" type="com.nuanwa.app.crm.share.template.bean.entity.CrmTemplateMpKfDO">
+        <result column="kf_id" property="id"/>
+        <result column="kf_template_id" property="templateId"/>
+        <result column="kf_appid" property="appid"/>
+        <result column="kf_app_name" property="appName"/>
+        <result column="kf_message" property="message"/>
+        <result column="kf_short_link" property="shortLink"/>
+    </resultMap>
+
+    <resultMap id="CrmMassSendDTOMap" type="com.nuanwa.app.crm.share.strategy.entity.CrmTemplateMassSendDO">
+        <result column="mass_id" property="id"/>
+        <result column="mass_template_id" property="templateId"/>
+        <result column="mass_message_type" property="messageType"/>
+        <result column="mass_wechat_corp_id" property="wechatCorpId"/>
+        <result column="mass_media_id" property="mediaId"/>
+        <result column="mass_content" property="content"/>
+        <result column="mass_remark" property="remark"/>
+    </resultMap>
+
+    <resultMap id="CrmTemplateWorkWechatDTOMap"
+               type="com.nuanwa.app.crm.share.template.bean.entity.dto.CrmTemplateWorkWechatDTO">
+        <result column="workWechat_id" property="id"/>
+        <result column="workWechat_template_id" property="templateId"/>
+        <result column="workWechat_message_type" property="messageType"/>
+        <result column="workWechat_corp_id" property="corpId"/>
+        <result column="workWechat_corp_name" property="corpName"/>
+        <result column="workWechat_attachment_ids" property="attachmentIds"/>
+        <result column="workWechat_content" property="content"/>
+        <result column="workWechat_remark" property="remark"/>
+        <result column="workWechat_extra_info" property="extraInfo"/>
+        <result column="workWechat_parameter_json" property="parameterJson"/>
+    </resultMap>
+    <resultMap id="CrmTemplateParameterRelationDTOMap"
+               type="com.nuanwa.app.crm.share.template.bean.entity.dto.CrmTemplateParameterRelationDTO">
+        <result column="p_id" property="id"/>
+        <result column="p_reference_id" property="referenceId"/>
+        <result column="p_template_id" property="templateId"/>
+        <result column="p_parameter_is_primary" property="parameterIsPrimary"/>
+        <result column="p_parameter_name" property="parameterName"/>
+        <result column="p_parameter_key" property="parameterKey"/>
+        <result column="p_available_parameter_id" property="availableParameterId"/>
+        <result column="p_parameter_value" property="parameterValue"/>
+        <result column="p_ordered" property="ordered"/>
+        <result column="p_color" property="color"/>
+    </resultMap>
+
+    <resultMap id="CrmTemplateDetailDTOMap"
+               type="com.nuanwa.app.crm.share.template.bean.entity.dto.CrmTemplateDetailDTO">
+        <result column="t3_id" property="templateId"/>
+        <association property="template" resultMap="CrmTemplateDTOMap"/>
+        <association property="sms" resultMap="CrmTemplateSmsDTOMap"/>
+        <association property="smartCall" resultMap="CrmTemplateSmartCallDTOMap"/>
+        <association property="gzh" resultMap="CrmTemplateGzhDTOMap"/>
+        <association property="workWechat" resultMap="CrmTemplateWorkWechatDTOMap"/>
+        <association property="miniProgram" resultMap="CrmTemplateMiniProgramDTOMap"/>
+        <association property="kefu" resultMap="CrmTemplateKefuDTOMap"/>
+        <association property="massSend" resultMap="CrmMassSendDTOMap"/>
+        <association property="manualCall" resultMap="CrmTemplateManualCallDTOMap"/>
+        <collection property="parameters" javaType="java.util.LinkedList"
+                    resultMap="CrmTemplateParameterRelationDTOMap">
+        </collection>
+    </resultMap>
+
+    <!--    <resultMap id="CrmStrategyMainChildDTOMap" type="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyChildDTO"-->
+    <!--               extends="ChildBaseResultMap">-->
+    <!--        <result column="c_id" property="id"/>-->
+    <!--        <association property="templateDetail" resultMap="CrmTemplateDetailDTOMap"/>-->
+    <!--        <collection property="workWechatUserList" javaType="java.util.LinkedList"-->
+    <!--                    resultMap="CrmStrategyChildWorkWechatUserMap">-->
+    <!--        </collection>-->
+    <!--    </resultMap>-->
+
+    <resultMap id="CrmStrategyReachNodeDTOMap"
+               type="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyChildReachNodeDTO"
+               extends="reachNodeBaseMap">
+        <association property="templateDetail" resultMap="CrmTemplateDetailDTOMap"/>
+        <collection property="workWechatUserList" javaType="java.util.LinkedList"
+                    resultMap="CrmStrategyChildWorkWechatUserMap">
+        </collection>
+    </resultMap>
+
+    <resultMap id="CrmStrategyChildWorkWechatUserMap"
+               type="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyChildWorkWechatUserDTO">
+        <result column="wechat_id" property="id"/>
+        <result column="wechat_strategy_child_id" property="strategyChildId"/>
+        <result column="wechat_child_reach_node_id" property="childReachNodeId"/>
+        <result column="wechat_uid" property="uid"/>
+        <result column="wechat_user_id" property="userId"/>
+        <result column="wechat_user_name" property="userName"/>
+    </resultMap>
+
+    <resultMap id="StrategyDataResultMap" type="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyDetailDTO">
+        <result column="n_id" property="reachNodeId"/>
+        <association property="main" resultMap="BaseResultMap"/>
+        <association property="child" resultMap="ChildBaseResultMap"/>
+        <association property="reachNodeDTO" resultMap="CrmStrategyReachNodeDTOMap"/>
+    </resultMap>
+
+    <select id="queryEventStrategyReachNodeId" resultType="java.lang.Long">
+        SELECT c.id
+        FROM crm_strategy_child c,
+             crm_strategy_event e,
+             crm_strategy_event_group p
+        WHERE c.source_list = e.id
+          AND e.group_id = p.id
+          AND c.source_type = 2
+          AND c.is_deleted = 'N'
+          AND e.is_deleted = 'N'
+          AND e.enable_status = 1
+          AND c.status IN (1, 2)
+          AND c.start_time &lt;= now()
+          AND c.end_time &gt;= now()
+          AND e.ons_tag = #{tag}
+          AND p.source = #{source}
+    </select>
+
+    <select id="queryChildStrategyTemplateType"
+            resultType="com.nuanwa.app.crm.strategy.entity.ChildStrategyTemplateTypeEntity">
+        SELECT c.id AS strategyReachNodeId, t.type AS templateType
+        FROM crm_strategy_child_reach_node c,
+        crm_template t
+        WHERE c.template_id = t.id
+        AND c.is_deleted = 'N'
+        AND t.is_deleted = 'N'
+        AND c.id IN
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="loadStrategySmsData" resultMap="StrategyDataResultMap">
+        SELECT
+        <include refid="sql_main_strategy_field"/>,
+        <include refid="sql_child_strategy_field"/>,
+        <include refid="sql_child_strategy_reach_node_field"/>,
+        <include refid="sql_template_field"/>,
+        <include refid="sql_template_sms_field"/>,
+        <include refid="sql_template_parameter_field"/>
+        FROM crm_strategy_child t2
+        join crm_strategy_child_node_relation csc on t2.id = csc.strategy_child_id  and
+        relation_type = 6
+        join crm_strategy_child_reach_node cscrn on cscrn.id = csc.relation_id
+        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'
+        LEFT JOIN crm_template t3 ON cscrn.template_id = t3.id AND t3.is_deleted = 'N'
+        LEFT JOIN crm_template_sms sms ON t3.type = 1 AND t3.id = sms.template_id AND sms.is_deleted = 'N'
+        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'
+        WHERE
+        t2.is_deleted = 'N' and cscrn.is_deleted = 'N'
+        <if test="list != null">
+            AND cscrn.id IN
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="loadStrategySmartCallData" resultMap="StrategyDataResultMap">
+        SELECT
+        <include refid="sql_main_strategy_field"/>,
+        <include refid="sql_child_strategy_field"/>,
+        <include refid="sql_child_strategy_reach_node_field"/>,
+        <include refid="sql_template_field"/>,
+        <include refid="sql_template_smart_call_field"/>,
+        <include refid="sql_template_parameter_field"/>
+        FROM crm_strategy_child t2
+        join crm_strategy_child_node_relation csc on t2.id = csc.strategy_child_id  and
+        relation_type = 6
+        join crm_strategy_child_reach_node cscrn on cscrn.id = csc.relation_id
+        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'
+        LEFT JOIN crm_template t3 ON cscrn.template_id = t3.id AND t3.is_deleted = 'N'
+        LEFT JOIN crm_template_smart_call sc ON t3.type = 2 AND t3.id = sc.template_id AND sc.is_deleted = 'N'
+        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'
+        WHERE
+        t2.is_deleted = 'N' and cscrn.is_deleted = 'N'
+        <if test="list != null">
+            AND cscrn.id IN
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="loadStrategyGZHData" resultMap="StrategyDataResultMap">
+        SELECT
+        <include refid="sql_main_strategy_field"/>,
+        <include refid="sql_child_strategy_field"/>,
+        <include refid="sql_child_strategy_reach_node_field"/>,
+        <include refid="sql_template_field"/>,
+        <include refid="sql_template_gzh_field"/>,
+        <include refid="sql_template_parameter_field"/>
+        FROM crm_strategy_child t2
+        join crm_strategy_child_node_relation csc on t2.id = csc.strategy_child_id  and
+        relation_type = 6
+        join crm_strategy_child_reach_node cscrn on cscrn.id = csc.relation_id
+        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'
+        LEFT JOIN crm_template t3 ON cscrn.template_id = t3.id AND t3.is_deleted = 'N'
+        LEFT JOIN crm_template_gzh gzh ON t3.type = 3 AND t3.id = gzh.template_id AND gzh.is_deleted = 'N'
+        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'
+        WHERE
+        t2.is_deleted = 'N' and cscrn.is_deleted = 'N'
+        <if test="list != null">
+            AND cscrn.id IN
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="loadStrategyWorkWechatData" resultMap="StrategyDataResultMap">
+        SELECT
+        <include refid="sql_main_strategy_field"/>,
+        <include refid="sql_child_strategy_field"/>,
+        <include refid="sql_child_strategy_reach_node_field"/>,
+        <include refid="sql_template_field"/>,
+        <include refid="sql_template_work_wechat_field"/>,
+        <include refid="sql_template_wechat_field"/>,
+        <include refid="sql_template_parameter_field"/>
+        FROM crm_strategy_child t2
+        join crm_strategy_child_node_relation csc on t2.id = csc.strategy_child_id and
+        relation_type = 6
+        join crm_strategy_child_reach_node cscrn on cscrn.id = csc.relation_id
+        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'
+        LEFT JOIN crm_template t3 ON cscrn.template_id = t3.id AND t3.is_deleted = 'N'
+        LEFT JOIN crm_template_work_wechat workWechat ON t3.type = 5 AND t3.id = workWechat.template_id AND
+        workWechat.is_deleted = 'N'
+        LEFT JOIN crm_strategy_child_work_wechat_user wechat ON t2.id = wechat.strategy_child_id AND wechat.is_deleted =
+        'N' AND wechat.child_reach_node_id = cscrn.id
+        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'
+        WHERE
+        t2.is_deleted = 'N' and cscrn.is_deleted = 'N'
+        <if test="list != null">
+            AND cscrn.id IN
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="loadStrategyMiniProgramData" resultMap="StrategyDataResultMap">
+        SELECT
+        <include refid="sql_main_strategy_field"/>,
+        <include refid="sql_child_strategy_field"/>,
+        <include refid="sql_child_strategy_reach_node_field"/>,
+        <include refid="sql_template_field"/>,
+        <include refid="sql_template_mini_program_field"/>,
+        <include refid="sql_template_parameter_field"/>
+        FROM crm_strategy_child t2
+        join crm_strategy_child_node_relation csc on t2.id = csc.strategy_child_id and
+        relation_type = 6
+        join crm_strategy_child_reach_node cscrn on cscrn.id = csc.relation_id
+        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'
+        LEFT JOIN crm_template t3 ON cscrn.template_id = t3.id AND t3.is_deleted = 'N'
+        LEFT JOIN crm_template_mini_program mini_program ON t3.type = 6 AND t3.id = mini_program.template_id AND
+        mini_program.is_deleted = 'N'
+        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'
+        WHERE
+        t2.is_deleted = 'N' and cscrn.is_deleted = 'N'
+        <if test="list != null">
+            AND cscrn.id IN
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="loadStrategyKefuData" resultMap="StrategyDataResultMap">
+        SELECT
+        <include refid="sql_main_strategy_field"/>,
+        <include refid="sql_child_strategy_field"/>,
+        <include refid="sql_child_strategy_reach_node_field"/>,
+        <include refid="sql_template_field"/>,
+        <include refid="sql_template_kf_field"/>,
+        <include refid="sql_template_parameter_field"/>
+        FROM crm_strategy_child t2
+        join crm_strategy_child_node_relation csc on t2.id = csc.strategy_child_id and
+        relation_type = 6
+        join crm_strategy_child_reach_node cscrn on cscrn.id = csc.relation_id
+        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'
+        LEFT JOIN crm_template t3 ON cscrn.template_id = t3.id AND t3.is_deleted = 'N'
+        LEFT JOIN crm_template_mp_kf kf ON t3.type = 7 AND t3.id = kf.template_id AND
+        kf.is_deleted = 'N'
+        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'
+        WHERE
+        t2.is_deleted = 'N' and cscrn.is_deleted = 'N'
+        <if test="list != null">
+            AND cscrn.id IN
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="loadStrategyManualCallData" resultMap="StrategyDataResultMap">
+        SELECT
+        <include refid="sql_main_strategy_field"/>,
+        <include refid="sql_child_strategy_field"/>,
+        <include refid="sql_child_strategy_reach_node_field"/>,
+        <include refid="sql_template_field"/>,
+        <include refid="sql_template_manual_call_field"/>,
+        <include refid="sql_template_parameter_field"/>
+        FROM crm_strategy_child t2
+        join crm_strategy_child_node_relation csc on t2.id = csc.strategy_child_id and
+        relation_type = 6
+        join crm_strategy_child_reach_node cscrn on cscrn.id = csc.relation_id
+        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'
+        LEFT JOIN crm_template t3 ON cscrn.template_id = t3.id AND t3.is_deleted = 'N'
+        LEFT JOIN crm_template_manual_call mc ON t3.type = 4 AND t3.id = mc.template_id AND
+        mc.is_deleted = 'N'
+        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'
+        WHERE
+        t2.is_deleted = 'N' and cscrn.is_deleted = 'N'
+        <if test="list != null">
+            AND cscrn.id IN
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="selectInitNode" resultType="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyChildInitNodeDTO">
+        SELECT cscin.id,
+               cscin.strategy_child_id,
+               cscin.group_id,
+               cscin.event_tag,
+               cscin.source_type,
+               cscin.filter_group_id,
+               cscin.filter_condition
+        FROM crm_strategy_child_node_relation cr
+                 JOIN crm_strategy_child_init_node cscin ON cscin.id = cr.relation_id
+            AND relation_type = 1
+        WHERE cr.strategy_child_id = #{strategyChildId}
+          AND cr.is_deleted = 'N'
+          AND cscin.is_deleted = 'N'
+          AND current_version = 1
+    </select>
+
+    <select id="selectInitNodeByReachNode"
+            resultType="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyChildInitNodeDTO">
+        SELECT init.id,
+               init.strategy_child_id,
+               init.group_id,
+               init.event_tag,
+               init.source_type,
+               init.filter_group_id,
+               init.filter_condition
+        FROM crm_strategy_child_node_relation r_init
+                 INNER JOIN crm_strategy_child_node_relation r_reach
+                            ON r_init.strategy_child_id = r_reach.strategy_child_id
+                                AND r_init.edition = r_reach.edition
+                 INNER JOIN crm_strategy_child_init_node init ON r_init.relation_id = init.id
+            AND r_init.relation_type = 1
+                 INNER JOIN crm_strategy_child_reach_node reach ON r_reach.relation_id = reach.id
+            AND r_reach.relation_type = 6
+            AND reach.id = #{reachNodeId}
+    </select>
+
+
+
+    <!--    <select id="loadStrategyData" resultMap="StrategyDataResultMap">-->
+    <!--        SELECT t1.id,-->
+    <!--        t1.name,-->
+    <!--        t1.strategy_code,-->
+    <!--        t1.description,-->
+    <!--        t1.org_code,-->
+    <!--        t1.insurance_product,-->
+    <!--        t1.reach_num,-->
+    <!--        t1.audit_status,-->
+    <!--        t1.launch_status,-->
+    <!--        t2.id AS c_id,-->
+    <!--        t2.strategy_id AS c_strategy_id,-->
+    <!--        t2.name AS c_name,-->
+    <!--        t2.strategy_code AS c_strategy_code,-->
+    <!--        t2.reach_ways AS c_reach_ways,-->
+    <!--        t2.template_id AS c_template_id,-->
+    <!--        t2.objective AS c_objective,-->
+    <!--        t2.source_list AS c_source_list,-->
+    <!--        t2.source_type AS c_source_type,-->
+    <!--        t2.delay AS c_delay,-->
+    <!--        t2.limit_duration AS c_limit_duration,-->
+    <!--        t2.event_group_list AS c_event_group_list,-->
+    <!--        t2.filter_condition AS c_filter_condition,-->
+    <!--        t2.child_group_list AS c_child_group_list,-->
+    <!--        t2.reach_num AS c_reach_num,-->
+    <!--        t2.start_time AS c_start_time,-->
+    <!--        t2.end_time AS c_end_time,-->
+    <!--        t2.implement_cron AS c_implement_cron,-->
+    <!--        t2.status AS c_status,-->
+    <!--        t2.strategy_cluster AS c_strategy_cluster,-->
+    <!--        t2.customer_itinerary AS c_customer_itinerary,-->
+    <!--        t2.event_type AS c_event_type,-->
+    <!--        t2.bean_name AS c_bean_name,-->
+    <!--        t2.creator,-->
+    <!--        t3.id AS t3_id,-->
+    <!--        t3.name AS t3_name,-->
+    <!--        t3.type AS t3_type,-->
+    <!--        t3.channel AS t3_channel,-->
+    <!--        t3.enable_status AS t3_enable_status,-->
+    <!--        sms.id AS sms_id,-->
+    <!--        sms.template_id AS sms_template_id,-->
+    <!--        sms.third_template_id AS sms_third_template_id,-->
+    <!--        sms.content AS sms_content,-->
+    <!--        sms.short_link AS sms_short_link,-->
+    <!--        sc.id AS smart_call_id,-->
+    <!--        sc.template_id AS smart_call_template_id,-->
+    <!--        sc.third_template_id AS smart_call_third_template_id,-->
+    <!--        sc.line_limit AS smart_call_line_limit,-->
+    <!--        sc.offer AS offer,-->
+    <!--        sc.descript AS descript,-->
+    <!--        sc.success_template_id AS successTemplateId,-->
+    <!--        sc.fail_template_id AS failTemplateId,-->
+    <!--        gzh.id AS gzh_id,-->
+    <!--        gzh.template_id AS gzh_template_id,-->
+    <!--        gzh.wechat_corp_id AS gzh_wechat_corp_id,-->
+    <!--        gzh.message_type AS gzh_message_type,-->
+    <!--        gzh.third_template_id AS gzh_third_template_id,-->
+    <!--        gzh.head AS gzh_head,-->
+    <!--        gzh.tail AS gzh_tail,-->
+    <!--        gzh.url AS gzh_url,-->
+    <!--        gzh.miniprogram_id AS gzh_miniprogram_id,-->
+    <!--        gzh.miniprogram_path AS gzh_miniprogram_path,-->
+    <!--        gzh.content AS gzh_content,-->
+    <!--        mini_program.id AS mini_program_id,-->
+    <!--        mini_program.template_id AS mini_program_template_id,-->
+    <!--        mini_program.message_type AS mini_program_message_type,-->
+    <!--        mini_program.mini_program_crop_id AS mini_program_mini_program_crop_id,-->
+    <!--        mini_program.template_name AS mini_program_template_name,-->
+    <!--        mini_program.mini_program_template_id AS mini_program_mini_program_template_id,-->
+    <!--        workWechat.id AS workWechat_id,-->
+    <!--        workWechat.template_id AS workWechat_template_id,-->
+    <!--        workWechat.message_type AS workWechat_message_type,-->
+    <!--        workWechat.corp_id AS workWechat_corp_id,-->
+    <!--        workWechat.corp_name AS workWechat_corp_name,-->
+    <!--        workWechat.attachment_ids AS workWechat_attachment_ids,-->
+    <!--        workWechat.content AS workWechat_content,-->
+    <!--        workWechat.remark AS workWechat_remark,-->
+    <!--        wechat.id AS wechat_id,-->
+    <!--        wechat.strategy_child_id AS wechat_strategy_child_id,-->
+    <!--        wechat.uid AS wechat_uid,-->
+    <!--        wechat.user_id AS wechat_user_id,-->
+    <!--        wechat.user_name AS wechat_user_name,-->
+    <!--        workWechat.extra_info AS workWechat_extra_info,-->
+    <!--        workWechat.parameter_json AS workWechat_parameter_json,-->
+    <!--        p.id AS p_id,-->
+    <!--        p.reference_id AS p_reference_id,-->
+    <!--        p.template_id AS p_template_id,-->
+    <!--        p.parameter_is_primary AS p_parameter_is_primary,-->
+    <!--        p.parameter_name AS p_parameter_name,-->
+    <!--        p.parameter_key AS p_parameter_key,-->
+    <!--        CASE-->
+    <!--        WHEN p.available_parameter_id IS NULL THEN p.parameter_value-->
+    <!--        ELSE (SELECT field FROM crm_template_available_parameter WHERE id = p.available_parameter_id)-->
+    <!--        END-->
+    <!--        AS p_parameter_value,-->
+    <!--        p.ordered AS p_ordered,-->
+    <!--        p.color AS p_color-->
+    <!--        FROM crm_strategy_child t2-->
+    <!--        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'-->
+    <!--        LEFT JOIN crm_template t3 ON t2.template_id = t3.id AND t3.is_deleted = 'N'-->
+    <!--        LEFT JOIN crm_template_sms sms ON t3.type = 1 AND t3.id = sms.template_id AND sms.is_deleted = 'N'-->
+    <!--        LEFT JOIN crm_template_smart_call sc ON t3.type = 2 AND t3.id = sc.template_id AND sc.is_deleted = 'N'-->
+    <!--        LEFT JOIN crm_template_gzh gzh ON t3.type = 3 AND t3.id = gzh.template_id AND gzh.is_deleted = 'N'-->
+    <!--        LEFT JOIN crm_template_work_wechat workWechat ON t3.type = 5 AND t3.id = workWechat.template_id AND-->
+    <!--        workWechat.is_deleted = 'N'-->
+    <!--        LEFT JOIN crm_template_mini_program mini_program ON t3.type = 6 AND t3.id = mini_program.template_id AND-->
+    <!--        mini_program.is_deleted = 'N'-->
+    <!--        LEFT JOIN crm_strategy_child_work_wechat_user wechat ON t2.id = wechat.strategy_child_id AND wechat.is_deleted =-->
+    <!--        'N'-->
+    <!--        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'-->
+    <!--        WHERE-->
+    <!--        t2.is_deleted = 'N'-->
+    <!--        <if test="list != null">-->
+    <!--            AND t2.id IN-->
+    <!--            <foreach item="item" collection="list" separator="," open="(" close=")" index="">-->
+    <!--                #{item}-->
+    <!--            </foreach>-->
+    <!--        </if>-->
+    <!--    </select>-->
+
+    <select id="getTemplateDetailByTemplateId" resultMap="CrmTemplateDetailDTOMap">
+        SELECT
+        <include refid="sql_template_field"/>,
+        <include refid="sql_template_sms_field"/>,
+        <include refid="sql_template_smart_call_field"/>,
+        <include refid="sql_template_gzh_field"/>,
+        <include refid="sql_template_work_wechat_field"/>,
+        <include refid="sql_template_mini_program_field"/>,
+        <include refid="sql_template_kf_field"/>,
+        <include refid="sql_template_parameter_field"/>
+        FROM crm_template t3
+        LEFT JOIN crm_template_sms sms ON t3.type = 1 AND t3.id = sms.template_id AND sms.is_deleted = 'N'
+        LEFT JOIN crm_template_smart_call sc ON t3.type = 2 AND t3.id = sc.template_id AND sc.is_deleted = 'N'
+        LEFT JOIN crm_template_gzh gzh ON t3.type = 3 AND t3.id = gzh.template_id AND gzh.is_deleted = 'N'
+        LEFT JOIN crm_template_work_wechat workWechat ON t3.type = 5 AND t3.id = workWechat.template_id AND
+        workWechat.is_deleted = 'N'
+        LEFT JOIN crm_template_mini_program mini_program ON t3.type = 6 AND t3.id = mini_program.template_id AND
+        mini_program.is_deleted = 'N'
+        LEFT JOIN crm_template_mp_kf kf ON t3.type = 7 AND t3.id = kf.template_id AND
+        kf.is_deleted = 'N'
+        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'
+        WHERE t3.id = #{templateId}
+        AND t3.is_deleted = 'N'
+    </select>
+
+    <update id="updateStrategyChildStatus">
+        UPDATE crm_strategy_child
+        SET status       = #{status},
+            gmt_modified = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStrategyStatus">
+        UPDATE crm_strategy
+        SET launch_status = #{status},
+            gmt_modified  = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <select id="listStrategyChildrenStatus" resultType="java.lang.Integer">
+        SELECT status
+        FROM crm_strategy_child
+        WHERE strategy_id = #{id}
+          AND is_deleted = 'N'
+    </select>
+
+    <sql id="sql_main_strategy_field">
+        t1
+        .
+        id
+        ,
+        t1.name,
+        t1.strategy_code,
+        t1.description,
+        t1.org_code,
+        t1.insurance_product,
+        t1.reach_num,
+        t1.audit_status,
+        t1.launch_status
+    </sql>
+
+    <sql id="sql_child_strategy_field">
+        t2
+        .
+        id
+        AS c_id,
+        t2.strategy_id AS c_strategy_id,
+        t2.name AS c_name,
+        t2.strategy_code AS c_strategy_code,
+        t2.reach_ways AS c_reach_ways,
+        t2.template_id AS c_template_id,
+        t2.objective AS c_objective,
+        t2.source_list AS c_source_list,
+        t2.source_type AS c_source_type,
+        t2.delay AS c_delay,
+        t2.limit_duration AS c_limit_duration,
+        t2.event_group_list AS c_event_group_list,
+        t2.filter_condition AS c_filter_condition,
+        t2.child_group_list AS c_child_group_list,
+        t2.reach_num AS c_reach_num,
+        t2.start_time AS c_start_time,
+        t2.end_time AS c_end_time,
+        t2.implement_cron AS c_implement_cron,
+        t2.status AS c_status,
+        t2.strategy_cluster AS c_strategy_cluster,
+        t2.customer_itinerary AS c_customer_itinerary,
+        t2.event_type AS c_event_type,
+        t2.bean_name AS c_bean_name,
+        t2.creator as c_creator,
+        t2.modifier as c_modifier
+    </sql>
+    <sql id="sql_child_strategy_reach_node_field">
+        cscrn
+        .
+        id
+        AS n_id,
+        cscrn.strategy_id AS n_strategy_id,
+        cscrn.strategy_child_id AS n_strategy_child_id,
+        cscrn.reach_ways AS n_reach_ways,
+        cscrn.template_id AS n_template_id,
+        cscrn.objective AS n_objective,
+        cscrn.delay AS n_delay,
+        cscrn.time_type AS n_time_type,
+        cscrn.trigger_way AS n_trigger_way,
+        cscrn.implement_cron AS n_implement_cron,
+        cscrn.reach_num AS n_reach_num,
+        cscrn.reach_code AS n_reach_code,
+        cscrn.reach_start_time AS n_reach_start_time,
+        cscrn.limit_duration AS n_limit_duration,
+        cscrn.reach_end_time AS n_reach_end_time
+    </sql>
+
+    <sql id="sql_template_field">
+        t3
+        .
+        id
+        AS t3_id,
+        t3.name AS t3_name,
+        t3.type AS t3_type,
+        t3.channel AS t3_channel,
+        t3.enable_status AS t3_enable_status
+    </sql>
+
+    <sql id="sql_template_parameter_field">
+        p
+        .
+        id
+        AS p_id,
+        p.reference_id AS p_reference_id,
+        p.template_id AS p_template_id,
+        p.parameter_is_primary AS p_parameter_is_primary,
+        p.parameter_name AS p_parameter_name,
+        p.parameter_key AS p_parameter_key,
+        CASE
+        WHEN p.available_parameter_id IS NULL THEN p.parameter_value
+        ELSE (SELECT field FROM crm_template_available_parameter WHERE id = p.available_parameter_id)
+        END
+        AS p_parameter_value,
+        p.ordered AS p_ordered,
+        p.color AS p_color
+    </sql>
+
+    <sql id="sql_template_kf_field">
+        kf
+        .
+        id
+        AS kf_id,
+        kf.template_id AS kf_template_id,
+        kf.appid AS kf_appid,
+        kf.app_name AS kf_app_name,
+        kf.message AS kf_message,
+        kf.short_link as kf_short_link
+    </sql>
+
+    <sql id="sql_template_mini_program_field">
+        mini_program
+        .
+        id
+        AS mini_program_id,
+        mini_program.template_id AS mini_program_template_id,
+        mini_program.message_type AS mini_program_message_type,
+        mini_program.mini_program_crop_id AS mini_program_mini_program_crop_id,
+        mini_program.template_name AS mini_program_template_name,
+        mini_program.mini_program_template_id AS mini_program_mini_program_template_id
+    </sql>
+
+    <sql id="sql_template_work_wechat_field">
+        workWechat
+        .
+        id
+        AS workWechat_id,
+        workWechat.template_id AS workWechat_template_id,
+        workWechat.message_type AS workWechat_message_type,
+        workWechat.corp_id AS workWechat_corp_id,
+        workWechat.corp_name AS workWechat_corp_name,
+        workWechat.attachment_ids AS workWechat_attachment_ids,
+        workWechat.content AS workWechat_content,
+        workWechat.remark AS workWechat_remark,
+        workWechat.extra_info AS workWechat_extra_info,
+        workWechat.parameter_json AS workWechat_parameter_json
+    </sql>
+
+    <sql id="sql_template_wechat_field">
+        wechat
+        .
+        id
+        AS wechat_id,
+        wechat.strategy_child_id AS wechat_strategy_child_id,
+        wechat.child_reach_node_id AS wechat_child_reach_node_id,
+        wechat.uid AS wechat_uid,
+        wechat.user_id AS wechat_user_id,
+        wechat.user_name AS wechat_user_name
+    </sql>
+
+    <sql id="sql_template_gzh_field">
+        gzh
+        .
+        id
+        AS gzh_id,
+        gzh.template_id AS gzh_template_id,
+        gzh.wechat_corp_id AS gzh_wechat_corp_id,
+        gzh.message_type AS gzh_message_type,
+        gzh.third_template_id AS gzh_third_template_id,
+        gzh.head AS gzh_head,
+        gzh.tail AS gzh_tail,
+        gzh.url AS gzh_url,
+        gzh.miniprogram_id AS gzh_miniprogram_id,
+        gzh.miniprogram_path AS gzh_miniprogram_path,
+        gzh.content AS gzh_content,
+        gzh.force_authorization_applet AS gzh_force_authorization_applet
+    </sql>
+
+    <sql id="sql_template_smart_call_field">
+        sc
+        .
+        id
+        AS smart_call_id,
+        sc.template_id AS smart_call_template_id,
+        sc.third_template_id AS smart_call_third_template_id,
+        sc.line_limit AS smart_call_line_limit,
+        sc.out_call_priority AS smart_call_out_call_priority,
+        sc.offer AS offer,
+        sc.descript AS descript,
+        sc.success_template_id AS successTemplateId,
+        sc.fail_template_id AS failTemplateId,
+        sc.max_ringing_seconds,
+        sc.minutes_between_retries,
+        sc.max_retry_count,
+        sc.can_auto_retry,
+        sc.errors_can_retry
+    </sql>
+
+    <sql id="sql_template_manual_call_field">
+        mc
+        .
+        id
+        AS manual_call_id,
+        mc.template_id AS manual_call_template_id,
+        mc.config_id AS manual_call_config_id,
+        mc.config_name AS manual_call_config_name
+    </sql>
+
+    <sql id="crm_template_mass_send_field">
+        mass.id mass_id,mass.template_id mass_template_id,
+            mass.message_type mass_message_type
+            ,mass.wechat_corp_id mass_wechat_corp_id,
+            mass.media_id mass_media_id,
+            mass.content mass_content
+            ,mass.remark mass_remark
+            ,mass.title mass_title
+
+    </sql>
+
+    <sql id="sql_template_sms_field">
+        sms
+        .
+        id
+        AS sms_id,
+        sms.template_id AS sms_template_id,
+        sms.third_template_id AS sms_third_template_id,
+        sms.content AS sms_content,
+        sms.short_link AS sms_short_link
+    </sql>
+
+    <select id="nodeRelationByChildStrategyId"
+            resultType="com.nuanwa.app.crm.share.strategy.entity.dto.CrmStrategyChildNodeRelationDTO">
+        select id,
+               creator,
+               gmt_created,
+               modifier,
+               gmt_modified,
+               is_deleted,
+               strategy_child_id,
+               relation_id,
+               relation_type,
+               node_type,
+               parent_id,
+               edition,
+               current_version
+        from crm_strategy_child_node_relation
+        where strategy_child_id = #{childStrategyId}
+    </select>
+
+    <select id="loadAggregateStrategyData" resultMap="StrategyDataResultMap">
+        SELECT
+        <include refid="sql_main_strategy_field"/>,
+        <include refid="sql_child_strategy_field"/>,
+        <include refid="sql_child_strategy_reach_node_field"/>
+        FROM crm_strategy_child t2
+        join crm_strategy_child_node_relation csc on t2.id = csc.strategy_child_id and csc.current_version = 1 and
+        relation_type = 6
+        join crm_strategy_child_reach_node cscrn on cscrn.id = csc.relation_id
+        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'
+        WHERE
+        t2.is_deleted = 'N' and cscrn.is_deleted = 'N'
+        AND cscrn.reach_code IN
+        <foreach item="item" collection="reachNodeCode" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
+    <select id="loadStrategyMassSendData" resultMap="StrategyDataResultMap">
+        SELECT
+        <include refid="sql_main_strategy_field"/>,
+        <include refid="sql_child_strategy_field"/>,
+        <include refid="sql_child_strategy_reach_node_field"/>,
+        <include refid="sql_template_field"/>,
+        <include refid="crm_template_mass_send_field"/>,
+        <include refid="sql_template_parameter_field"/>
+        FROM crm_strategy_child t2
+        join crm_strategy_child_node_relation csc on t2.id = csc.strategy_child_id and
+        relation_type = 6
+        join crm_strategy_child_reach_node cscrn on cscrn.id = csc.relation_id
+        LEFT JOIN crm_strategy t1 ON t1.id = t2.strategy_id AND t1.is_deleted = 'N'
+        LEFT JOIN crm_template t3 ON cscrn.template_id = t3.id AND t3.is_deleted = 'N'
+        LEFT JOIN crm_template_mass_send mass ON t3.type = 9 AND t3.id = mass.template_id AND
+        mass.is_deleted = 'N'
+        LEFT JOIN crm_template_parameter_relation p ON t3.id = p.template_id AND p.is_deleted = 'N'
+        WHERE
+        t2.is_deleted = 'N' and cscrn.is_deleted = 'N'
+        <if test="list != null">
+            AND cscrn.id IN
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+</mapper>

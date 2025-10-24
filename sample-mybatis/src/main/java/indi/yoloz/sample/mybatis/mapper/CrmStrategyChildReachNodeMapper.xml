@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="indi.yoloz.sample.mybatis.service.CrmStrategyChildReachNodeDao">
+
+    <resultMap id="CrmStrategyChildReachNodeDTOMap" type="indi.yoloz.sample.mybatis.entity.CrmStrategyChildReachNodeDTO">
+        <id column="id" property="id"/>
+        <result column="strategy_id" property="strategyId"/>
+        <result column="reach_num" property="reachNum"/>
+        <result column="strategy_child_id" property="strategyChildId"/>
+        <result column="reach_ways" property="reachWays"/>
+        <result column="template_id" property="templateId"/>
+        <result column="objective" property="objective"/>
+        <result column="delay" property="delay"/>
+        <result column="time_type" property="timeType"/>
+        <result column="trigger_way" property="triggerWay"/>
+        <result column="implement_cron" property="implementCron"/>
+        <result column="reach_code" property="reachCode"/>
+        <result column="reach_start_time" property="reachStartTime"/>
+        <result column="reach_end_time" property="reachEndTime"/>
+        <result column="limit_duration" property="limitDuration"/>
+    </resultMap>
+
+    <!--select查询语句-->
+    <select id="getList" resultMap="CrmStrategyChildReachNodeDTOMap">
+        select * from test.crm_strategy_child_reach_node
+    </select>
+
+</mapper>

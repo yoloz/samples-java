@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="indi.yoloz.sample.mybatis.service.BoolTestDao">
+
+    <resultMap id="boolTestMap" type="indi.yoloz.sample.mybatis.entity.BoolTest">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="boolchar" jdbcType="CHAR" property="boolChar"/>
+        <result column="bool" jdbcType="TINYINT" property="bool"/>
+        <result column="boolbit" jdbcType="BIT" property="boolBit"/>
+    </resultMap>
+
+    <!--select查询语句-->
+    <select id="getList" resultMap="boolTestMap">
+        select * from test.booltest
+    </select>
+
+    <!--使用了自增主键，并且需要获取插入后的主键值，可以使用 useGeneratedKeys 和 keyProperty 属性：-->
+    <insert id="insertBoolTest" parameterType="indi.yoloz.sample.mybatis.entity.BoolTest" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO test.booltest (name,email,boolchar,bool,boolbit)
+        VALUES (#{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{boolChar,jdbcType=CHAR},
+        #{bool,jdbcType=TINYINT}, #{boolBit,jdbcType=BIT})
+    </insert>
+
+    <insert id="batchInsertBoolTest" parameterType="java.util.List">
+        INSERT INTO test.booltest (name,email,boolchar,bool,boolbit)
+        VALUES
+        <foreach collection="list" item="boolTest" separator=",">
+            (#{boolTest.name}, #{boolTest.email},#{boolTest.boolChar},#{boolTest.bool},#{boolTest.boolBit})
+        </foreach>
+    </insert>
+</mapper>

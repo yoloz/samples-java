@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="indi.yoloz.sample.mybatis.service.CrmStrategyChildDao">
+
+    <resultMap id="CrmStrategyChildMap" type="indi.yoloz.sample.mybatis.entity.CrmStrategyChild">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="strategy_code" property="strategyCode"/>
+        <result column="reach_ways" property="reachWays"/>
+        <result column="template_id" property="templateId"/>
+        <result column="objective" property="objective"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="implement_cron" property="implementCron"/>
+        <result column="status" property="status"/>
+        <result column="bean_name" property="beanName"/>
+    </resultMap>
+
+    <!--select查询语句-->
+    <select id="getList" resultMap="CrmStrategyChildMap">
+        select * from test.crm_strategy_child WHERE status IN
+        <foreach item="sta" collection="status" open="(" separator="," close=")">
+            #{sta}
+        </foreach>
+        AND end_time >= #{endTime}
+    </select>
+
+    <!--使用了自增主键，并且需要获取插入后的主键值，可以使用 useGeneratedKeys 和 keyProperty 属性：-->
+    <insert id="insertCrmStrategyChild" parameterType="indi.yoloz.sample.mybatis.entity.CrmStrategyChild"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO test.crm_strategy_child
+        (name,strategy_code,reach_ways,template_id,objective,start_time,end_time,implement_cron,status,bean_name)
+        VALUES
+        (#{name},#{strategyCode},#{reachWays},#{templateId},#{objective},#{startTime},#{endTime},#{implementCron},#{status},#{beanName})
+    </insert>
+
+</mapper>

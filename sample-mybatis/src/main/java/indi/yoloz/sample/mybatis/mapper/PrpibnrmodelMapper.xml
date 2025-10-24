@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="indi.yoloz.sample.mybatis.service.PrpibnrmodelMapper" >
+  <resultMap id="BaseResultMap" type="indi.yoloz.sample.mybatis.entity.Prpibnrmodel" >
+    <id column="TASKCODE" property="taskcode" jdbcType="VARCHAR" />
+    <result column="INSERTDATE" property="insertdate" jdbcType="TIMESTAMP" />
+    <result column="TCOL1" property="tcol1" jdbcType="VARCHAR" />
+    <result column="TCOL2" property="tcol2" jdbcType="VARCHAR" />
+    <result column="TCOL3" property="tcol3" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="indi.yoloz.sample.mybatis.entity.Prpibnrmodel" extends="BaseResultMap" >
+    <result column="IBNRMODEL" property="ibnrmodel" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    TASKCODE, INSERTDATE, TCOL1, TCOL2, TCOL3
+  </sql>
+  <sql id="Blob_Column_List" >
+    IBNRMODEL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from PRPIBNRMODEL
+    where TASKCODE = #{taskcode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from PRPIBNRMODEL
+    where TASKCODE = #{taskcode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="indi.yoloz.sample.mybatis.entity.Prpibnrmodel" >
+    insert into PRPIBNRMODEL (TASKCODE, INSERTDATE, TCOL1, 
+      TCOL2, TCOL3, IBNRMODEL
+      )
+    values (#{taskcode,jdbcType=VARCHAR}, #{insertdate,jdbcType=TIMESTAMP}, #{tcol1,jdbcType=VARCHAR}, 
+      #{tcol2,jdbcType=VARCHAR}, #{tcol3,jdbcType=VARCHAR}, #{ibnrmodel,jdbcType=CLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="indi.yoloz.sample.mybatis.entity.Prpibnrmodel" >
+    insert into PRPIBNRMODEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskcode != null" >
+        TASKCODE,
+      </if>
+      <if test="insertdate != null" >
+        INSERTDATE,
+      </if>
+      <if test="tcol1 != null" >
+        TCOL1,
+      </if>
+      <if test="tcol2 != null" >
+        TCOL2,
+      </if>
+      <if test="tcol3 != null" >
+        TCOL3,
+      </if>
+      <if test="ibnrmodel != null" >
+        IBNRMODEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskcode != null" >
+        #{taskcode,jdbcType=VARCHAR},
+      </if>
+      <if test="insertdate != null" >
+        #{insertdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tcol1 != null" >
+        #{tcol1,jdbcType=VARCHAR},
+      </if>
+      <if test="tcol2 != null" >
+        #{tcol2,jdbcType=VARCHAR},
+      </if>
+      <if test="tcol3 != null" >
+        #{tcol3,jdbcType=VARCHAR},
+      </if>
+      <if test="ibnrmodel != null" >
+        #{ibnrmodel,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update PRPIBNRMODEL
+    <set >
+      <if test="record.taskcode != null" >
+        TASKCODE = #{record.taskcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.insertdate != null" >
+        INSERTDATE = #{record.insertdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tcol1 != null" >
+        TCOL1 = #{record.tcol1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tcol2 != null" >
+        TCOL2 = #{record.tcol2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tcol3 != null" >
+        TCOL3 = #{record.tcol3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ibnrmodel != null" >
+        IBNRMODEL = #{record.ibnrmodel,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update PRPIBNRMODEL
+    set TASKCODE = #{record.taskcode,jdbcType=VARCHAR},
+      INSERTDATE = #{record.insertdate,jdbcType=TIMESTAMP},
+      TCOL1 = #{record.tcol1,jdbcType=VARCHAR},
+      TCOL2 = #{record.tcol2,jdbcType=VARCHAR},
+      TCOL3 = #{record.tcol3,jdbcType=VARCHAR},
+      IBNRMODEL = #{record.ibnrmodel,jdbcType=CLOB}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update PRPIBNRMODEL
+    set TASKCODE = #{record.taskcode,jdbcType=VARCHAR},
+      INSERTDATE = #{record.insertdate,jdbcType=TIMESTAMP},
+      TCOL1 = #{record.tcol1,jdbcType=VARCHAR},
+      TCOL2 = #{record.tcol2,jdbcType=VARCHAR},
+      TCOL3 = #{record.tcol3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="indi.yoloz.sample.mybatis.entity.Prpibnrmodel" >
+    update PRPIBNRMODEL
+    <set >
+      <if test="insertdate != null" >
+        INSERTDATE = #{insertdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tcol1 != null" >
+        TCOL1 = #{tcol1,jdbcType=VARCHAR},
+      </if>
+      <if test="tcol2 != null" >
+        TCOL2 = #{tcol2,jdbcType=VARCHAR},
+      </if>
+      <if test="tcol3 != null" >
+        TCOL3 = #{tcol3,jdbcType=VARCHAR},
+      </if>
+      <if test="ibnrmodel != null" >
+        IBNRMODEL = #{ibnrmodel,jdbcType=CLOB},
+      </if>
+    </set>
+    where TASKCODE = #{taskcode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="indi.yoloz.sample.mybatis.entity.Prpibnrmodel" >
+    update PRPIBNRMODEL
+    set INSERTDATE = #{insertdate,jdbcType=TIMESTAMP},
+      TCOL1 = #{tcol1,jdbcType=VARCHAR},
+      TCOL2 = #{tcol2,jdbcType=VARCHAR},
+      TCOL3 = #{tcol3,jdbcType=VARCHAR},
+      IBNRMODEL = #{ibnrmodel,jdbcType=CLOB}
+    where TASKCODE = #{taskcode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="indi.yoloz.sample.mybatis.entity.Prpibnrmodel" >
+    update PRPIBNRMODEL
+    set INSERTDATE = #{insertdate,jdbcType=TIMESTAMP},
+      TCOL1 = #{tcol1,jdbcType=VARCHAR},
+      TCOL2 = #{tcol2,jdbcType=VARCHAR},
+      TCOL3 = #{tcol3,jdbcType=VARCHAR}
+    where TASKCODE = #{taskcode,jdbcType=VARCHAR}
+  </update>
+</mapper>

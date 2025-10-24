@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="indi.yoloz.sample.mybatis.service.ByteTestDao">
+
+    <resultMap id="byteTestMap" type="indi.yoloz.sample.mybatis.entity.ByteTest">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="byte1" jdbcType="TINYINT" property="byte1"/>
+        <result column="byte2" jdbcType="TINYINT" property="byte2"/>
+    </resultMap>
+
+    <!--select查询语句-->
+    <select id="getList" resultMap="byteTestMap">
+        select * from test.bytetest
+    </select>
+
+    <!--使用了自增主键，并且需要获取插入后的主键值，可以使用 useGeneratedKeys 和 keyProperty 属性：-->
+    <insert id="insertByteTest" parameterType="indi.yoloz.sample.mybatis.entity.ByteTest" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO test.bytetest (name,byte1,byte2)
+        VALUES (#{name,jdbcType=VARCHAR},#{byte1,jdbcType=TINYINT},#{byte2,jdbcType=TINYINT})
+    </insert>
+
+</mapper>
