@@ -1,4 +1,4 @@
-package indi.yolo.sample.kafka.impl;
+package indi.yolo.sample.kafka.consumer;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more

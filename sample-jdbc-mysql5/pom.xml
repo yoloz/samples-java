@@ -10,16 +10,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <jdk.version>8</jdk.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>9.5.0</version>
+            <version>5.1.49</version>
         </dependency>
     </dependencies>
 

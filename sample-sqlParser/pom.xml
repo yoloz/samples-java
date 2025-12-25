@@ -11,9 +11,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <jdk.version>8</jdk.version>
         <shardingsphere.version>4.1.0</shardingsphere.version>
         <lombok.version>1.18.12</lombok.version>
     </properties>

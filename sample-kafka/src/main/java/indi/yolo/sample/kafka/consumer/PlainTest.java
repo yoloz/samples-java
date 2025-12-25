@@ -1,4 +1,4 @@
-package indi.yolo.sample.kafka;/*
+package indi.yolo.sample.kafka.consumer;/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -16,9 +16,6 @@ package indi.yolo.sample.kafka;/*
  */
 
 import com.google.gson.Gson;
-import indi.yolo.sample.kafka.impl.ConsumerTest;
-import indi.yolo.sample.kafka.impl.KafkaProperties;
-import indi.yolo.sample.kafka.impl.ProducerTest;
 
 import java.util.Arrays;
 import java.util.HashMap;
