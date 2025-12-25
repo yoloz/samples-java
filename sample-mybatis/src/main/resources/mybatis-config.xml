@@ -92,6 +92,7 @@
         <mapper resource="indi/yoloz/sample/mybatis/mapper/RoleTestMapper.xml"/>
         <mapper resource="indi/yoloz/sample/mybatis/mapper/Date2TimestampMapper.xml"/>
         <mapper resource="indi/yoloz/sample/mybatis/mapper/PrpibnrmodelMapper.xml"/>
+        <mapper resource="indi/yoloz/sample/mybatis/mapper/UaDepartmentMapper.xml"/>
     </mappers>
 
 </configuration>

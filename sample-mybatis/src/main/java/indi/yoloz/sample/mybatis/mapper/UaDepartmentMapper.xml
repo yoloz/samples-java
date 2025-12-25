@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="indi.yoloz.sample.mybatis.service.UaDepartmentDao">
+    <resultMap id="BaseResultMap" type="indi.yoloz.sample.mybatis.entity.UaDepartment">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="superior_leader" property="superiorLeader" jdbcType="BIGINT"/>
+        <result column="parent_dept_id" property="parentDeptId" jdbcType="INTEGER"/>
+        <result column="tree_code" property="treeCode" jdbcType="VARCHAR"/>
+        <result column="charge_cust_id" property="chargeCustId" jdbcType="BIGINT"/>
+        <result column="delegate_cust_id" property="delegateCustId" jdbcType="BIGINT"/>
+        <result column="department_type" property="departmentType" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="CHAR"/>
+        <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="CHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="business_code" property="businessCode" jdbcType="VARCHAR"/>
+        <result column="locale_code" property="localeCode" jdbcType="VARCHAR"/>
+        <result column="extra_info" property="extraInfo" jdbcType="VARCHAR"/>
+        <result column="parent_business_code" property="parentBusinessCode" jdbcType="VARCHAR"/>
+        <result column="parent_code" property="parentCode" jdbcType="BIGINT"/>
+        <result column="finance_dept_code" property="financeDeptCode" jdbcType="VARCHAR"/>
+        <result column="level" property="level" jdbcType="VARCHAR"/>
+        <result column="company_id" property="companyId" jdbcType="BIGINT"/>
+        <result column="address_cname" property="addressCName" jdbcType="VARCHAR"/>
+        <result column="post_code" property="postCode" jdbcType="VARCHAR"/>
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="center_flag" property="centerFlag" jdbcType="VARCHAR"/>
+        <result column="web_address" property="webAddress" jdbcType="VARCHAR"/>
+        <result column="service_phone" property="servicePhone" jdbcType="VARCHAR"/>
+        <result column="com_flag" property="comFlag" jdbcType="VARCHAR"/>
+        <result column="district_name" property="districtName" jdbcType="VARCHAR"/>
+        <result column="district_plat_code" property="districtPlatCode" jdbcType="VARCHAR"/>
+        <result column="policy_city_code" property="policyCityCode" jdbcType="VARCHAR"/>
+        <result column="policy_area_code" property="policyAreaCode" jdbcType="VARCHAR"/>
+        <result column="contacts" property="contacts" jdbcType="VARCHAR"/>
+        <result column="pdf_seal_rule_num" property="pdfSealRuleNum" jdbcType="VARCHAR"/>
+    </resultMap>
+
+   <!-- <resultMap id="departmentBO" type="com.zhongan.adapter.staff.pojo.dto.UaDepartmentBO">
+        <result property="id" column="id"/>
+        &lt;!&ndash;<result property="companyId" column="selectByPrimaryKey" />&ndash;&gt;
+        <result property="name" column="name"/>
+        <result property="superiorLeader" column="superior_leader"/>
+        <result property="parentDeptId" column="parent_dept_id"/>
+        <result property="gmtCreated" column="gmt_created"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <result property="creator" column="creator"/>
+        <result property="modifier" column="modifier"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="treeCode" column="tree_code"/>
+        <result property="chargeCustId" column="charge_cust_id"/>
+        <result property="delegateCustId" column="delegate_cust_id"/>
+        <result property="departmentType" column="department_type"/>
+        <result property="status" column="status"/>
+        <result property="number" column="number"/>
+        <result column="parent_code" property="parentCode" jdbcType="BIGINT"/>
+        <result column="finance_dept_code" property="financeDeptCode" jdbcType="VARCHAR"/>
+        <result column="level" property="level" jdbcType="VARCHAR"/>
+        <result column="company_id" property="companyId" jdbcType="BIGINT"/>
+        <result column="address_cname" property="addressCName" jdbcType="VARCHAR"/>
+        <result column="post_code" property="postCode" jdbcType="VARCHAR"/>
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="center_flag" property="centerFlag" jdbcType="VARCHAR"/>
+        <result column="web_address" property="webAddress" jdbcType="VARCHAR"/>
+        <result column="service_phone" property="servicePhone" jdbcType="VARCHAR"/>
+        <result column="com_flag" property="comFlag" jdbcType="VARCHAR"/>
+        <result column="district_name" property="districtName" jdbcType="VARCHAR"/>
+        <result column="district_plat_code" property="districtPlatCode" jdbcType="VARCHAR"/>
+        <result column="policy_city_code" property="policyCityCode" jdbcType="VARCHAR"/>
+        <result column="policy_area_code" property="policyAreaCode" jdbcType="VARCHAR"/>
+    </resultMap>-->
+
+    <sql id="Base_Column_List">
+    id, name, superior_leader,code,parent_business_code, parent_dept_id, tree_code, charge_cust_id, delegate_cust_id,
+    department_type, status, gmt_created, gmt_modified, creator, modifier, is_deleted ,business_code,company_id,locale_code,extra_info,
+    parent_code,finance_dept_code,level,address_cname,post_code,phone_number,center_flag,web_address,service_phone,com_flag,district_name,
+    district_plat_code,policy_city_code,policy_area_code,contacts,pdf_seal_rule_num
+  </sql>
+
+    <insert id="insert" parameterType="indi.yoloz.sample.mybatis.entity.UaDepartment">
+        insert into ua_department (id, name, superior_leader,
+      parent_dept_id, tree_code, charge_cust_id, 
+      delegate_cust_id, department_type, status, 
+      gmt_created, gmt_modified, creator, 
+      modifier, is_deleted,code,business_code,parent_business_code,locale_code,extra_info,
+      parent_code, finance_dept_code, level, company_id,address_cname, post_code,
+      phone_number, center_flag, web_address, service_phone, com_flag, district_name,
+      district_plat_code, policy_city_code, policy_area_code, pdf_seal_rule_num)
+        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{superiorLeader,jdbcType=BIGINT},
+                #{parentDeptId,jdbcType=INTEGER}, #{treeCode,jdbcType=VARCHAR}, #{chargeCustId,jdbcType=BIGINT},
+                #{delegateCustId,jdbcType=BIGINT}, #{departmentType,jdbcType=INTEGER}, #{status,jdbcType=CHAR},
+                #{gmtCreated,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR},
+                #{modifier,jdbcType=VARCHAR}, #{isDeleted,jdbcType=CHAR}, #{code,jdbcType=VARCHAR},
+                #{businessCode,jdbcType=VARCHAR}, #{parentBusinessCode,jdbcType=VARCHAR},
+                #{localeCode,jdbcType=VARCHAR}, #{extraInfo,jdbcType=VARCHAR},
+                #{parentCode,jdbcType=VARCHAR}, #{financeDeptCode,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR},
+                #{companyId,jdbcType=INTEGER},
+                #{addressCName,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR},
+                #{centerFlag,jdbcType=VARCHAR}, #{webAddress,jdbcType=VARCHAR},
+                #{servicePhone,jdbcType=VARCHAR}, #{comFlag,jdbcType=VARCHAR}, #{districtName,jdbcType=VARCHAR},
+                #{districtPlatCode,jdbcType=VARCHAR}, #{policyCityCode,jdbcType=VARCHAR},
+                #{policyAreaCode,jdbcType=VARCHAR}, #{pdfSealRuleNum,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into ua_department (id, name, superior_leader,
+        parent_dept_id, tree_code, charge_cust_id,
+        delegate_cust_id, department_type, status,
+        gmt_created, gmt_modified, creator,
+        modifier, is_deleted,code,business_code,parent_business_code,locale_code,extra_info,
+        parent_code, finance_dept_code, level, company_id,address_cname, post_code,
+        phone_number, center_flag, web_address, service_phone, com_flag, district_name,
+        district_plat_code, policy_city_code, policy_area_code,pdf_seal_rule_num)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR}, #{item.superiorLeader,jdbcType=BIGINT},
+            #{item.parentDeptId,jdbcType=INTEGER}, #{item.treeCode,jdbcType=VARCHAR},
+            #{item.chargeCustId,jdbcType=BIGINT},
+            #{item.delegateCustId,jdbcType=BIGINT}, #{item.departmentType,jdbcType=INTEGER},
+            #{item.status,jdbcType=CHAR},
+            now(),now(), 'system','system', 'N',#{item.code,jdbcType=VARCHAR},#{item.businessCode,jdbcType=VARCHAR},
+            #{item.parentBusinessCode,jdbcType=VARCHAR},#{item.localeCode,jdbcType=VARCHAR},#{item.extraInfo,jdbcType=VARCHAR},
+            #{item.parentCode,jdbcType=VARCHAR},#{item.financeDeptCode,jdbcType=VARCHAR},#{item.level,jdbcType=VARCHAR},#{item.companyId,jdbcType=INTEGER},
+            #{item.addressCName,jdbcType=VARCHAR},#{item.postCode,jdbcType=VARCHAR},#{item.phoneNumber,jdbcType=VARCHAR},
+            #{item.centerFlag,jdbcType=VARCHAR},#{item.webAddress,jdbcType=VARCHAR},#{item.servicePhone,jdbcType=VARCHAR},
+            #{item.comFlag,jdbcType=VARCHAR},#{item.districtName,jdbcType=VARCHAR},#{item.districtPlatCode,jdbcType=VARCHAR},
+            #{item.policyCityCode,jdbcType=VARCHAR},#{item.policyAreaCode,jdbcType=VARCHAR},#{item.pdfSealRuleNum,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <insert id="insertSelective" parameterType="indi.yoloz.sample.mybatis.entity.UaDepartment">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into ua_department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="superiorLeader != null">
+                superior_leader,
+            </if>
+            <if test="parentDeptId != null">
+                parent_dept_id,
+            </if>
+            <if test="treeCode != null">
+                tree_code,
+            </if>
+            <if test="chargeCustId != null">
+                charge_cust_id,
+            </if>
+            <if test="delegateCustId != null">
+                delegate_cust_id,
+            </if>
+            <if test="departmentType != null">
+                department_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="gmtCreated != null">
+                gmt_created,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="modifier != null">
+                modifier,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="businessCode != null">
+                business_code,
+            </if>
+            <if test="parentBusinessCode != null">
+                parent_business_code,
+            </if>
+            <if test="companyId  != null">
+                company_id,
+            </if>
+            <if test="localeCode  != null">
+                locale_code,
+            </if>
+            <if test="extraInfo  != null">
+                extra_info,
+            </if>
+            <if test="parentCode  != null">
+                parent_code,
+            </if>
+            <if test="financeDeptCode  != null">
+                finance_dept_code,
+            </if>
+            <if test="level  != null">
+                level,
+            </if>
+            <if test="addressCName  != null">
+                address_cname,
+            </if>
+            <if test="postCode  != null">
+                post_code,
+            </if>
+            <if test="phoneNumber  != null">
+                phone_number,
+            </if>
+            <if test="centerFlag  != null">
+                center_flag,
+            </if>
+            <if test="webAddress  != null">
+                web_address,
+            </if>
+            <if test="servicePhone  != null">
+                service_phone,
+            </if>
+            <if test="comFlag  != null">
+                com_flag,
+            </if>
+            <if test="districtName  != null">
+                district_name,
+            </if>
+            <if test="districtPlatCode  != null">
+                district_plat_code,
+            </if>
+            <if test="policyCityCode  != null">
+                policy_city_code,
+            </if>
+            <if test="policyAreaCode  != null">
+                policy_area_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="superiorLeader != null">
+                #{superiorLeader,jdbcType=BIGINT},
+            </if>
+            <if test="parentDeptId != null">
+                #{parentDeptId,jdbcType=INTEGER},
+            </if>
+            <if test="treeCode != null">
+                #{treeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeCustId != null">
+                #{chargeCustId,jdbcType=BIGINT},
+            </if>
+            <if test="delegateCustId != null">
+                #{delegateCustId,jdbcType=BIGINT},
+            </if>
+            <if test="departmentType != null">
+                #{departmentType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="gmtCreated != null">
+                #{gmtCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=CHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="businessCode != null">
+                #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="parentBusinessCode != null">
+                #{parentBusinessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId  != null">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="localeCode  != null">
+                #{localeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="extraInfo  != null">
+                #{extraInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode  != null">
+                #{parentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="financeDeptCode  != null">
+                #{financeDeptCode,jdbcType=VARCHAR},
+            </if>
+            <if test="level  != null">
+                #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="addressCName  != null">
+                #{addressCName,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode  != null">
+                #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber  != null">
+                #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="centerFlag  != null">
+                #{centerFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="webAddress  != null">
+                #{webAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="servicePhone  != null">
+                #{servicePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="comFlag  != null">
+                #{comFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="districtName  != null">
+                #{districtName,jdbcType=VARCHAR},
+            </if>
+            <if test="districtPlatCode  != null">
+                #{districtPlatCode,jdbcType=VARCHAR},
+            </if>
+            <if test="policyCityCode  != null">
+                #{policyCityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="policyAreaCode  != null">
+                #{policyAreaCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="indi.yoloz.sample.mybatis.entity.UaDepartment">
+        update ua_department
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="superiorLeader != null">
+                superior_leader = #{superiorLeader,jdbcType=BIGINT},
+            </if>
+            <if test="parentDeptId != null">
+                parent_dept_id = #{parentDeptId,jdbcType=INTEGER},
+            </if>
+            <if test="treeCode != null">
+                tree_code = #{treeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeCustId != null">
+                charge_cust_id = #{chargeCustId,jdbcType=BIGINT},
+            </if>
+            <if test="delegateCustId != null">
+                delegate_cust_id = #{delegateCustId,jdbcType=BIGINT},
+            </if>
+            <if test="departmentType != null">
+                department_type = #{departmentType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="gmtCreated != null">
+                gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=CHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=CHAR},
+            </if>
+            <if test="businessCode != null">
+                business_code = #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="extraInfo != null">
+                extra_info = #{extraInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="parentBusinessCode != null">
+                parent_business_code = #{parentBusinessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="localeCode  != null">
+                locale_code = #{localeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode  != null">
+                parent_code = #{parentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="financeDeptCode  != null">
+                finance_dept_code = #{financeDeptCode,jdbcType=VARCHAR},
+            </if>
+            <if test="level  != null">
+                level = #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="addressCName  != null">
+                address_cname = #{addressCName,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode  != null">
+                post_code = #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber  != null">
+                phone_number = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="centerFlag  != null">
+                center_flag = #{centerFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="webAddress  != null">
+                web_address = #{webAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="servicePhone  != null">
+                service_phone = #{servicePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="comFlag  != null">
+                com_flag = #{comFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="districtName  != null">
+                district_name = #{districtName,jdbcType=VARCHAR},
+            </if>
+            <if test="districtPlatCode  != null">
+                district_plat_code = #{districtPlatCode,jdbcType=VARCHAR},
+            </if>
+            <if test="policyCityCode  != null">
+                policy_city_code = #{policyCityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="policyAreaCode  != null">
+                policy_city_code = #{policyAreaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="pdfSealRuleNum  != null">
+                pdf_seal_rule_num = #{pdfSealRuleNum,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByCode" parameterType="indi.yoloz.sample.mybatis.entity.UaDepartment">
+        update ua_department
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="superiorLeader != null">
+                superior_leader = #{superiorLeader,jdbcType=BIGINT},
+            </if>
+            <if test="parentDeptId != null">
+                parent_dept_id = #{parentDeptId,jdbcType=INTEGER},
+            </if>
+            <if test="treeCode != null">
+                tree_code = #{treeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeCustId != null">
+                charge_cust_id = #{chargeCustId,jdbcType=BIGINT},
+            </if>
+            <if test="delegateCustId != null">
+                delegate_cust_id = #{delegateCustId,jdbcType=BIGINT},
+            </if>
+            <if test="departmentType != null">
+                department_type = #{departmentType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="gmtCreated != null">
+                gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=CHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=CHAR},
+            </if>
+            <if test="businessCode != null">
+                business_code = #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="parentBusinessCode != null">
+                parent_business_code = #{parentBusinessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="localeCode  != null">
+                locale_code = #{localeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="extraInfo != null">
+                extra_info = #{extraInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode != null">
+                parent_code = #{parentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="financeDeptCode != null">
+                finance_dept_code = #{financeDeptCode,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="addressCName  != null">
+                address_cname = #{addressCName,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode  != null">
+                post_code = #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber  != null">
+                phone_number = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="centerFlag  != null">
+                center_flag = #{centerFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="webAddress  != null">
+                web_address = #{webAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="servicePhone  != null">
+                service_phone = #{servicePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="comFlag  != null">
+                com_flag = #{comFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="districtName  != null">
+                district_name = #{districtName,jdbcType=VARCHAR},
+            </if>
+            <if test="districtPlatCode  != null">
+                district_plat_code = #{districtPlatCode,jdbcType=VARCHAR},
+            </if>
+            <if test="policyCityCode  != null">
+                policy_city_code = #{policyCityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="policyAreaCode  != null">
+                policy_city_code = #{policyAreaCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where code = #{code,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByBusinessCode" parameterType="indi.yoloz.sample.mybatis.entity.UaDepartment">
+        update ua_department
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="superiorLeader != null">
+                superior_leader = #{superiorLeader,jdbcType=BIGINT},
+            </if>
+            <if test="parentDeptId != null">
+                parent_dept_id = #{parentDeptId,jdbcType=INTEGER},
+            </if>
+            <if test="treeCode != null">
+                tree_code = #{treeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeCustId != null">
+                charge_cust_id = #{chargeCustId,jdbcType=BIGINT},
+            </if>
+            <if test="delegateCustId != null">
+                delegate_cust_id = #{delegateCustId,jdbcType=BIGINT},
+            </if>
+            <if test="departmentType != null">
+                department_type = #{departmentType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="gmtCreated != null">
+                gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=CHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=CHAR},
+            </if>
+            <if test="businessCode != null">
+                business_code = #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="parentBusinessCode != null">
+                parent_business_code = #{parentBusinessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="localeCode  != null">
+                locale_code = #{localeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="extraInfo != null">
+                extra_info = #{extraInfo,jdbcType=INTEGER},
+            </if>
+            <if test="parentCode != null">
+                parent_code = #{parentCode,jdbcType=INTEGER},
+            </if>
+            <if test="financeDeptCode != null">
+                finance_dept_code = #{financeDeptCode,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="addressCName  != null">
+                address_cname = #{addressCName,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode  != null">
+                post_code = #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber  != null">
+                phone_number = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="centerFlag  != null">
+                center_flag = #{centerFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="webAddress  != null">
+                web_address = #{webAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="servicePhone  != null">
+                service_phone = #{servicePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="comFlag  != null">
+                com_flag = #{comFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="districtName  != null">
+                district_name = #{districtName,jdbcType=VARCHAR},
+            </if>
+            <if test="districtPlatCode  != null">
+                district_plat_code = #{districtPlatCode,jdbcType=VARCHAR},
+            </if>
+            <if test="policyCityCode  != null">
+                policy_city_code = #{policyCityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="policyAreaCode  != null">
+                policy_city_code = #{policyAreaCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where business_code = #{businessCode,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="indi.yoloz.sample.mybatis.entity.UaDepartment">
+    update ua_department
+    set
+        name = #{name,jdbcType=VARCHAR},
+        superior_leader = #{superiorLeader,jdbcType=BIGINT},
+        parent_dept_id = #{parentDeptId,jdbcType=INTEGER},
+        tree_code = #{treeCode,jdbcType=VARCHAR},
+        charge_cust_id = #{chargeCustId,jdbcType=BIGINT},
+        delegate_cust_id = #{delegateCustId,jdbcType=BIGINT},
+        department_type = #{departmentType,jdbcType=INTEGER},
+        status = #{status,jdbcType=CHAR},
+        gmt_created        = #{gmtCreated,jdbcType=TIMESTAMP},
+        gmt_modified       = #{gmtModified,jdbcType=TIMESTAMP},
+        creator            = #{creator,jdbcType=VARCHAR},
+        modifier           = #{modifier,jdbcType=VARCHAR},
+        is_deleted         = #{isDeleted,jdbcType=CHAR},
+        locale_code        = #{localeCode,jdbcType=VARCHAR},
+        extra_info         = #{extra_info,jdbcType=VARCHAR},
+        parent_code        = #{parentCode,jdbcType=VARCHAR},
+        finance_dept_code  = #{financeDeptCode,jdbcType=VARCHAR},
+        level              = #{level,jdbcType=VARCHAR},
+        address_cname      = #{addressCName,jdbcType=VARCHAR},
+        post_code          = #{postCode,jdbcType=VARCHAR},
+        phone_number       = #{phoneNumber,jdbcType=VARCHAR},
+        center_flag        = #{centerFlag,jdbcType=VARCHAR},
+        web_address        = #{webAddress,jdbcType=VARCHAR},
+        service_phone      = #{servicePhone,jdbcType=VARCHAR},
+        com_flag           = #{comFlag,jdbcType=VARCHAR},
+        district_name      = #{districtName,jdbcType=VARCHAR},
+        district_plat_code = #{districtPlatCode,jdbcType=VARCHAR},
+        policy_city_code   = #{policyCityCode,jdbcType=VARCHAR},
+        policy_city_code   = #{policyAreaCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <update id="batchUpdate" parameterType="java.util.List">
+        <foreach collection="list" item="item" open="" separator=";" close="">
+            update ua_department
+            set
+            name = #{item.name,jdbcType=VARCHAR},
+            superior_leader = #{item.superiorLeader,jdbcType=BIGINT},
+            parent_dept_id = #{item.parentDeptId,jdbcType=INTEGER},
+            tree_code = #{item.treeCode,jdbcType=VARCHAR},
+            charge_cust_id = #{item.chargeCustId,jdbcType=BIGINT},
+            delegate_cust_id = #{item.delegateCustId,jdbcType=BIGINT},
+            department_type = #{item.departmentType,jdbcType=INTEGER},
+            status = #{item.status,jdbcType=CHAR},
+            gmt_modified = now(),
+            modifier = 'system',
+            is_deleted = #{item.isDeleted,jdbcType=CHAR},
+            locale_code = #{item.localeCode,jdbcType=VARCHAR},
+            extra_info = #{item.extraInfo,jdbcType=VARCHAR},
+            parent_code = #{item.parentCode,jdbcType=VARCHAR},
+            finance_dept_code = #{item.financeDeptCode,jdbcType=VARCHAR},
+            level = #{item.level,jdbcType=VARCHAR},
+            address_cname = #{item.addressCName,jdbcType=VARCHAR},
+            post_code = #{item.postCode,jdbcType=VARCHAR},
+            phone_number = #{item.phoneNumber,jdbcType=VARCHAR},
+            center_flag = #{item.centerFlag,jdbcType=VARCHAR},
+            web_address = #{item.webAddress,jdbcType=VARCHAR},
+            service_phone = #{item.servicePhone,jdbcType=VARCHAR},
+            com_flag = #{item.comFlag,jdbcType=VARCHAR},
+            district_name = #{item.districtName,jdbcType=VARCHAR},
+            district_plat_code = #{item.districtPlatCode,jdbcType=VARCHAR},
+            policy_city_code = #{item.policyCityCode,jdbcType=VARCHAR},
+            policy_city_code = #{item.policyAreaCode,jdbcType=VARCHAR},
+            pdf_seal_rule_num = #{item.pdfSealRuleNum,jdbcType=VARCHAR}
+            where id = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ua_department
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ua_department
+        where is_deleted = 'N'
+    </select>
+
+    <select id="selectByBusinessCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from ua_department
+        where business_code = #{businessCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from ua_department
+        where code = #{code,jdbcType=VARCHAR} and is_deleted='N'
+    </select>
+
+    <select id="selectNwByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from ua_department
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByLocaleCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from ua_department
+        where locale_code = #{localeCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ua_department
+        where company_id = #{companyId,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    UPDATE ua_department SET is_deleted='Y'
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <select id="selectByQuery" parameterType="indi.yoloz.sample.mybatis.entity.UaDepartment"
+            resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ua_department
+        <where>
+            <if test="id != null">
+                AND id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="name != null">
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="superiorLeader != null">
+                AND superior_leader = #{superiorLeader,jdbcType=BIGINT}
+            </if>
+            <if test="parentDeptId != null">
+                AND parent_dept_id = #{parentDeptId,jdbcType=INTEGER}
+            </if>
+            <if test="treeCode != null">
+                AND tree_code = #{treeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="chargeCustId != null">
+                AND charge_cust_id = #{chargeCustId,jdbcType=BIGINT}
+            </if>
+            <if test="delegateCustId != null">
+                AND delegate_cust_id = #{delegateCustId,jdbcType=BIGINT}
+            </if>
+            <if test="departmentType != null">
+                AND department_type = #{departmentType,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                AND status = #{status,jdbcType=CHAR}
+            </if>
+            <if test="gmtCreated != null">
+                AND gmt_created = #{gmtCreated,jdbcType=TIMESTAMP}
+            </if>
+            <if test="gmtModified != null">
+                AND gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+            </if>
+            <if test="creator != null">
+                AND creator = #{creator,jdbcType=VARCHAR}
+            </if>
+            <if test="modifier != null">
+                AND modifier = #{modifier,jdbcType=VARCHAR}
+            </if>
+            <if test="isDeleted != null">
+                AND is_deleted = #{isDeleted,jdbcType=CHAR}
+            </if>
+            <if test="code != null">
+                AND code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="parentBusinessCode != null">
+                AND parent_business_code = #{parentBusinessCode,jdbcType=VARCHAR}
+            </if>
+            <if test="businessCode != null">
+                AND business_code = #{businessCode,jdbcType=VARCHAR}
+            </if>
+            <if test="companyId != null">
+                AND company_id = #{companyId,jdbcType=BIGINT}
+            </if>
+            <if test="localeCode != null">
+                AND locale_code like concat(#{localeCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="extraInfo != null">
+                AND extra_info = #{extra_info,jdbcType=VARCHAR}
+            </if>
+            <if test="parentCode != null">
+                AND parent_code = #{parent_code,jdbcType=VARCHAR}
+            </if>
+            <if test="financeDeptCode != null">
+                AND finance_dept_code = #{finance_dept_code,jdbcType=VARCHAR}
+            </if>
+            <if test="level != null">
+                AND level = #{level,jdbcType=VARCHAR}
+            </if>
+            <if test="addressCName  != null">
+                AND address_cname = #{addressCName,jdbcType=VARCHAR}
+            </if>
+            <if test="postCode  != null">
+                AND post_code = #{postCode,jdbcType=VARCHAR}
+            </if>
+            <if test="phoneNumber  != null">
+                AND phone_number = #{phoneNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="centerFlag  != null">
+                AND center_flag = #{centerFlag,jdbcType=VARCHAR}
+            </if>
+            <if test="webAddress  != null">
+                AND web_address = #{webAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="servicePhone  != null">
+                AND service_phone = #{servicePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="comFlag  != null">
+                AND com_flag = #{comFlag,jdbcType=VARCHAR}
+            </if>
+            <if test="districtName  != null">
+                AND district_name = #{districtName,jdbcType=VARCHAR}
+            </if>
+            <if test="districtPlatCode  != null">
+                AND district_plat_code = #{districtPlatCode,jdbcType=VARCHAR}
+            </if>
+            <if test="policyCityCode  != null">
+                AND policy_city_code = #{policyCityCode,jdbcType=VARCHAR}
+            </if>
+            <if test="policyAreaCode  != null">
+                AND policy_city_code = #{policyAreaCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByAccount" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        SELECT
+        ud.id,
+        ud.name,
+        ud.superior_leader,
+        ud.code,
+        ud.parent_business_code,
+        ud.parent_dept_id,
+        ud.tree_code,
+        ud.charge_cust_id,
+        ud.delegate_cust_id,
+        ud.department_type,
+        ud.status,
+        ud.gmt_created,
+        ud.gmt_modified,
+        ud.creator,
+        ud.modifier,
+        ud.is_deleted ,
+        ud.business_code,
+        ud.company_id,
+        ud.locale_code,
+        ud.extra_info,
+        ud.parent_code,
+        ud.finance_dept_code,
+        ud.level,
+        ud.address_cname,
+        ud.post_code,
+        ud.phone_number,
+        ud.center_flag,
+        ud.web_address,
+        ud.service_phone,
+        ud.com_flag,
+        ud.district_name,
+        ud.district_plat_code,
+        ud.policy_city_code,
+        ud.policy_area_code
+        FROM ua_department ud
+        join ua_employee_department_relation uedr on
+        ud.id = uedr.department_id
+        and uedr.is_deleted = 'N'
+        join ua_employee ue on
+        ue.id = uedr.employee_id
+        and ue.is_deleted = 'N'
+        <where>
+            ud.is_deleted = 'N'
+            and ue.ad_account = #{account,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+  <!--  <select id="findUaDepartmentTree" parameterType="com.zhongan.adapter.staff.pojo.entity.UaDepartmentDO"
+            resultMap="departmentBO">
+    SELECT a.*,c.number FROM ua_department a LEFT JOIN
+    (SELECT b.department_id,COUNT(1) AS number FROM ua_department a,ua_employee b WHERE a.id=b.department_id AND a.is_deleted = 'N' AND b.status IN (10,20,30) GROUP
+    BY b.department_id) as c
+    ON a.id=c.department_id
+  </select>-->
+
+    <select id="queryByPage" resultMap="BaseResultMap">
+        SELECT * FROM ua_department WHERE is_deleted='N'
+        <if test="name != null">
+            AND name LIKE concat('%', #{name} ,'%')
+        </if>
+        <if test="code != null">
+            AND code LIKE concat('%', #{code} ,'%')
+        </if>
+        <if test="companyId != null">
+            AND company_Id = #{companyId}
+        </if>
+        <if test="businessCode != null">
+            AND business_code LIKE concat('%', #{businessCode} ,'%')
+        </if>
+    </select>
+    <select id="findPageByQuery" resultMap="BaseResultMap">
+        SELECT * FROM ua_department WHERE is_deleted='N'
+        <if test="query != null">
+            AND name LIKE concat('%', #{query} ,'%')
+        </if>
+    </select>
+
+    <select id="selectByParentBusinessCode" resultMap="BaseResultMap">
+        select distinct
+        d1.id, d1.name, d1.superior_leader,d1.code,d1.parent_business_code, d1.parent_dept_id, d1.tree_code, d1.charge_cust_id, d1.delegate_cust_id,
+        d1.department_type, d1.status, d1.gmt_created, d1.gmt_modified, d1.creator, d1.modifier, d1.is_deleted ,d1.business_code,d1.company_id,d1.locale_code,d1.extra_info,
+        d1.parent_code,d1.finance_dept_code,d1.level,d1.address_cname,d1.post_code,d1.phone_number,d1.center_flag,d1.web_address,d1.service_phone,d1.com_flag,d1.district_name,
+        d1.district_plat_code,d1.policy_city_code,d1.policy_area_code
+        from ua_department d1
+        left join ua_department b on d1.code = b.parent_code
+        where d1.is_deleted='N'
+        and b.parent_code=#{parentCode,jdbcType=BIGINT}
+    </select>
+
+    <select id="findDepartmentName" resultMap="BaseResultMap">
+        SELECT name FROM ua_department WHERE is_deleted='N'
+        AND id = #{id,jdbcType=INTEGER}
+    </select>
+
+</mapper>
